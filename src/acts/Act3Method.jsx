@@ -86,18 +86,18 @@ function GR8NESSMark() {
         <span
           aria-hidden
           className="absolute inset-0 translate-x-[0.07em] -translate-y-[0.04em]"
-          style={{ color: 'rgba(139,92,246,0.2)' }}
+          style={{ color: 'rgba(139,92,246,0.4)' }}
         >
           GR8NESS
         </span>
         <span
           aria-hidden
           className="absolute inset-0 -translate-x-[0.07em] translate-y-[0.04em]"
-          style={{ color: 'rgba(255,107,53,0.22)' }}
+          style={{ color: 'rgba(255,107,53,0.45)' }}
         >
           GR8NESS
         </span>
-        <span className="relative" style={{ WebkitTextStroke: '1.5px rgba(232,232,232,0.16)', color: 'transparent' }}>
+        <span className="relative" style={{ WebkitTextStroke: '2px rgba(232,232,232,0.3)', color: 'transparent' }}>
           GR
           <span className="relative inline-block">
             8
@@ -120,10 +120,10 @@ function WordGlow({ color }) {
   return (
     <motion.div
       aria-hidden
-      className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[220px] w-[220px] -translate-x-1/2 -translate-y-1/2 sm:h-[280px] sm:w-[280px]"
+      className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[260px] w-[260px] -translate-x-1/2 -translate-y-1/2 sm:h-[340px] sm:w-[340px]"
       style={{
-        background: `conic-gradient(from 0deg, transparent, ${color}, transparent 60%)`,
-        filter: 'blur(28px)',
+        background: `conic-gradient(from 0deg, transparent, ${color}, transparent 40%)`,
+        filter: 'blur(24px)',
         borderRadius: '9999px',
       }}
       animate={{ rotate: 360 }}
@@ -181,7 +181,7 @@ export default function Act3Method() {
   const handleBack = () => setActiveWord(null)
 
   return (
-    <section id="method" className="relative flex min-h-screen w-full flex-col items-center justify-center gap-10 overflow-hidden py-32">
+    <section id="method" className="isolate relative flex min-h-screen w-full flex-col items-center justify-center gap-10 overflow-hidden py-32">
       <GR8NESSMark />
       <motion.div
         aria-hidden
@@ -206,7 +206,7 @@ export default function Act3Method() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.6 }}
           transition={{ delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="relative font-display text-shadow-hard-ember text-6xl text-ember sm:text-7xl"
+          className="isolate relative font-display text-shadow-hard-ember text-6xl text-ember sm:text-7xl"
         >
           <WordGlow color={w.glow} />
           {w.label}
