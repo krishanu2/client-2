@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+@import "@fontsource/syne/400.css";
+@import "@fontsource/syne/600.css";
+@import "@fontsource/syne/700.css";
+@import "@fontsource/syne/800.css";
+
+@import "@fontsource/dm-sans/400.css";
+@import "@fontsource/dm-sans/500.css";
+@import "@fontsource/dm-sans/700.css";
+
+@import "@fontsource/playfair-display/400-italic.css";
+@import "@fontsource/playfair-display/700-italic.css";
+
+/* ---------------------------------------------------------------------- */
+/* THE BECOMING — Design System                                           */
+/* ---------------------------------------------------------------------- */
+
+@theme {
+  /* Color palette */
+  --color-void: #0c0c1d;
+  --color-ember: #ff6b35;
+  --color-offwhite: #e8e8e8;
+  --color-violet: #8b5cf6;
+  --color-ash: #3a3a4a;
+
+  /* Fonts */
+  --font-display: "Clash Display", "Syne", sans-serif;
+  --font-heading: "Syne", sans-serif;
+  --font-body: "DM Sans", sans-serif;
+  --font-accent: "Playfair Display", serif;
+
+  /* Easing used throughout the experience */
+  --ease-becoming: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    background-color: var(--color-void);
+    color: var(--color-offwhite);
+    overscroll-behavior: none;
+    /* Belt-and-suspenders: several sections (Act 4's mobile carousel,
+       floating 3D word depth offsets) intentionally lay out content wider
+       than the viewport inside their own overflow-hidden containers. That
+       shouldn't leak into document-level horizontal scroll, but a stray
+       leak anywhere on a page this animation-heavy is expensive to
+       re-audit every time; clamp it once at the root instead. */
+    overflow-x: hidden;
+  }
+
+  body {
+    font-family: var(--font-body);
+    min-height: 100vh;
+    margin: 0;
+    /* Custom cursor replaces the system cursor everywhere except touch */
+    cursor: none;
+  }
+
+  @media (hover: none), (pointer: coarse) {
+    body {
+      cursor: auto;
+    }
+  }
+
+  ::selection {
+    background-color: var(--color-ember);
+    color: var(--color-void);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  a,
+  button {
+    font-family: inherit;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+}
+
+@layer utilities {
+  .font-accent-italic {
+    font-family: var(--font-accent);
+    font-style: italic;
+  }
+
+  .text-glow-ember {
+    text-shadow: 0 0 24px rgba(255, 107, 53, 0.55);
+  }
+
+  .text-glow-violet {
+    text-shadow: 0 0 32px rgba(139, 92, 246, 0.45);
+  }
+
+  .glass-card {
+    background: rgba(58, 58, 74, 0.35);
+    border: 1px solid rgba(255, 107, 53, 0.25);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  /* ~70bpm = 857ms per beat (Act 6 CTA hover) */
+  .heartbeat-cta {
+    display: inline-block;
+    transition: transform 0.2s ease;
+  }
+
+  .heartbeat-cta:hover,
+  .heartbeat-cta:focus-visible {
+    animation: heartbeat 0.857s ease-in-out infinite;
+  }
+
+  @keyframes heartbeat {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    20% {
+      transform: scale(1.06);
+    }
+    40% {
+      transform: scale(1);
+    }
+    60% {
+      transform: scale(1.04);
+    }
+  }
+}
+
+/* Reduced motion: respected globally per PRD edge cases (Act 1, Act 2, etc.) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
