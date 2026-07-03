@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import PhotoPlaceholder from '@/components/PhotoPlaceholder'
+import BookingForm from '@/components/BookingForm'
 import { playUITick } from '@/lib/audioEngine'
 import { trackEvent } from '@/lib/analytics'
 import useSectionView from '@/lib/useSectionView'
@@ -8,15 +9,15 @@ import useSectionView from '@/lib/useSectionView'
 const WORDS = ['YOUR', 'GR8NESS', 'IS', 'WAITING.']
 
 export default function Act6Call() {
-  const [confirmed, setConfirmed] = useState(false)
+  const [showForm, setShowForm] = useState(false)
 
   useSectionView('call')
 
-  const handlePrimaryClick = () => {
-    playUITick('confirm')
+  const handlePrimaryClick = (e) => {
+    e.preventDefault()
+    playUITick('click')
     trackEvent('cta_click', { target: 'discovery_call' })
-    setConfirmed(true)
-    setTimeout(() => setConfirmed(false), 2600)
+    setShowForm(true)
   }
 
   return (
@@ -85,31 +86,10 @@ export default function Act6Call() {
           >
             Book A Discovery Call
           </a>
-          <AnimatePresence>
-            {confirmed && (
-              <motion.div
-                initial={{ opacity: 0.55, scale: 0.6 }}
-                animate={{ opacity: 0, scale: 2.2 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.7, ease: 'easeOut' }}
-                className="pointer-events-none absolute inset-0 rounded-full bg-ember"
-              />
-            )}
-          </AnimatePresence>
         </div>
 
-        <AnimatePresence mode="wait">
-          <motion.p
-            key={confirmed ? 'confirmed' : 'default'}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="-mt-4 font-body text-sm text-ember"
-          >
-            {confirmed ? 'Good. Talk soon — check your inbox for the link.' : ' '}
-          </motion.p>
-        </AnimatePresence>
+        <AnimatePresence>{showForm && <BookingForm onClose={() => setShowForm(false)} />}</AnimatePresence>
+
 
         <a
           href="https://ig.me/m/thegr8nessguy"
