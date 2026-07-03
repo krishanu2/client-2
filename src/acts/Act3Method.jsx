@@ -65,53 +65,25 @@ const PANELS = {
 }
 
 const WORDS = [
-  { key: 'body', label: 'BODY.', glow: 'rgba(255,107,53,0.55)' },
-  { key: 'mind', label: 'MIND.', glow: 'rgba(139,92,246,0.55)' },
-  { key: 'soul', label: 'SOUL.', glow: 'rgba(232,232,232,0.4)' },
+  { key: 'body', label: 'BODY.', glow: 'rgba(255,107,53,0.3)' },
+  { key: 'mind', label: 'MIND.', glow: 'rgba(139,92,246,0.3)' },
+  { key: 'soul', label: 'SOUL.', glow: 'rgba(232,232,232,0.22)' },
 ]
 
-// The brand's own wordmark, treated as a designed emblem rather than plain
-// faded type: chromatic-offset print-misregistration layers (violet +
-// ember, like a mis-aligned screen print), a stroked-only base layer, a
-// slow off-axis tilt, and a rotating dashed seal ring stamped around the
-// "8" — his signature glyph — instead of a flat centered line of text.
+// The brand's own wordmark as a faint background texture — a single
+// stroked-only outline, small and quiet enough to sit behind BODY/MIND/SOUL
+// without competing with them for the eye.
 function GR8NESSMark() {
   return (
     <div className="pointer-events-none absolute left-1/2 top-1/2 -z-20 -translate-x-1/2 -translate-y-1/2 select-none">
-      <motion.div
-        className="relative whitespace-nowrap font-display text-[22vw] leading-none sm:text-[17vw]"
-        animate={{ rotate: [-4, -2, -4] }}
-        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+      <motion.p
+        className="whitespace-nowrap font-display text-[15vw] leading-none sm:text-[11vw]"
+        style={{ WebkitTextStroke: '1.5px rgba(255,107,53,0.16)', color: 'transparent' }}
+        animate={{ rotate: [-2, -0.5, -2] }}
+        transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
       >
-        <span
-          aria-hidden
-          className="absolute inset-0 translate-x-[0.07em] -translate-y-[0.04em]"
-          style={{ color: 'rgba(139,92,246,0.4)' }}
-        >
-          GR8NESS
-        </span>
-        <span
-          aria-hidden
-          className="absolute inset-0 -translate-x-[0.07em] translate-y-[0.04em]"
-          style={{ color: 'rgba(255,107,53,0.45)' }}
-        >
-          GR8NESS
-        </span>
-        <span className="relative" style={{ WebkitTextStroke: '2px rgba(232,232,232,0.3)', color: 'transparent' }}>
-          GR
-          <span className="relative inline-block">
-            8
-            <motion.span
-              aria-hidden
-              className="absolute left-1/2 top-1/2 h-[1.6em] w-[1.6em] -translate-x-1/2 -translate-y-1/2 rounded-full"
-              style={{ border: '2px dashed rgba(255,107,53,0.5)', zIndex: -1 }}
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-            />
-          </span>
-          NESS
-        </span>
-      </motion.div>
+        GR8NESS
+      </motion.p>
     </div>
   )
 }
@@ -120,10 +92,10 @@ function WordGlow({ color }) {
   return (
     <motion.div
       aria-hidden
-      className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[260px] w-[260px] -translate-x-1/2 -translate-y-1/2 sm:h-[340px] sm:w-[340px]"
+      className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[220px] w-[220px] -translate-x-1/2 -translate-y-1/2 sm:h-[280px] sm:w-[280px]"
       style={{
-        background: `conic-gradient(from 0deg, transparent, ${color}, transparent 40%)`,
-        filter: 'blur(24px)',
+        background: `conic-gradient(from 0deg, transparent, ${color}, transparent 55%)`,
+        filter: 'blur(32px)',
         borderRadius: '9999px',
       }}
       animate={{ rotate: 360 }}
@@ -185,10 +157,10 @@ export default function Act3Method() {
       <GR8NESSMark />
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 -z-20 h-[36vw] w-[36vw] -translate-x-1/2 -translate-y-1/2 rounded-full"
-        style={{ background: 'radial-gradient(circle, rgba(255,107,53,0.14), transparent 70%)' }}
-        animate={{ opacity: [0.5, 1, 0.5] }}
-        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+        className="pointer-events-none absolute left-1/2 top-1/2 -z-20 h-[30vw] w-[30vw] -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{ background: 'radial-gradient(circle, rgba(255,107,53,0.07), transparent 70%)' }}
+        animate={{ opacity: [0.4, 0.7, 0.4] }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
       />
 
       {WORDS.map((w, i) => (
