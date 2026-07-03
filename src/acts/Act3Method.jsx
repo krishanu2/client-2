@@ -138,12 +138,20 @@ export default function Act3Method() {
     <section id="method" className="relative flex min-h-screen w-full flex-col items-center justify-center gap-10 overflow-hidden py-32">
       <motion.p
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 -z-20 -translate-x-1/2 -translate-y-1/2 select-none whitespace-nowrap font-display text-[26vw] text-offwhite/[0.035] sm:text-[20vw]"
-        animate={{ scale: [1, 1.04, 1] }}
-        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+        className="pointer-events-none absolute left-1/2 top-1/2 -z-20 -translate-x-1/2 -translate-y-1/2 select-none whitespace-nowrap font-display text-[26vw] leading-none tracking-tight sm:text-[20vw]"
+        style={{ WebkitTextStroke: '1.5px rgba(255,107,53,0.14)', color: 'transparent' }}
+        animate={{ scale: [1, 1.05, 1], rotate: [0, 1.2, 0] }}
+        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
       >
-        GR8NESS
+        GR<span style={{ WebkitTextStroke: '1.5px rgba(255,107,53,0.45)' }}>8</span>NESS
       </motion.p>
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 -z-20 h-[36vw] w-[36vw] -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{ background: 'radial-gradient(circle, rgba(255,107,53,0.14), transparent 70%)' }}
+        animate={{ opacity: [0.5, 1, 0.5] }}
+        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+      />
 
       {WORDS.map((w, i) => (
         <motion.button

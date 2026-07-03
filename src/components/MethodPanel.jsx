@@ -80,7 +80,19 @@ function WireframeBody() {
     }
   }, [])
 
-  return <canvas ref={canvasRef} className="h-full w-full" />
+  return (
+    <div className="relative h-full w-full overflow-hidden">
+      <motion.div
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(circle at 50% 35%, rgba(255,107,53,0.4), rgba(12,12,29,0.9) 55%, #000 100%)',
+        }}
+        animate={{ scale: [1, 1.25, 1] }}
+        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
+    </div>
+  )
 }
 
 function NeuralNetwork() {
@@ -143,7 +155,19 @@ function NeuralNetwork() {
     }
   }, [])
 
-  return <canvas ref={canvasRef} className="h-full w-full" />
+  return (
+    <div className="relative h-full w-full overflow-hidden">
+      <motion.div
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(circle at 50% 45%, rgba(139,92,246,0.4), rgba(12,12,29,0.9) 55%, #000 100%)',
+        }}
+        animate={{ scale: [1, 1.2, 1] }}
+        transition={{ duration: 13, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
+    </div>
+  )
 }
 
 function NebulaZoom() {
