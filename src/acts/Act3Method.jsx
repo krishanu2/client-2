@@ -70,6 +70,52 @@ const WORDS = [
   { key: 'soul', label: 'SOUL.', glow: 'rgba(232,232,232,0.4)' },
 ]
 
+// The brand's own wordmark, treated as a designed emblem rather than plain
+// faded type: chromatic-offset print-misregistration layers (violet +
+// ember, like a mis-aligned screen print), a stroked-only base layer, a
+// slow off-axis tilt, and a rotating dashed seal ring stamped around the
+// "8" — his signature glyph — instead of a flat centered line of text.
+function GR8NESSMark() {
+  return (
+    <div className="pointer-events-none absolute left-1/2 top-1/2 -z-20 -translate-x-1/2 -translate-y-1/2 select-none">
+      <motion.div
+        className="relative whitespace-nowrap font-display text-[22vw] leading-none sm:text-[17vw]"
+        animate={{ rotate: [-4, -2, -4] }}
+        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        <span
+          aria-hidden
+          className="absolute inset-0 translate-x-[0.07em] -translate-y-[0.04em]"
+          style={{ color: 'rgba(139,92,246,0.2)' }}
+        >
+          GR8NESS
+        </span>
+        <span
+          aria-hidden
+          className="absolute inset-0 -translate-x-[0.07em] translate-y-[0.04em]"
+          style={{ color: 'rgba(255,107,53,0.22)' }}
+        >
+          GR8NESS
+        </span>
+        <span className="relative" style={{ WebkitTextStroke: '1.5px rgba(232,232,232,0.16)', color: 'transparent' }}>
+          GR
+          <span className="relative inline-block">
+            8
+            <motion.span
+              aria-hidden
+              className="absolute left-1/2 top-1/2 h-[1.6em] w-[1.6em] -translate-x-1/2 -translate-y-1/2 rounded-full"
+              style={{ border: '2px dashed rgba(255,107,53,0.5)', zIndex: -1 }}
+              animate={{ rotate: 360 }}
+              transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+            />
+          </span>
+          NESS
+        </span>
+      </motion.div>
+    </div>
+  )
+}
+
 function WordGlow({ color }) {
   return (
     <motion.div
@@ -136,15 +182,7 @@ export default function Act3Method() {
 
   return (
     <section id="method" className="relative flex min-h-screen w-full flex-col items-center justify-center gap-10 overflow-hidden py-32">
-      <motion.p
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 -z-20 -translate-x-1/2 -translate-y-1/2 select-none whitespace-nowrap font-display text-[26vw] leading-none tracking-tight sm:text-[20vw]"
-        style={{ WebkitTextStroke: '1.5px rgba(255,107,53,0.14)', color: 'transparent' }}
-        animate={{ scale: [1, 1.05, 1], rotate: [0, 1.2, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        GR<span style={{ WebkitTextStroke: '1.5px rgba(255,107,53,0.45)' }}>8</span>NESS
-      </motion.p>
+      <GR8NESSMark />
       <motion.div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-1/2 -z-20 h-[36vw] w-[36vw] -translate-x-1/2 -translate-y-1/2 rounded-full"
