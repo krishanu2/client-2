@@ -40,11 +40,11 @@ export default function Act6Call() {
           transition={{ duration: 20, ease: 'easeInOut', repeat: Infinity, repeatType: 'mirror' }}
         >
           <PhotoPlaceholder
+            src="/images/karnjeet-lifestyle.jpeg"
             alt="Karnjeet Vinod"
             label="Karnjeet Vinod — @thegr8nessguy"
             variant="wide"
             className="h-full w-full"
-            style={{ filter: 'blur(1px)' }}
           />
         </motion.div>
         <div className="absolute inset-0 bg-gradient-to-t from-void via-transparent to-transparent sm:bg-gradient-to-r" />
