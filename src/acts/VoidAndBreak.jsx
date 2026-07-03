@@ -248,8 +248,8 @@ export default function VoidAndBreak({ onComplete }) {
 
       {webgl ? (
         <motion.div
-          initial={{ opacity: 0, scale: 0.85 }}
-          animate={revealed ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.85 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: revealed ? 1 : 0 }}
           transition={{ duration: reduced ? 0.3 : 2.2, ease: [0.16, 1, 0.3, 1] }}
           className="pointer-events-none fixed inset-0"
         >

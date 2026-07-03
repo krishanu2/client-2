@@ -63,8 +63,8 @@ export default function Act6Call() {
                   ? { delay: i * 0.15, duration: 0.7, ease: [0.34, 1.56, 0.64, 1] } // slight overshoot
                   : { delay: i * 0.15, duration: 0.6, ease: [0.16, 1, 0.3, 1] }
               }
-              className={`font-display text-5xl font-extrabold leading-[1.05] sm:text-7xl ${
-                word === 'GR8NESS' ? 'text-ember text-glow-ember' : 'text-offwhite'
+              className={`font-display text-6xl leading-[0.95] sm:text-8xl ${
+                word === 'GR8NESS' ? 'text-ember text-shadow-hard-ember' : 'text-offwhite text-shadow-hard'
               }`}
             >
               {word}
@@ -81,7 +81,7 @@ export default function Act6Call() {
             href="#call"
             onMouseEnter={() => playUITick('hover')}
             onClick={handlePrimaryClick}
-            className="heartbeat-cta relative z-10 block w-fit rounded-full bg-ember px-10 py-5 font-heading text-sm font-bold uppercase tracking-[0.2em] text-void"
+            className="btn-heavy heartbeat-cta relative z-10 block w-fit bg-ember px-10 py-5 text-sm text-void"
           >
             Book A Discovery Call
           </a>

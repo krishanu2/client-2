@@ -1,13 +1,8 @@
 @import "tailwindcss";
 
-@import "@fontsource/syne/400.css";
-@import "@fontsource/syne/600.css";
-@import "@fontsource/syne/700.css";
-@import "@fontsource/syne/800.css";
-
-@import "@fontsource/dm-sans/400.css";
-@import "@fontsource/dm-sans/500.css";
-@import "@fontsource/dm-sans/700.css";
+@import "@fontsource/anton/400.css";
+@import "@fontsource/staatliches/400.css";
+@import "@fontsource/special-elite/400.css";
 
 @import "@fontsource/playfair-display/400-italic.css";
 @import "@fontsource/playfair-display/700-italic.css";
@@ -24,10 +19,13 @@
   --color-violet: #8b5cf6;
   --color-ash: #3a3a4a;
 
-  /* Fonts */
-  --font-display: "Clash Display", "Syne", sans-serif;
-  --font-heading: "Syne", sans-serif;
-  --font-body: "DM Sans", sans-serif;
+  /* Fonts — Anton/Staatliches/Special Elite for a heavier, more raw/
+     stencilled impact than the original Clash Display/Syne/DM Sans.
+     Playfair Display Italic stays for accent pull-quotes; nothing here
+     needed replacing. */
+  --font-display: "Anton", sans-serif;
+  --font-heading: "Staatliches", sans-serif;
+  --font-body: "Special Elite", "DM Sans", system-ui;
   --font-accent: "Playfair Display", serif;
 
   /* Easing used throughout the experience */
@@ -81,7 +79,9 @@
   h3,
   h4 {
     font-family: var(--font-display);
+    text-transform: uppercase;
     letter-spacing: -0.02em;
+    line-height: 0.9;
   }
 
   a,
@@ -106,6 +106,29 @@
 
   .text-glow-violet {
     text-shadow: 0 0 32px rgba(139, 92, 246, 0.45);
+  }
+
+  /* Hard-edged offset shadow (old-school stencil/poster look) for the
+     biggest display headlines — a heavier, more raw alternative to the
+     soft ember glow above, for moments that should hit hardest. */
+  .text-shadow-hard {
+    text-shadow: 3px 3px 0px var(--color-ash);
+  }
+
+  .text-shadow-hard-ember {
+    text-shadow: 3px 3px 0px rgba(255, 107, 53, 0.6);
+  }
+
+  /* Heavy, uncompromising action button — thick border, no radius,
+     wide-tracked Staatliches. Used for primary CTAs; Act 1's ENTER stays
+     text-only per its own spec (no border), so this is opt-in per button
+     rather than a global button style. */
+  .btn-heavy {
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    border: 3px solid currentColor;
+    border-radius: 0;
   }
 
   .glass-card {

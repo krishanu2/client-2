@@ -10,8 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource/anton": "^5.2.7",
     "@fontsource/dm-sans": "^5.2.8",
     "@fontsource/playfair-display": "^5.2.8",
+    "@fontsource/special-elite": "^5.2.8",
+    "@fontsource/staatliches": "^5.2.8",
     "@fontsource/syne": "^5.2.7",
     "@react-three/cannon": "^6.6.0",
     "@react-three/drei": "^10.7.7",

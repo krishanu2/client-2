@@ -135,7 +135,7 @@ export default function Act3Method() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.6 }}
           transition={{ delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display text-5xl font-extrabold text-ember text-glow-ember sm:text-6xl"
+          className="font-display text-shadow-hard-ember text-6xl text-ember sm:text-7xl"
         >
           {w.label}
         </motion.button>
