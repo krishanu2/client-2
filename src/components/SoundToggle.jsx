@@ -1,14 +1,25 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { enableSound, disableSound } from '@/lib/audioEngine'
 import { trackEvent } from '@/lib/analytics'
 
 /**
- * Muted by default (autoplay policy + good manners). The click that turns
- * sound on is also the user gesture that unlocks the Web Audio context.
+ * On by default. Browsers still block audio until a real user gesture, so
+ * this also arms a one-time listener on the very first pointer/key/touch
+ * anywhere on the page to unlock it — the visitor doesn't have to find and
+ * click this toggle specifically for sound to start.
  */
 export default function SoundToggle({ className = '' }) {
-  const [on, setOn] = useState(false)
+  const [on, setOn] = useState(true)
+
+  useEffect(() => {
+    if (!on) return undefined
+    const unlock = () => enableSound()
+    const events = ['pointerdown', 'keydown', 'touchstart']
+    events.forEach((evt) => window.addEventListener(evt, unlock, { once: true }))
+    return () => events.forEach((evt) => window.removeEventListener(evt, unlock))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const toggle = () => {
     const next = !on

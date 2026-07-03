@@ -65,10 +65,26 @@ const PANELS = {
 }
 
 const WORDS = [
-  { key: 'body', label: 'BODY.' },
-  { key: 'mind', label: 'MIND.' },
-  { key: 'soul', label: 'SOUL.' },
+  { key: 'body', label: 'BODY.', glow: 'rgba(255,107,53,0.55)' },
+  { key: 'mind', label: 'MIND.', glow: 'rgba(139,92,246,0.55)' },
+  { key: 'soul', label: 'SOUL.', glow: 'rgba(232,232,232,0.4)' },
 ]
+
+function WordGlow({ color }) {
+  return (
+    <motion.div
+      aria-hidden
+      className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[220px] w-[220px] -translate-x-1/2 -translate-y-1/2 sm:h-[280px] sm:w-[280px]"
+      style={{
+        background: `conic-gradient(from 0deg, transparent, ${color}, transparent 60%)`,
+        filter: 'blur(28px)',
+        borderRadius: '9999px',
+      }}
+      animate={{ rotate: 360 }}
+      transition={{ duration: 9, repeat: Infinity, ease: 'linear' }}
+    />
+  )
+}
 
 /**
  * BODY/MIND/SOUL as CSS/Framer Motion only — no WebGL here. This used to
@@ -119,7 +135,16 @@ export default function Act3Method() {
   const handleBack = () => setActiveWord(null)
 
   return (
-    <section id="method" className="relative flex min-h-screen w-full flex-col items-center justify-center gap-10 py-32">
+    <section id="method" className="relative flex min-h-screen w-full flex-col items-center justify-center gap-10 overflow-hidden py-32">
+      <motion.p
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 -z-20 -translate-x-1/2 -translate-y-1/2 select-none whitespace-nowrap font-display text-[26vw] text-offwhite/[0.035] sm:text-[20vw]"
+        animate={{ scale: [1, 1.04, 1] }}
+        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        GR8NESS
+      </motion.p>
+
       {WORDS.map((w, i) => (
         <motion.button
           key={w.key}
@@ -135,8 +160,9 @@ export default function Act3Method() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.6 }}
           transition={{ delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display text-shadow-hard-ember text-6xl text-ember sm:text-7xl"
+          className="relative font-display text-shadow-hard-ember text-6xl text-ember sm:text-7xl"
         >
+          <WordGlow color={w.glow} />
           {w.label}
         </motion.button>
       ))}
