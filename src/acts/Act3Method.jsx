@@ -13,9 +13,8 @@ const PANELS = {
     background: 'wireframe',
     entrance: 'step',
     paragraphs: [
-      'You’ve started over more times than you’d admit out loud — diets built for someone else’s schedule, programs that assumed a version of your life you don’t actually have.',
-      'This is built around your real one instead — individualised training, adjusted every single week based on what actually happened, not what should have.',
-      'Weekly check-ins — photos, numbers, honesty. Not because you need watching, but because you’ve never had someone who wouldn’t let you quietly disappear when it got hard.',
+      'You’ve started over more times than you’d admit out loud.',
+      'This time someone’s actually watching. Every week. No disappearing.',
     ],
     cta: 'This is where it starts →',
     extra: (
@@ -25,7 +24,7 @@ const PANELS = {
           { stat: '49 → 54kg', sub: 'lean muscle, 24 weeks' },
           { stat: '9-5 + coaching', sub: 'still transformed' },
         ].map((s) => (
-          <div key={s.stat} className="glass-card rounded-lg px-4 py-3">
+          <div key={s.stat} className="stat-tile px-4 py-3">
             <p className="font-display text-xl font-extrabold text-ember">{s.stat}</p>
             <p className="font-body text-xs text-offwhite/50">{s.sub}</p>
           </div>
@@ -38,8 +37,8 @@ const PANELS = {
     background: 'neural',
     entrance: 'blur',
     paragraphs: [
-      'You already know what to do. You’ve known for years. And you still don’t do it — not because you’re lazy, but because knowing was never actually the problem.',
-      'This is pattern-breaking and identity work, not more information — weekly calls that go after the thing underneath the thing.',
+      'You already know what to do. Knowing was never the problem.',
+      'You negotiate with yourself every single day. This is where that ends.',
     ],
     cta: 'Rewire everything →',
     extra: (
@@ -53,8 +52,8 @@ const PANELS = {
     background: 'nebulaZoom',
     entrance: 'dissolve',
     paragraphs: [
-      'Somewhere underneath the workouts and the routines, there’s a version of you that already knows who you’re supposed to be. You just stopped listening to it a while ago.',
-      'This is the foundation underneath the training and the mindset work — not a philosophy to adopt, but the one you already had before life talked you out of it.',
+      'There’s a version of you that you stopped listening to a long time ago.',
+      'This is how you remember him.',
     ],
     cta: 'Begin the becoming →',
     extra: (

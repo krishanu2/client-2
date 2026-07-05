@@ -138,6 +138,16 @@
     -webkit-backdrop-filter: blur(14px);
   }
 
+  /* Flat, hard-edged stat card — the soft blurred glass-card look is the
+     same "dark SaaS feature card" pattern every coaching site uses.
+     Sharp corners + a thin solid rule reads more like a stamped
+     credential than a UI widget. */
+  .stat-tile {
+    background: rgba(12, 12, 29, 0.6);
+    border: 1px solid rgba(255, 107, 53, 0.4);
+    border-radius: 0;
+  }
+
   /* ~70bpm = 857ms per beat (Act 6 CTA hover) */
   .heartbeat-cta {
     display: inline-block;
