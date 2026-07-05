@@ -34,17 +34,24 @@ export default function Nav({ lenisRef }) {
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       className="fixed right-3 top-4 z-50 flex gap-2 sm:right-10 sm:top-8 sm:gap-6"
     >
-      {LINKS.map((link) => (
-        <a
-          key={link.href}
-          href={link.href}
-          onClick={(e) => handleClick(e, link.href)}
-          onMouseEnter={() => playUITick('hover')}
-          className="whitespace-nowrap font-heading text-[8px] font-bold uppercase tracking-[0.05em] text-offwhite/70 transition-colors hover:text-ember sm:text-[11px] sm:tracking-[0.25em]"
-        >
-          {link.label}
-        </a>
-      ))}
+      {LINKS.map((link) => {
+        const isPrimary = link.label === 'Start'
+        return (
+          <a
+            key={link.href}
+            href={link.href}
+            onClick={(e) => handleClick(e, link.href)}
+            onMouseEnter={() => playUITick('hover')}
+            className={
+              isPrimary
+                ? 'whitespace-nowrap rounded-full border border-ember/60 bg-ember/10 px-2.5 py-1 font-heading text-[8px] font-bold uppercase tracking-[0.05em] text-ember transition-colors hover:bg-ember/20 sm:px-4 sm:py-1.5 sm:text-[11px] sm:tracking-[0.2em]'
+                : 'whitespace-nowrap font-heading text-[8px] font-bold uppercase tracking-[0.05em] text-offwhite/70 transition-colors hover:text-ember sm:text-[11px] sm:tracking-[0.25em]'
+            }
+          >
+            {link.label}
+          </a>
+        )
+      })}
     </motion.nav>
   )
 }

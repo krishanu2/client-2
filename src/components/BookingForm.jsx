@@ -55,7 +55,7 @@ export default function BookingForm({ onClose }) {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 12, scale: 0.97 }}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="glass-card relative w-full max-w-md rounded-2xl px-7 py-9 sm:px-10"
+        className="stat-tile relative w-full max-w-md px-7 py-9 sm:px-10"
       >
         <button
           type="button"
@@ -83,7 +83,7 @@ export default function BookingForm({ onClose }) {
                   placeholder="Your name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="rounded-lg border border-white/15 bg-black/25 px-4 py-3 font-body text-sm text-offwhite placeholder:text-offwhite/35 focus:border-ember/60 focus:outline-none"
+                  className="border-b-2 border-white/15 bg-black/25 px-4 py-3 font-body text-sm text-offwhite placeholder:text-offwhite/35 focus:border-ember focus:outline-none"
                 />
                 <motion.input
                   {...FIELD_VARIANTS}
@@ -93,7 +93,7 @@ export default function BookingForm({ onClose }) {
                   placeholder="Email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="rounded-lg border border-white/15 bg-black/25 px-4 py-3 font-body text-sm text-offwhite placeholder:text-offwhite/35 focus:border-ember/60 focus:outline-none"
+                  className="border-b-2 border-white/15 bg-black/25 px-4 py-3 font-body text-sm text-offwhite placeholder:text-offwhite/35 focus:border-ember focus:outline-none"
                 />
                 <motion.input
                   {...FIELD_VARIANTS}
@@ -102,7 +102,7 @@ export default function BookingForm({ onClose }) {
                   placeholder="Phone (optional)"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="rounded-lg border border-white/15 bg-black/25 px-4 py-3 font-body text-sm text-offwhite placeholder:text-offwhite/35 focus:border-ember/60 focus:outline-none"
+                  className="border-b-2 border-white/15 bg-black/25 px-4 py-3 font-body text-sm text-offwhite placeholder:text-offwhite/35 focus:border-ember focus:outline-none"
                 />
 
                 <motion.div {...FIELD_VARIANTS} transition={{ delay: 0.26, duration: 0.4 }}>
