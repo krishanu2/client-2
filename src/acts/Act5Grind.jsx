@@ -37,11 +37,14 @@ function markerPoint(i) {
 }
 
 /**
- * The wheel IS the section now — no competing card list. Pinned centered
- * for the section's full scroll duration (the section itself is 420vh
- * tall so there's room to scroll through it) while the arc fills and the
- * active hour's line changes underneath it. One focal object, not a list
- * of eight.
+ * The wheel IS the section now — no competing card list. The arc fills and
+ * the active hour's line changes as you scroll through this one normal-
+ * height section. (Earlier version made the section 420vh tall with the
+ * wheel `position: sticky`-pinned for a cinematic scroll-through — that
+ * breaks catastrophically in a full-page screenshot, which renders the
+ * whole tall DOM at once instead of simulating scroll, so the sticky
+ * content shows once near the top and the rest of the 420vh is a dead
+ * void. Reverted to a normal-height section entirely.)
  */
 function GrindWheel({ arcRef }) {
   return (
@@ -129,39 +132,41 @@ export default function Act5Grind() {
   const active = TIMELINE[activeIndex]
 
   return (
-    <section id="grind" ref={sectionRef} className="relative w-full" style={{ height: '420vh' }}>
-      <div className="sticky top-0 flex h-screen w-full flex-col items-center justify-center overflow-hidden px-6">
-        <div ref={skyRef} className="absolute inset-0 -z-10 transition-none" style={{ backgroundColor: '#000004' }} />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-black/10 to-black/60" />
+    <section
+      id="grind"
+      ref={sectionRef}
+      className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden px-6 py-32"
+    >
+      <div ref={skyRef} className="absolute inset-0 -z-10 transition-none" style={{ backgroundColor: '#000004' }} />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-black/10 to-black/60" />
 
-        <h2 className="mb-2 text-center font-display text-4xl font-extrabold text-offwhite sm:text-5xl">
-          The Grind
-        </h2>
-        <p className="mb-10 max-w-md text-center font-body text-sm text-offwhite/50">
-          Every day starts the same. What he does with it is what changed everything.
-        </p>
+      <h2 className="mb-2 text-center font-display text-4xl font-extrabold text-offwhite sm:text-5xl">
+        The Grind
+      </h2>
+      <p className="mb-10 max-w-md text-center font-body text-sm text-offwhite/50">
+        Every day starts the same. What he does with it is what changed everything.
+      </p>
 
-        <GrindWheel arcRef={arcRef} />
+      <GrindWheel arcRef={arcRef} />
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeIndex}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-10 max-w-lg text-center"
-          >
-            <p className="font-heading text-sm font-bold uppercase tracking-[0.3em] text-ember">
-              {active.time}
-            </p>
-            <p className="mt-3 font-display text-2xl font-bold text-offwhite sm:text-3xl">
-              {active.quote}
-            </p>
-            <p className="mt-2 font-body text-sm text-offwhite/60">{active.detail}</p>
-          </motion.div>
-        </AnimatePresence>
-      </div>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeIndex}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-10 max-w-lg text-center"
+        >
+          <p className="font-heading text-sm font-bold uppercase tracking-[0.3em] text-ember">
+            {active.time}
+          </p>
+          <p className="mt-3 font-display text-2xl font-bold text-offwhite sm:text-3xl">
+            {active.quote}
+          </p>
+          <p className="mt-2 font-body text-sm text-offwhite/60">{active.detail}</p>
+        </motion.div>
+      </AnimatePresence>
     </section>
   )
 }
