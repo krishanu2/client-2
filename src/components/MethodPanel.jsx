@@ -160,9 +160,9 @@ function NeuralNetwork() {
       <motion.div
         className="absolute inset-0"
         style={{
-          background: 'radial-gradient(circle at 50% 45%, rgba(139,92,246,0.4), rgba(12,12,29,0.9) 55%, #000 100%)',
+          background: 'radial-gradient(circle at 50% 45%, rgba(139,92,246,0.46), rgba(12,12,29,0.9) 55%, #000 100%)',
         }}
-        animate={{ scale: [1, 1.2, 1] }}
+        animate={{ scale: [1, 1.28, 1] }}
         transition={{ duration: 13, repeat: Infinity, ease: 'easeInOut' }}
       />
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />

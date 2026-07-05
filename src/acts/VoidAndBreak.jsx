@@ -296,22 +296,32 @@ export default function VoidAndBreak({ onComplete }) {
 
       <AnimatePresence>
         {showEnter && (
-          <motion.button
-            key="enter"
-            type="button"
-            onClick={handleEnter}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="absolute bottom-16 left-1/2 -translate-x-1/2 font-heading text-sm font-bold uppercase tracking-[0.35em] text-ember text-glow-ember sm:bottom-20"
-          >
-            <motion.span
-              animate={reduced ? {} : { opacity: [1, 0.55, 1] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          <div className="absolute bottom-16 left-1/2 -translate-x-1/2 text-center sm:bottom-20">
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: reduced ? 0 : 1.1, duration: 1 }}
+              className="mb-3 font-body text-xs text-offwhite/40"
             >
-              Enter →
-            </motion.span>
-          </motion.button>
+              One click. That&rsquo;s the first choice.
+            </motion.p>
+            <motion.button
+              key="enter"
+              type="button"
+              onClick={handleEnter}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="font-heading text-sm font-bold uppercase tracking-[0.35em] text-ember text-glow-ember"
+            >
+              <motion.span
+                animate={reduced ? {} : { opacity: [1, 0.55, 1] }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                Enter →
+              </motion.span>
+            </motion.button>
+          </div>
         )}
       </AnimatePresence>
 

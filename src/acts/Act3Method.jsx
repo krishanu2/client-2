@@ -13,9 +13,9 @@ const PANELS = {
     background: 'wireframe',
     entrance: 'step',
     paragraphs: [
-      'Physique development built around your life, not a generic template.',
-      'Individualised training programming, adjusted every single week.',
-      'Weekly check-ins — photos, numbers, honesty.',
+      'You’ve started over more times than you’d admit out loud — diets built for someone else’s schedule, programs that assumed a version of your life you don’t actually have.',
+      'This is built around your real one instead — individualised training, adjusted every single week based on what actually happened, not what should have.',
+      'Weekly check-ins — photos, numbers, honesty. Not because you need watching, but because you’ve never had someone who wouldn’t let you quietly disappear when it got hard.',
     ],
     cta: 'This is where it starts →',
     extra: (
@@ -38,8 +38,8 @@ const PANELS = {
     background: 'neural',
     entrance: 'blur',
     paragraphs: [
-      'Mindset coaching built for people who already know what to do — and still don’t do it.',
-      'Pattern breaking. Identity work. Weekly mindset calls.',
+      'You already know what to do. You’ve known for years. And you still don’t do it — not because you’re lazy, but because knowing was never actually the problem.',
+      'This is pattern-breaking and identity work, not more information — weekly calls that go after the thing underneath the thing.',
     ],
     cta: 'Rewire everything →',
     extra: (
@@ -53,7 +53,8 @@ const PANELS = {
     background: 'nebulaZoom',
     entrance: 'dissolve',
     paragraphs: [
-      'This is the spiritual foundation underneath the training and the mindset work — the GR8NESS philosophy.',
+      'Somewhere underneath the workouts and the routines, there’s a version of you that already knows who you’re supposed to be. You just stopped listening to it a while ago.',
+      'This is the foundation underneath the training and the mindset work — not a philosophy to adopt, but the one you already had before life talked you out of it.',
     ],
     cta: 'Begin the becoming →',
     extra: (
@@ -64,10 +65,14 @@ const PANELS = {
   },
 }
 
+// Intensity steps up Body → Mind → Soul (bigger, slightly brighter, faster
+// spin per word) so going deeper is felt, not just scrolled — kept as
+// small, deliberate steps rather than a jump, after the background-emblem
+// overshoot taught us to calibrate one step at a time.
 const WORDS = [
-  { key: 'body', label: 'BODY.', glow: 'rgba(255,107,53,0.3)' },
-  { key: 'mind', label: 'MIND.', glow: 'rgba(139,92,246,0.3)' },
-  { key: 'soul', label: 'SOUL.', glow: 'rgba(232,232,232,0.22)' },
+  { key: 'body', label: 'BODY.', glow: 'rgba(255,107,53,0.28)', scale: 1, spin: 10 },
+  { key: 'mind', label: 'MIND.', glow: 'rgba(139,92,246,0.32)', scale: 1.1, spin: 8.5 },
+  { key: 'soul', label: 'SOUL.', glow: 'rgba(232,232,232,0.3)', scale: 1.2, spin: 7 },
 ]
 
 // The brand's own wordmark as a faint background texture — a single
@@ -88,7 +93,7 @@ function GR8NESSMark() {
   )
 }
 
-function WordGlow({ color }) {
+function WordGlow({ color, scale = 1, spin = 9 }) {
   return (
     <motion.div
       aria-hidden
@@ -97,9 +102,10 @@ function WordGlow({ color }) {
         background: `conic-gradient(from 0deg, transparent, ${color}, transparent 55%)`,
         filter: 'blur(32px)',
         borderRadius: '9999px',
+        scale,
       }}
       animate={{ rotate: 360 }}
-      transition={{ duration: 9, repeat: Infinity, ease: 'linear' }}
+      transition={{ duration: spin, repeat: Infinity, ease: 'linear' }}
     />
   )
 }
@@ -180,7 +186,7 @@ export default function Act3Method() {
           transition={{ delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="isolate relative font-display text-shadow-hard-ember text-6xl text-ember sm:text-7xl"
         >
-          <WordGlow color={w.glow} />
+          <WordGlow color={w.glow} scale={w.scale} spin={w.spin} />
           {w.label}
         </motion.button>
       ))}
