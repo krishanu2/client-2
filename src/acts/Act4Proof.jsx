@@ -83,7 +83,13 @@ export default function Act4Proof() {
         </motion.p>
       </div>
 
-      <h2 className="relative z-10 mb-4 text-center font-display text-4xl font-extrabold text-offwhite sm:text-5xl">
+      <p className="relative z-10 text-center font-heading text-[11px] font-bold uppercase tracking-[0.35em] text-ember/60">
+        Chapter Three
+      </p>
+      <p className="relative z-10 mx-auto mt-1 max-w-md px-6 text-center font-body text-sm italic text-offwhite/40">
+        Belief isn&rsquo;t given on words alone. Here&rsquo;s the evidence.
+      </p>
+      <h2 className="relative z-10 mb-4 mt-3 text-center font-display text-4xl font-extrabold text-offwhite sm:text-5xl">
         The Proof
       </h2>
 

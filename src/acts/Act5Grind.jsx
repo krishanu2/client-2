@@ -104,6 +104,12 @@ export default function Act5Grind() {
   return (
     <section id="grind" ref={sectionRef} className="isolate relative w-full overflow-hidden">
       <div className="flex h-screen w-screen flex-col items-center justify-center overflow-hidden">
+        <p className="text-center font-heading text-[11px] font-bold uppercase tracking-[0.35em] text-ember/60">
+          Chapter Four
+        </p>
+        <p className="mx-auto mb-2 mt-1 max-w-md px-6 text-center font-body text-sm italic text-offwhite/40">
+          This is what earning that evidence actually looks like, one day at a time.
+        </p>
         <h2 className="mb-2 text-center font-display text-4xl font-extrabold text-offwhite sm:text-5xl">
           The Grind
         </h2>

@@ -28,6 +28,12 @@ export default function AboutKarnjeet() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="order-2 lg:order-1"
         >
+          <p className="font-heading text-[11px] font-bold uppercase tracking-[0.35em] text-ember/60">
+            Chapter Two
+          </p>
+          <p className="mb-4 mt-1 font-body text-sm italic text-offwhite/40">
+            You just met the method. Now meet the man who built it by living it first.
+          </p>
           <p className="mb-4 font-heading text-xs font-bold uppercase tracking-[0.3em] text-ember">
             The Man Behind GR8NESS
           </p>

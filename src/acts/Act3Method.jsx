@@ -161,7 +161,8 @@ export default function Act3Method() {
         transition={{ duration: 0.6 }}
         className="mb-2 text-center"
       >
-        <p className="font-heading text-xs font-bold uppercase tracking-[0.35em] text-ember">The Method</p>
+        <p className="font-heading text-[11px] font-bold uppercase tracking-[0.35em] text-ember/60">Chapter One</p>
+        <p className="mt-1 font-heading text-xs font-bold uppercase tracking-[0.35em] text-ember">The Method</p>
         <p className="mt-2 font-body text-sm text-offwhite/50">Three doors. Pick one to go deeper.</p>
       </motion.div>
 
