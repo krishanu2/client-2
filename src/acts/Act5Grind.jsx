@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState } from 'react'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { sampleGradientStops } from '@/lib/colorLerp'
@@ -37,61 +37,43 @@ function markerPoint(i) {
 }
 
 /**
- * A wheel, not a list — the same eight hours repeating, day after day, is
- * the whole point of "the grind." A vertical stack of cards reads as a
- * schedule; a wheel that fills in as you scroll reads as a cycle he's
- * already run hundreds of times. The progress arc is scroll-bound directly
- * (no React re-render per frame, same pattern as the sky-color tween
- * below); only the center readout re-renders, and only when the active
- * hour actually changes.
+ * The wheel IS the section now — no competing card list. Pinned centered
+ * for the section's full scroll duration (the section itself is 420vh
+ * tall so there's room to scroll through it) while the arc fills and the
+ * active hour's line changes underneath it. One focal object, not a list
+ * of eight.
  */
-function GrindWheel({ arcRef, activeIndex }) {
-  const active = TIMELINE[activeIndex]
+function GrindWheel({ arcRef }) {
   return (
-    <div className="relative mx-auto flex w-full max-w-[280px] flex-col items-center lg:max-w-none">
-      <div className="relative aspect-square w-full max-w-[240px]">
-        <motion.div
-          aria-hidden
-          className="absolute -inset-3 rounded-full"
-          style={{ border: '1px dashed rgba(255,107,53,0.25)' }}
-          animate={{ rotate: 360 }}
-          transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
+    <div className="relative aspect-square w-[64vmin] max-w-[420px]">
+      <motion.div
+        aria-hidden
+        className="absolute -inset-4 rounded-full"
+        style={{ border: '1px dashed rgba(255,107,53,0.25)' }}
+        animate={{ rotate: 360 }}
+        transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
+      />
+      <svg viewBox="0 0 200 200" className="h-full w-full -rotate-90">
+        <circle cx="100" cy="100" r={WHEEL_R} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="2" />
+        <circle
+          ref={arcRef}
+          cx="100"
+          cy="100"
+          r={WHEEL_R}
+          fill="none"
+          stroke="var(--color-ember)"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeDasharray={CIRCUMFERENCE}
+          strokeDashoffset={CIRCUMFERENCE}
         />
-        <svg viewBox="0 0 200 200" className="h-full w-full -rotate-90">
-          <circle cx="100" cy="100" r={WHEEL_R} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="2" />
-          <circle
-            ref={arcRef}
-            cx="100"
-            cy="100"
-            r={WHEEL_R}
-            fill="none"
-            stroke="var(--color-ember)"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeDasharray={CIRCUMFERENCE}
-            strokeDashoffset={CIRCUMFERENCE}
-          />
-        </svg>
-        <svg viewBox="0 0 200 200" className="absolute inset-0 h-full w-full">
-          {TIMELINE.map((entry, i) => {
-            const { x, y } = markerPoint(i)
-            const lit = i <= activeIndex
-            return (
-              <circle
-                key={entry.time}
-                cx={x}
-                cy={y}
-                r={lit ? 4.5 : 3}
-                fill={lit ? 'var(--color-ember)' : 'rgba(255,255,255,0.25)'}
-              />
-            )
-          })}
-        </svg>
-        <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center">
-          <p className="font-heading text-xs uppercase tracking-[0.3em] text-ember">{active.time}</p>
-          <p className="mt-2 px-4 font-body text-[11px] leading-snug text-offwhite/60">Day X of 365</p>
-        </div>
-      </div>
+      </svg>
+      <svg viewBox="0 0 200 200" className="absolute inset-0 h-full w-full" id="grind-wheel-markers">
+        {TIMELINE.map((entry, i) => {
+          const { x, y } = markerPoint(i)
+          return <circle key={entry.time} data-marker={i} cx={x} cy={y} r={3} fill="rgba(255,255,255,0.25)" />
+        })}
+      </svg>
     </div>
   )
 }
@@ -100,8 +82,7 @@ export default function Act5Grind() {
   const sectionRef = useRef()
   const skyRef = useRef()
   const arcRef = useRef()
-  const cardRefs = useRef([])
-  const lastIndexRef = useRef(0)
+  const lastIndexRef = useRef(-1)
   const [activeIndex, setActiveIndex] = useState(0)
 
   useSectionView('grind')
@@ -130,87 +111,56 @@ export default function Act5Grind() {
               if (nextIndex !== lastIndexRef.current) {
                 lastIndexRef.current = nextIndex
                 setActiveIndex(nextIndex)
+                document.querySelectorAll('#grind-wheel-markers [data-marker]').forEach((el) => {
+                  const lit = Number(el.getAttribute('data-marker')) <= nextIndex
+                  el.setAttribute('r', lit ? '4.5' : '3')
+                  el.setAttribute('fill', lit ? 'var(--color-ember)' : 'rgba(255,255,255,0.25)')
+                })
               }
             },
           },
         }
       )
-
-      cardRefs.current.forEach((el, i) => {
-        if (!el) return
-        const fromX = i % 2 === 0 ? -60 : 60
-        gsap.fromTo(
-          el,
-          { opacity: 0, x: fromX },
-          {
-            opacity: 1,
-            x: 0,
-            duration: 0.9,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: el,
-              start: 'top 85%',
-              toggleActions: 'play none none reverse',
-            },
-          }
-        )
-
-        // Subtle continuous parallax lag (separate from the x/opacity
-        // reveal above — GSAP tracks each transform property per-tween,
-        // so this doesn't fight the reveal): alternating cards drift at
-        // slightly different rates for a bit of depth as you scroll past.
-        gsap.to(el, {
-          y: i % 2 === 0 ? -26 : -14,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 0.6,
-          },
-        })
-      })
     }, sectionRef)
 
     return () => ctx.revert()
   }, [])
 
+  const active = TIMELINE[activeIndex]
+
   return (
-    <section id="grind" ref={sectionRef} className="relative w-full py-32">
-      <div ref={skyRef} className="absolute inset-0 -z-10 transition-none" style={{ backgroundColor: '#000004' }} />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-black/10 to-black/60" />
+    <section id="grind" ref={sectionRef} className="relative w-full" style={{ height: '420vh' }}>
+      <div className="sticky top-0 flex h-screen w-full flex-col items-center justify-center overflow-hidden px-6">
+        <div ref={skyRef} className="absolute inset-0 -z-10 transition-none" style={{ backgroundColor: '#000004' }} />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-black/10 to-black/60" />
 
-      <h2 className="relative z-10 text-center font-display text-4xl font-extrabold text-offwhite sm:text-5xl">
-        The Grind
-      </h2>
-      <p className="relative z-10 mx-auto mt-4 mb-16 max-w-md text-center font-body text-sm text-offwhite/50">
-        Every day starts the same. What he does with it is what changed everything.
-      </p>
+        <h2 className="mb-2 text-center font-display text-4xl font-extrabold text-offwhite sm:text-5xl">
+          The Grind
+        </h2>
+        <p className="mb-10 max-w-md text-center font-body text-sm text-offwhite/50">
+          Every day starts the same. What he does with it is what changed everything.
+        </p>
 
-      <div className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 gap-16 px-6 lg:grid-cols-[280px_1fr] lg:gap-20 lg:px-12">
-        <div className="lg:sticky lg:top-32 lg:h-fit lg:self-start">
-          <GrindWheel arcRef={arcRef} activeIndex={activeIndex} />
-        </div>
+        <GrindWheel arcRef={arcRef} />
 
-        <div className="flex flex-col gap-16">
-          {TIMELINE.map((entry, i) => (
-            <div
-              key={entry.time}
-              ref={(el) => (cardRefs.current[i] = el)}
-              className={`glass-card w-full rounded-2xl p-6 sm:w-[70%] sm:p-8 ${
-                i % 2 === 0 ? 'sm:self-start' : 'sm:self-end'
-              }`}
-            >
-              <p className="font-heading text-sm font-bold uppercase tracking-[0.25em] text-ember">
-                {entry.time}
-              </p>
-              <p className="mt-3 font-display text-xl font-bold text-offwhite sm:text-2xl">
-                {entry.quote}
-              </p>
-              <p className="mt-2 font-body text-sm text-offwhite/60">{entry.detail}</p>
-            </div>
-          ))}
-        </div>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeIndex}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-10 max-w-lg text-center"
+          >
+            <p className="font-heading text-sm font-bold uppercase tracking-[0.3em] text-ember">
+              {active.time}
+            </p>
+            <p className="mt-3 font-display text-2xl font-bold text-offwhite sm:text-3xl">
+              {active.quote}
+            </p>
+            <p className="mt-2 font-body text-sm text-offwhite/60">{active.detail}</p>
+          </motion.div>
+        </AnimatePresence>
       </div>
     </section>
   )
