@@ -139,7 +139,7 @@ export default function Act5Grind() {
   const active = TIMELINE[activeIndex]
 
   return (
-    <section id="grind" ref={sectionRef} className="relative w-full" style={{ height: '240vh' }}>
+    <section id="grind" ref={sectionRef} className="relative w-full overflow-hidden isolate" style={{ height: '240vh' }}>
       <div className="sticky top-0 flex h-screen w-full flex-col items-center justify-center overflow-hidden px-6">
         <div ref={skyRef} className="absolute inset-0 -z-10 transition-none" style={{ backgroundColor: '#000004' }} />
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-black/10 to-black/60" />

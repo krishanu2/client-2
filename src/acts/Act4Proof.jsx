@@ -71,7 +71,7 @@ export default function Act4Proof() {
   }
 
   return (
-    <section id="proof" className="relative min-h-screen w-full overflow-hidden py-32">
+    <section id="proof" className="isolate relative min-h-screen w-full overflow-hidden pb-48 pt-32">
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
         <motion.p
           initial={{ y: '10%' }}
