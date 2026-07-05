@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import MethodPanel from '@/components/MethodPanel'
 import { playUITick } from '@/lib/audioEngine'
@@ -119,32 +119,18 @@ function WordGlow({ color, scale = 1, spin = 9 }) {
  */
 export default function Act3Method() {
   const [activeWord, setActiveWord] = useState(null)
-  const [showHint, setShowHint] = useState(false)
+  // Permanent caption, not a 4-second tooltip — it only goes away once the
+  // visitor has actually clicked a word (this session), since the problem
+  // was visitors not realizing these were buttons at all, not needing a
+  // reminder later.
+  const [hasInteracted, setHasInteracted] = useState(
+    () => typeof window !== 'undefined' && !!sessionStorage.getItem(HINT_SEEN_KEY)
+  )
 
   useSectionView('method')
 
-  useEffect(() => {
-    if (sessionStorage.getItem(HINT_SEEN_KEY)) return undefined
-    const el = document.getElementById('method')
-    if (!el) return undefined
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShowHint(true)
-          const t = setTimeout(() => dismissHint(), 4000)
-          observer.disconnect()
-          return () => clearTimeout(t)
-        }
-      },
-      { threshold: 0.6 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   const dismissHint = () => {
-    setShowHint(false)
+    setHasInteracted(true)
     sessionStorage.setItem(HINT_SEEN_KEY, '1')
   }
 
@@ -158,7 +144,7 @@ export default function Act3Method() {
   const handleBack = () => setActiveWord(null)
 
   return (
-    <section id="method" className="isolate relative flex min-h-screen w-full flex-col items-center justify-center gap-10 overflow-hidden py-32">
+    <section id="method" className="isolate relative flex min-h-screen w-full flex-col items-center justify-center gap-6 overflow-hidden px-6 py-32">
       <GR8NESSMark />
       <motion.div
         aria-hidden
@@ -167,6 +153,17 @@ export default function Act3Method() {
         animate={{ opacity: [0.4, 0.7, 0.4] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
       />
+
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.6 }}
+        transition={{ duration: 0.6 }}
+        className="mb-2 text-center"
+      >
+        <p className="font-heading text-xs font-bold uppercase tracking-[0.35em] text-ember">The Method</p>
+        <p className="mt-2 font-body text-sm text-offwhite/50">Three doors. Pick one to go deeper.</p>
+      </motion.div>
 
       {WORDS.map((w, i) => (
         <motion.button
@@ -177,29 +174,32 @@ export default function Act3Method() {
             dismissHint()
             playUITick('hover')
           }}
-          whileHover={{ scale: 1.06 }}
-          whileTap={{ scale: 0.97 }}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.98 }}
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.6 }}
           transition={{ delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="isolate relative font-display text-shadow-hard-ember text-6xl text-ember sm:text-7xl"
+          className="isolate relative flex items-center gap-4 rounded-full border-2 border-ember/40 bg-ember/[0.04] px-8 py-3 transition-colors hover:border-ember hover:bg-ember/10 sm:px-10 sm:py-4"
         >
           <WordGlow color={w.glow} scale={w.scale} spin={w.spin} />
-          {w.label}
+          <span className="font-display text-shadow-hard-ember text-5xl text-ember sm:text-6xl">
+            {w.label}
+          </span>
+          <span className="font-heading text-2xl text-ember/50 sm:text-3xl">+</span>
         </motion.button>
       ))}
 
       <AnimatePresence>
-        {showHint && (
+        {!hasInteracted && (
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.8 }}
-            className="pointer-events-none absolute bottom-20 font-heading text-xs uppercase tracking-[0.3em] text-offwhite/40"
+            className="pointer-events-none mt-4 font-heading text-xs uppercase tracking-[0.3em] text-offwhite/40"
           >
-            tap a word →
+            tap a word to go deeper →
           </motion.p>
         )}
       </AnimatePresence>
