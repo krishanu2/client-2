@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import EmberMark from '@/components/EmberMark'
 import useSectionView from '@/lib/useSectionView'
 
 /**
@@ -96,7 +97,12 @@ export default function AboutKarnjeet() {
           believe." It gets its own full-viewport beat with nothing else
           competing: no simultaneous photo motion, no nav distraction,
           just held silence around one sentence before Proof begins. */}
-      <div className="mt-32 flex min-h-[70vh] w-full items-center justify-center px-6">
+      <div className="relative mt-32 flex min-h-[70vh] w-full items-center justify-center px-6">
+        <EmberMark
+          size="26vmin"
+          opacity={0.5}
+          className="absolute left-1/2 top-1/2 -z-10 -translate-x-1/2 -translate-y-1/2"
+        />
         <motion.p
           initial={{ opacity: 0, scale: 0.97 }}
           whileInView={{ opacity: 1, scale: 1 }}

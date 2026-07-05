@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import PolaroidCard from '@/components/PolaroidCard'
+import EmberMark from '@/components/EmberMark'
 import useSectionView from '@/lib/useSectionView'
 
 const HINT_SEEN_KEY = 'gr8ness_proof_hint_seen'
@@ -76,6 +77,11 @@ export default function Act4Proof() {
 
   return (
     <section id="proof" className="isolate relative min-h-screen w-full overflow-hidden pb-48 pt-32">
+      <EmberMark
+        size="24vmin"
+        opacity={0.4}
+        className="absolute left-1/2 top-24 -z-10 -translate-x-1/2"
+      />
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
         <motion.p
           initial={{ y: '10%' }}
