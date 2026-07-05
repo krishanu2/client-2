@@ -74,24 +74,6 @@ const WORDS = [
   { key: 'soul', label: 'SOUL.', glow: 'rgba(232,232,232,0.3)', scale: 1.2, spin: 7 },
 ]
 
-// The brand's own wordmark as a faint background texture — a single
-// stroked-only outline, small and quiet enough to sit behind BODY/MIND/SOUL
-// without competing with them for the eye.
-function GR8NESSMark() {
-  return (
-    <div className="pointer-events-none absolute left-1/2 top-1/2 -z-20 -translate-x-1/2 -translate-y-1/2 select-none">
-      <motion.p
-        className="whitespace-nowrap font-display text-[15vw] leading-none sm:text-[11vw]"
-        style={{ WebkitTextStroke: '1.5px rgba(255,107,53,0.16)', color: 'transparent' }}
-        animate={{ rotate: [-2, -0.5, -2] }}
-        transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        GR8NESS
-      </motion.p>
-    </div>
-  )
-}
-
 function WordGlow({ color, scale = 1, spin = 9 }) {
   return (
     <motion.div
@@ -145,7 +127,6 @@ export default function Act3Method() {
 
   return (
     <section id="method" className="isolate relative flex min-h-screen w-full flex-col items-center justify-center gap-6 overflow-hidden px-6 py-32">
-      <GR8NESSMark />
       <motion.div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-1/2 -z-20 h-[30vw] w-[30vw] -translate-x-1/2 -translate-y-1/2 rounded-full"
@@ -181,13 +162,13 @@ export default function Act3Method() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.6 }}
           transition={{ delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="isolate relative flex items-center gap-4 rounded-full border-2 border-ember/40 bg-ember/[0.04] px-8 py-3 transition-colors hover:border-ember hover:bg-ember/10 sm:px-10 sm:py-4"
+          className="isolate relative flex items-baseline gap-3"
         >
           <WordGlow color={w.glow} scale={w.scale} spin={w.spin} />
-          <span className="font-display text-shadow-hard-ember text-5xl text-ember sm:text-6xl">
+          <span className="font-display text-shadow-hard-ember text-6xl text-ember sm:text-7xl">
             {w.label}
           </span>
-          <span className="font-heading text-2xl text-ember/50 sm:text-3xl">+</span>
+          <span className="font-heading text-lg text-ember/40 sm:text-xl">→</span>
         </motion.button>
       ))}
 

@@ -52,10 +52,6 @@ export default function AboutKarnjeet() {
             </p>
           </div>
 
-          <p className="mt-8 font-accent-italic text-2xl text-ember text-glow-ember">
-            &ldquo;GR8NESS isn&rsquo;t a brand I built. It&rsquo;s the person I had to become.&rdquo;
-          </p>
-
           <p className="mt-8 font-heading text-sm uppercase tracking-[0.2em] text-offwhite/50">
             @thegr8nessguy — Melbourne, Australia 🇦🇺
           </p>
@@ -93,6 +89,25 @@ export default function AboutKarnjeet() {
             <div className="absolute inset-0 bg-gradient-to-t from-void/50 via-transparent to-transparent" />
           </div>
         </motion.div>
+      </div>
+
+      {/* The thesis line, alone — this is the trust hinge of the whole
+          site, the moment "a guy on a website" becomes "someone I
+          believe." It gets its own full-viewport beat with nothing else
+          competing: no simultaneous photo motion, no nav distraction,
+          just held silence around one sentence before Proof begins. */}
+      <div className="mt-32 flex min-h-[70vh] w-full items-center justify-center px-6">
+        <motion.p
+          initial={{ opacity: 0, scale: 0.97 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, amount: 0.7 }}
+          transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-3xl text-center font-accent-italic text-3xl leading-snug text-ember text-glow-ember sm:text-5xl"
+        >
+          &ldquo;GR8NESS isn&rsquo;t a brand I built.
+          <br />
+          It&rsquo;s the person I had to become.&rdquo;
+        </motion.p>
       </div>
     </section>
   )

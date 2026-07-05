@@ -98,7 +98,21 @@ export default function PolaroidCard({
           className="glass-card absolute inset-0 flex flex-col justify-center rounded-sm p-5"
           style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
         >
-          <p className="font-body text-sm leading-relaxed text-offwhite">{card.testimonial}</p>
+          {card.stat && (
+            <motion.p
+              animate={{ scale: flipped ? 1 : 0.5, opacity: flipped ? 1 : 0 }}
+              transition={{ delay: flipped ? 0.35 : 0, duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
+              className="font-display text-4xl font-extrabold text-ember"
+            >
+              {card.stat}
+            </motion.p>
+          )}
+          {card.context && (
+            <p className="mt-1 font-heading text-[11px] uppercase tracking-wide text-offwhite/50">
+              {card.context}
+            </p>
+          )}
+          <p className="mt-3 font-body text-sm leading-relaxed text-offwhite">{card.testimonial}</p>
           {card.handle && (
             <p className="mt-4 font-heading text-xs font-bold uppercase tracking-wider text-ember">
               {card.handle}

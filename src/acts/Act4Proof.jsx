@@ -9,23 +9,27 @@ const CARDS = [
   {
     name: 'Radhika',
     photoLabel: 'Before / After',
-    testimonial:
-      'Lost 13kg. Went from underconfident and restrictive eating to feeling her best. 16 weeks. Melbourne.',
+    stat: '-13kg',
+    context: '16 weeks — started exactly where you are now',
+    testimonial: 'Went from underconfident and restrictive eating to feeling her best. Melbourne.',
     handle: '@radhikapahujak5',
     desktopPos: { top: '18%', left: '14%', rotate: -8 },
   },
   {
     name: 'Harshini',
     photoLabel: 'Progress',
-    testimonial:
-      '16-week transformation. Working a 9-5. Physique and mindset completely changed.',
+    stat: '16 weeks',
+    context: 'working a full 9-5, no extra time to spare',
+    testimonial: 'Physique and mindset completely changed.',
     handle: '@harshini_ramesh96',
     desktopPos: { top: '38%', left: '55%', rotate: 6 },
   },
   {
     name: 'Client',
     photoLabel: 'Progress',
-    testimonial: '24 weeks. Full-time job. Eating 200g of carbs. 49kg to 54kg of pure muscle.',
+    stat: '49 → 54kg',
+    context: '24 weeks, full-time job, 200g carbs a day',
+    testimonial: 'Pure muscle. Proof this works around a real schedule, not a fantasy one.',
     handle: null,
     desktopPos: { top: '55%', left: '28%', rotate: -4 },
   },
