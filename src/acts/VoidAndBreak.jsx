@@ -202,7 +202,10 @@ export default function VoidAndBreak({ onComplete }) {
   const showSphereFallback = PHASES_SHOWING_SPHERE.includes(phase)
   const showEnter = phase === 'enter'
   const revealed = PHASES_AFTER_REVEAL.includes(phase)
-  const showSkip = ['jitter', 'shatter', 'face', 'text1', 'text2'].includes(phase)
+  // Visible from frame one — impatient cold visitors (the majority of
+  // first-time traffic) had no early exit before this, since it only used
+  // to appear once the shatter sequence began.
+  const showSkip = phase !== 'done'
   const blackedOut = !PHASES_SHOWING_FACE.includes(phase)
 
   return (

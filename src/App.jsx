@@ -68,8 +68,15 @@ function ScrollCue() {
   )
 }
 
+const INTRO_SEEN_KEY = 'gr8ness_intro_seen'
+
 function App() {
-  const [stage, setStage] = useState('intro') // intro (Act 1 + Act 2, one scene) -> handoff -> main
+  // Session-aware: a visitor who reloads mid-decision (arguably the
+  // closest person to booking) shouldn't have to sit through the ~8s
+  // intro a second time in the same session.
+  const [stage, setStage] = useState(() =>
+    typeof window !== 'undefined' && sessionStorage.getItem(INTRO_SEEN_KEY) ? 'main' : 'intro'
+  ) // intro (Act 1 + Act 2, one scene) -> handoff -> main
   const lenisRef = useLenis(stage === 'main')
 
   useEffect(() => {
@@ -148,7 +155,10 @@ function App() {
     return () => clearTimeout(t)
   }, [stage])
 
-  const handleIntroComplete = () => setStage('handoff')
+  const handleIntroComplete = () => {
+    sessionStorage.setItem(INTRO_SEEN_KEY, '1')
+    setStage('handoff')
+  }
 
   return (
     <>
