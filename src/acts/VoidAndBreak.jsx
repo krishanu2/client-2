@@ -222,7 +222,7 @@ export default function VoidAndBreak({ onComplete }) {
         className="absolute inset-0 -z-10 bg-cover bg-center transition-opacity duration-[1400ms]"
         style={{
           backgroundImage: 'url(/images/karnjeet-reveal.png)',
-          opacity: blackedOut ? 0 : 0.55,
+          opacity: blackedOut ? 0 : 0.75,
         }}
       />
       <div
@@ -278,7 +278,13 @@ export default function VoidAndBreak({ onComplete }) {
         >
           <Canvas camera={{ position: [0, 0, 4.2], fov: 40 }} dpr={[1, 1.5]}>
             <ContextLossHandler />
-            <NebulaPlane opacity={PHASES_SHOWING_FACE.includes(phase) ? 1 : 0} />
+            {/* Nebula's opacity is dialed way down here (was 1) now that a
+                real photo sits behind the canvas for this phase — nebula
+                painting near-opaque was covering it completely, since a
+                WebGL canvas with alpha compositing lets DOM behind it show
+                through in proportion to what's actually left transparent
+                in the frame. A little nebula tint stays for mood. */}
+            <NebulaPlane opacity={PHASES_SHOWING_FACE.includes(phase) ? 0.25 : 0} />
             <ambientLight intensity={0.4} />
             <CameraDolly active={phase === 'shatter'} />
 
