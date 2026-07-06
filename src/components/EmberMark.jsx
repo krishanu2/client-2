@@ -1,5 +1,16 @@
 import { motion } from 'framer-motion'
 
+// A proper lemniscate (figure-8 / infinity curve), not a rotated numeral —
+// a font glyph rotated 90° at small sizes just reads as a blob. Traced
+// parametrically so it's crisp at any size: x = a·cos(t), y = (a/2)·sin(2t).
+function lemniscatePath(a, cx = 100, cy = 100, steps = 80) {
+  const points = Array.from({ length: steps + 1 }, (_, i) => {
+    const t = (i / steps) * Math.PI * 2
+    return [cx + a * Math.cos(t), cy + (a / 2) * Math.sin(2 * t)]
+  })
+  return points.map(([x, y], i) => `${i === 0 ? 'M' : 'L'}${x.toFixed(2)},${y.toFixed(2)}`).join(' ')
+}
+
 /**
  * The site's recurring leitmotif: the Gate opens on a dark, cracked orb
  * the visitor has to choose to break open. This is that same orb, healed
@@ -8,11 +19,9 @@ import { motion } from 'framer-motion'
  * reads as a mark that follows the story, not a one-off bookend. Pure
  * CSS/SVG (no WebGL; only the Gate is allowed a <Canvas>).
  *
- * The ring now carries the site's other recurring symbol too: the "8" in
- * GR8NESS, rotated on its side, reads as the infinity symbol — his own
- * name already says "infinite becoming." Centering that glyph in this
- * mark (rather than inventing a separate icon) ties the two motifs
- * together instead of competing for attention.
+ * The ring carries the site's other recurring symbol too: the "8" in
+ * GR8NESS reads as infinity — his own name already says "infinite
+ * becoming." Drawn as an actual lemniscate curve, not a font glyph.
  */
 export default function EmberMark({ size = '42vmin', opacity = 1, className = '' }) {
   const rays = Array.from({ length: 10 }, (_, i) => (i / 10) * 360)
@@ -41,18 +50,13 @@ export default function EmberMark({ size = '42vmin', opacity = 1, className = ''
           />
         ))}
         <circle cx="100" cy="100" r="46" fill="none" stroke="rgba(255,220,190,0.4)" strokeWidth="1.5" />
-        <text
-          x="100"
-          y="100"
-          transform="rotate(90 100 100)"
-          textAnchor="middle"
-          dominantBaseline="central"
-          fontSize="72"
-          fontFamily="Anton, sans-serif"
-          fill="rgba(232,232,232,0.5)"
-        >
-          8
-        </text>
+        <path
+          d={lemniscatePath(30)}
+          fill="none"
+          stroke="rgba(255,225,200,0.55)"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+        />
       </svg>
     </div>
   )

@@ -6,6 +6,19 @@ gsap.registerPlugin(ScrollTrigger)
 
 const SECTION_IDS = ['method', 'about', 'proof', 'grind', 'call']
 
+// Same lemniscate math as EmberMark.jsx, just a tiny inline instance for
+// the marker dots — a rotated "8" font glyph read as a blob at 13px; a
+// drawn curve stays clean at any size.
+const MARKER_PATH = (() => {
+  const a = 17
+  const steps = 40
+  const points = Array.from({ length: steps + 1 }, (_, i) => {
+    const t = (i / steps) * Math.PI * 2
+    return [20 + a * Math.cos(t), 10 + (a / 2) * Math.sin(2 * t)]
+  })
+  return points.map(([x, y], i) => `${i === 0 ? 'M' : 'L'}${x.toFixed(2)},${y.toFixed(2)}`).join(' ')
+})()
+
 /**
  * A persistent thin ember "progress thread" down the right edge of the
  * screen — a shared visual connective tissue across Acts, since each Act
@@ -78,19 +91,20 @@ export default function ActTransitionOverlay() {
         style={{ transform: 'scaleY(0)' }}
       />
       {SECTION_IDS.map((id, i) => (
-        <div
+        <svg
           key={id}
           ref={(el) => (markerRefs.current[id] = el)}
           aria-hidden
-          // The "8" in GR8NESS, rotated on its side, is the infinity
-          // symbol — his own name already says "infinite becoming." Using
-          // the literal glyph here (instead of a plain dot) makes every
-          // chapter marker a quiet restatement of that, not a new motif.
-          className="absolute -left-[7px] rotate-90 select-none font-display text-[13px] leading-none text-ember opacity-40"
+          viewBox="0 0 40 20"
+          // The "8" in GR8NESS, read sideways, is the infinity symbol —
+          // his own name already says "infinite becoming." A rotated font
+          // glyph read as a blob at this size; a drawn lemniscate curve
+          // stays clean no matter how small.
+          className="absolute -left-[10px] h-[10px] w-5 opacity-40"
           style={{ top: `${(i / (SECTION_IDS.length - 1)) * 96}%` }}
         >
-          8
-        </div>
+          <path d={MARKER_PATH} fill="none" stroke="currentColor" strokeWidth="2" className="text-ember" />
+        </svg>
       ))}
     </div>
   )
