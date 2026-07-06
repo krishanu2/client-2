@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const SECTION_IDS = ['method', 'about', 'proof', 'grind', 'call']
+const SECTION_IDS = ['method', 'about', 'proof', 'grind', 'pricing', 'call']
 
 // Same lemniscate math as EmberMark.jsx, just a tiny inline instance for
 // the marker dots — a rotated "8" font glyph read as a blob at 13px; a
