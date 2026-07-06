@@ -213,6 +213,27 @@ export default function VoidAndBreak({ onComplete }) {
       className="fixed inset-0 z-10 transition-colors duration-[1400ms]"
       style={{ backgroundColor: blackedOut ? '#000' : 'transparent' }}
     >
+      {/* Background photo for the "I am Karnjeet Vinod" reveal — the
+          wrapping div's own background already goes transparent exactly
+          during face/text1/text2 (see `blackedOut` above), so this layer
+          just needs to sit behind everything and fade in on that same
+          schedule; no extra phase logic needed. Placeholder photo until a
+          dedicated shot lands — see chat for the size/crop spec. */}
+      <div
+        className="absolute inset-0 -z-10 bg-cover bg-center transition-opacity duration-[1400ms]"
+        style={{
+          backgroundImage: 'url(/images/karnjeet-candid.jpeg)',
+          opacity: blackedOut ? 0 : 0.55,
+        }}
+      />
+      <div
+        className="absolute inset-0 -z-10 transition-opacity duration-[1400ms]"
+        style={{
+          background: 'radial-gradient(circle at 50% 50%, transparent 20%, #000 78%)',
+          opacity: blackedOut ? 0 : 1,
+        }}
+      />
+
       <AnimatePresence>
         {showText && (
           <motion.div
