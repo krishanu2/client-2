@@ -374,7 +374,7 @@ export default function VoidAndBreak({ onComplete }) {
                   transition={{ duration: 0.7 }}
                   className="mt-3 font-display text-3xl font-extrabold text-ember text-glow-ember sm:text-5xl"
                 >
-                  And I will break you open.
+                  And what&rsquo;s underneath won&rsquo;t hide anymore.
                 </motion.p>
               )}
             </motion.div>
