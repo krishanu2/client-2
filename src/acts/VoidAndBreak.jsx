@@ -217,12 +217,11 @@ export default function VoidAndBreak({ onComplete }) {
           wrapping div's own background already goes transparent exactly
           during face/text1/text2 (see `blackedOut` above), so this layer
           just needs to sit behind everything and fade in on that same
-          schedule; no extra phase logic needed. Placeholder photo until a
-          dedicated shot lands — see chat for the size/crop spec. */}
+          schedule; no extra phase logic needed. */}
       <div
         className="absolute inset-0 -z-10 bg-cover bg-center transition-opacity duration-[1400ms]"
         style={{
-          backgroundImage: 'url(/images/karnjeet-candid.jpeg)',
+          backgroundImage: 'url(/images/karnjeet-reveal.png)',
           opacity: blackedOut ? 0 : 0.55,
         }}
       />
