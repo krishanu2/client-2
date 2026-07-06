@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { playUITick } from '@/lib/audioEngine'
 
 const LINKS = [
@@ -9,15 +10,42 @@ const LINKS = [
   { label: 'Start', href: '#call' },
 ]
 
+const SECTION_IDS = ['method', 'about', 'proof', 'grind', 'call']
+
 /**
- * Minimal top-right nav. Appears for the first time once Act 2 completes
- * (PRD: "Navigation appears for the first time"). Scroll target IDs match
- * each Act's section id so Lenis can smooth-scroll to them.
+ * Top-right nav. Appears for the first time once the intro completes.
+ * Scroll target IDs match each Act's section id so Lenis can smooth-
+ * scroll to them. Tracks which section is currently in view (a thin
+ * detection band near vertical center of the viewport) and ignites that
+ * link in ember, so the nav reflects where you actually are in the story.
+ * Below `sm`, the inline row is replaced by a single toggle that opens a
+ * full-screen menu — five cramped shrunk labels never actually worked as
+ * a real mobile nav.
  */
 export default function Nav({ lenisRef }) {
+  const [active, setActive] = useState(null)
+  const [mobileOpen, setMobileOpen] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id)
+        })
+      },
+      { rootMargin: '-45% 0px -45% 0px', threshold: 0 }
+    )
+    SECTION_IDS.forEach((id) => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+    return () => observer.disconnect()
+  }, [])
+
   const handleClick = (e, href) => {
     e.preventDefault()
     playUITick('click')
+    setMobileOpen(false)
     const target = document.querySelector(href)
     if (!target) return
     if (lenisRef?.current) {
@@ -27,31 +55,81 @@ export default function Nav({ lenisRef }) {
     }
   }
 
+  const linkClass = (link) => {
+    const isPrimary = link.label === 'Start'
+    const isActive = active === link.href.slice(1)
+    if (isPrimary) {
+      return 'whitespace-nowrap rounded-full border border-ember/60 bg-ember/10 px-4 py-1.5 font-heading text-[11px] font-bold uppercase tracking-[0.2em] text-ember transition-colors hover:bg-ember/20'
+    }
+    return `whitespace-nowrap font-heading text-[11px] font-bold uppercase tracking-[0.25em] transition-colors hover:text-ember ${
+      isActive ? 'text-ember text-glow-ember' : 'text-offwhite/70'
+    }`
+  }
+
   return (
-    <motion.nav
-      initial={{ opacity: 0, y: -12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed right-3 top-4 z-50 flex gap-2 sm:right-10 sm:top-8 sm:gap-6"
-    >
-      {LINKS.map((link) => {
-        const isPrimary = link.label === 'Start'
-        return (
-          <a
-            key={link.href}
-            href={link.href}
-            onClick={(e) => handleClick(e, link.href)}
-            onMouseEnter={() => playUITick('hover')}
-            className={
-              isPrimary
-                ? 'whitespace-nowrap rounded-full border border-ember/60 bg-ember/10 px-2.5 py-1 font-heading text-[8px] font-bold uppercase tracking-[0.05em] text-ember transition-colors hover:bg-ember/20 sm:px-4 sm:py-1.5 sm:text-[11px] sm:tracking-[0.2em]'
-                : 'whitespace-nowrap font-heading text-[8px] font-bold uppercase tracking-[0.05em] text-offwhite/70 transition-colors hover:text-ember sm:text-[11px] sm:tracking-[0.25em]'
-            }
-          >
+    <>
+      <motion.nav
+        initial={{ opacity: 0, y: -12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="fixed right-4 top-4 z-50 hidden gap-6 sm:right-10 sm:top-8 sm:flex"
+      >
+        {LINKS.map((link) => (
+          <a key={link.href} href={link.href} onClick={(e) => handleClick(e, link.href)} onMouseEnter={() => playUITick('hover')} className={linkClass(link)}>
             {link.label}
           </a>
-        )
-      })}
-    </motion.nav>
+        ))}
+      </motion.nav>
+
+      {/* Mobile: a single toggle instead of five shrunk labels */}
+      <motion.button
+        type="button"
+        initial={{ opacity: 0, y: -12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        onClick={() => setMobileOpen(true)}
+        aria-label="Open menu"
+        className="fixed right-4 top-4 z-50 flex h-9 w-9 flex-col items-center justify-center gap-[5px] rounded-full border border-white/15 bg-black/30 backdrop-blur-sm sm:hidden"
+      >
+        <span className="h-[1.5px] w-4 bg-offwhite" />
+        <span className="h-[1.5px] w-4 bg-offwhite" />
+      </motion.button>
+
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-8 bg-void/98 backdrop-blur-md sm:hidden"
+          >
+            <button
+              type="button"
+              onClick={() => setMobileOpen(false)}
+              aria-label="Close menu"
+              className="absolute right-5 top-5 font-heading text-xs uppercase tracking-[0.2em] text-offwhite/60"
+            >
+              Close ✕
+            </button>
+            {LINKS.map((link, i) => (
+              <motion.a
+                key={link.href}
+                href={link.href}
+                onClick={(e) => handleClick(e, link.href)}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.06, duration: 0.4 }}
+                className={`font-display text-4xl ${
+                  active === link.href.slice(1) ? 'text-ember' : 'text-offwhite'
+                }`}
+              >
+                {link.label}
+              </motion.a>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   )
 }
