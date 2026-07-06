@@ -13,7 +13,7 @@ export default function AboutKarnjeet() {
   useSectionView('about')
 
   return (
-    <section id="about" className="relative w-full overflow-hidden py-32">
+    <section id="about" className="isolate relative w-full overflow-hidden py-32">
       <div
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
@@ -97,7 +97,7 @@ export default function AboutKarnjeet() {
           believe." It gets its own full-viewport beat with nothing else
           competing: no simultaneous photo motion, no nav distraction,
           just held silence around one sentence before Proof begins. */}
-      <div className="relative mt-32 flex min-h-[70vh] w-full items-center justify-center px-6">
+      <div className="isolate relative mt-32 flex min-h-[70vh] w-full items-center justify-center px-6">
         <EmberMark
           size="26vmin"
           opacity={0.5}

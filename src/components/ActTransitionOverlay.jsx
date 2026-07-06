@@ -81,9 +81,16 @@ export default function ActTransitionOverlay() {
         <div
           key={id}
           ref={(el) => (markerRefs.current[id] = el)}
-          className="absolute -left-[3px] h-2 w-2 rounded-full bg-ember opacity-40"
+          aria-hidden
+          // The "8" in GR8NESS, rotated on its side, is the infinity
+          // symbol — his own name already says "infinite becoming." Using
+          // the literal glyph here (instead of a plain dot) makes every
+          // chapter marker a quiet restatement of that, not a new motif.
+          className="absolute -left-[7px] rotate-90 select-none font-display text-[13px] leading-none text-ember opacity-40"
           style={{ top: `${(i / (SECTION_IDS.length - 1)) * 96}%` }}
-        />
+        >
+          8
+        </div>
       ))}
     </div>
   )

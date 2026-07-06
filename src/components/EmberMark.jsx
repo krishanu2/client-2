@@ -7,6 +7,12 @@ import { motion } from 'framer-motion'
  * confession, Proof's evidence, and full-size at the final CTA) so it
  * reads as a mark that follows the story, not a one-off bookend. Pure
  * CSS/SVG (no WebGL; only the Gate is allowed a <Canvas>).
+ *
+ * The ring now carries the site's other recurring symbol too: the "8" in
+ * GR8NESS, rotated on its side, reads as the infinity symbol — his own
+ * name already says "infinite becoming." Centering that glyph in this
+ * mark (rather than inventing a separate icon) ties the two motifs
+ * together instead of competing for attention.
  */
 export default function EmberMark({ size = '42vmin', opacity = 1, className = '' }) {
   const rays = Array.from({ length: 10 }, (_, i) => (i / 10) * 360)
@@ -35,6 +41,18 @@ export default function EmberMark({ size = '42vmin', opacity = 1, className = ''
           />
         ))}
         <circle cx="100" cy="100" r="46" fill="none" stroke="rgba(255,220,190,0.4)" strokeWidth="1.5" />
+        <text
+          x="100"
+          y="100"
+          transform="rotate(90 100 100)"
+          textAnchor="middle"
+          dominantBaseline="central"
+          fontSize="72"
+          fontFamily="Anton, sans-serif"
+          fill="rgba(232,232,232,0.5)"
+        >
+          8
+        </text>
       </svg>
     </div>
   )
