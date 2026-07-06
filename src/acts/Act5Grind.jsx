@@ -19,14 +19,14 @@ const TIMELINE = [
 // Each panel's own time-of-day tint — same idea as the old sky-gradient,
 // but as a discrete per-panel color since panels snap by, not blend.
 const PANEL_TINTS = [
-  'radial-gradient(circle at 30% 30%, rgba(11,20,64,0.7), #000004 70%)',
-  'radial-gradient(circle at 30% 30%, rgba(255,122,69,0.25), #050410 70%)',
-  'radial-gradient(circle at 30% 30%, rgba(255,150,90,0.3), #0a0a14 70%)',
-  'radial-gradient(circle at 30% 30%, rgba(237,234,227,0.18), #0a0a14 70%)',
-  'radial-gradient(circle at 30% 30%, rgba(255,122,69,0.22), #0a0a14 70%)',
-  'radial-gradient(circle at 30% 30%, rgba(184,92,46,0.28), #08060d 70%)',
-  'radial-gradient(circle at 30% 30%, rgba(139,92,246,0.22), #050410 70%)',
-  'radial-gradient(circle at 30% 30%, rgba(5,4,15,0.9), #000000 70%)',
+  'radial-gradient(circle at 50% 45%, rgba(11,20,64,0.7), #000004 85%)',
+  'radial-gradient(circle at 50% 45%, rgba(255,122,69,0.25), #050410 85%)',
+  'radial-gradient(circle at 50% 45%, rgba(255,150,90,0.3), #0a0a14 85%)',
+  'radial-gradient(circle at 50% 45%, rgba(237,234,227,0.18), #0a0a14 85%)',
+  'radial-gradient(circle at 50% 45%, rgba(255,122,69,0.22), #0a0a14 85%)',
+  'radial-gradient(circle at 50% 45%, rgba(184,92,46,0.28), #08060d 85%)',
+  'radial-gradient(circle at 50% 45%, rgba(139,92,246,0.22), #050410 85%)',
+  'radial-gradient(circle at 50% 45%, rgba(5,4,15,0.9), #000000 85%)',
 ]
 
 /**
@@ -118,6 +118,12 @@ export default function Act5Grind() {
         </p>
 
         <div ref={wrapperRef} className="relative h-[52vh] w-full overflow-hidden sm:h-[46vh]">
+          {/* Each panel has its own solid/gradient tint (PANEL_TINTS), which
+              otherwise starts and stops in a hard rectangle at this
+              viewport's edges — visibly seamed against the surrounding
+              section background. These fade the seam instead of hiding it. */}
+          <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-16 bg-gradient-to-b from-void to-transparent" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16 bg-gradient-to-t from-void to-transparent" />
           <div ref={trackRef} className="flex h-full w-fit">
             {TIMELINE.map((entry, i) => (
               <div
