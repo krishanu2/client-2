@@ -6,33 +6,39 @@ import useSectionView from '@/lib/useSectionView'
 
 const HINT_SEEN_KEY = 'gr8ness_proof_hint_seen'
 
+// Real client before/after photos. Deliberately no invented stats/quotes
+// attributed to them here — we don't have their exact numbers or words,
+// and putting fabricated specifics next to a real person's name and face
+// is the one thing worse than an empty placeholder. The photo itself is
+// the evidence; the caption just invites the real conversation.
 const CARDS = [
   {
-    name: 'Radhika',
+    name: 'Akshay',
     photoLabel: 'Before / After',
-    stat: '-13kg',
-    context: '16 weeks — started exactly where you are now',
-    testimonial: 'Went from underconfident and restrictive eating to feeling her best. Melbourne.',
-    handle: '@radhikapahujak5',
-    desktopPos: { top: '18%', left: '14%', rotate: -8 },
+    photo: '/images/testimonial-akshay.jpeg',
+    testimonial: 'Real transformation. Ask Karn about this one on your call.',
+    desktopPos: { top: '6%', left: '6%', rotate: -7 },
   },
   {
-    name: 'Harshini',
-    photoLabel: 'Progress',
-    stat: '16 weeks',
-    context: 'working a full 9-5, no extra time to spare',
-    testimonial: 'Physique and mindset completely changed.',
-    handle: '@harshini_ramesh96',
-    desktopPos: { top: '38%', left: '55%', rotate: 6 },
+    name: 'Dhanavish',
+    photoLabel: 'Before / After',
+    photo: '/images/testimonial-dhanavish.jpeg',
+    testimonial: 'Real transformation. Ask Karn about this one on your call.',
+    desktopPos: { top: '4%', left: '58%', rotate: 6 },
   },
   {
-    name: 'Client',
-    photoLabel: 'Progress',
-    stat: '49 → 54kg',
-    context: '24 weeks, full-time job, 200g carbs a day',
-    testimonial: 'Pure muscle. Proof this works around a real schedule, not a fantasy one.',
-    handle: null,
-    desktopPos: { top: '55%', left: '28%', rotate: -4 },
+    name: 'Aryan',
+    photoLabel: 'Before / After',
+    photo: '/images/testimonial-aryan.jpeg',
+    testimonial: 'Real transformation. Ask Karn about this one on your call.',
+    desktopPos: { top: '48%', left: '22%', rotate: -5 },
+  },
+  {
+    name: 'Client — Australia',
+    photoLabel: 'Before / After',
+    photo: '/images/testimonial-female-au.jpeg',
+    testimonial: 'Real transformation. Ask Karn about this one on your call.',
+    desktopPos: { top: '46%', left: '64%', rotate: 5 },
   },
 ]
 
@@ -131,7 +137,7 @@ export default function Act4Proof() {
       ) : (
         <div
           ref={containerRef}
-          className="relative z-10 mx-auto h-[70vh] max-w-5xl"
+          className="relative z-10 mx-auto h-[105vh] max-w-5xl"
           onPointerDown={dismissHint}
         >
           {CARDS.map((card, i) => (

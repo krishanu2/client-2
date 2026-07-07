@@ -50,7 +50,7 @@ export default function PolaroidCard({
 
   return (
     <motion.div
-      className="relative h-72 w-56 shrink-0 sm:h-80 sm:w-64"
+      className="relative h-[26rem] w-56 shrink-0 sm:h-[30rem] sm:w-64"
       style={{ perspective: 1200, ...style }}
       role="button"
       tabIndex={0}
@@ -84,9 +84,11 @@ export default function PolaroidCard({
           style={{ backfaceVisibility: 'hidden' }}
         >
           <PhotoPlaceholder
+            src={card.photo}
             alt={card.name ? `${card.name} transformation` : 'Client transformation'}
             label={card.photoLabel}
-            className="h-[85%] w-full rounded-[1px]"
+            objectFit={card.photo ? 'contain' : 'cover'}
+            className="h-[88%] w-full rounded-[1px]"
           />
           <p className="mt-2 text-center font-heading text-xs font-bold uppercase tracking-wide text-void">
             {card.name ?? 'Client'}

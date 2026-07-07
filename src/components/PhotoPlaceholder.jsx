@@ -11,10 +11,20 @@ export default function PhotoPlaceholder({
   label,
   className = '',
   variant = 'portrait', // 'portrait' | 'wide'
+  objectFit = 'cover', // 'cover' | 'contain' — 'contain' for tall before/after
+  // collages that must show in full rather than get cropped to fill the frame.
   style,
 }) {
   if (src) {
-    return <img src={src} alt={alt} className={`object-cover ${className}`} style={style} />
+    return (
+      <div className={`relative overflow-hidden bg-void ${className}`} style={style}>
+        <img
+          src={src}
+          alt={alt}
+          className={`h-full w-full ${objectFit === 'contain' ? 'object-contain' : 'object-cover'}`}
+        />
+      </div>
+    )
   }
 
   return (
