@@ -188,7 +188,7 @@ export default function VoidAndBreak({ onComplete }) {
       return () => clearTimeout(t)
     }
     if (phase === 'text2') {
-      const t = setTimeout(() => setPhase('done'), 1500)
+      const t = setTimeout(() => setPhase('done'), reduced ? 1000 : 2400)
       return () => clearTimeout(t)
     }
     if (phase === 'done') {
@@ -213,24 +213,15 @@ export default function VoidAndBreak({ onComplete }) {
       className="fixed inset-0 z-10 transition-colors duration-[1400ms]"
       style={{ backgroundColor: blackedOut ? '#000' : 'transparent' }}
     >
-      {/* Background photo for the "I am Karnjeet Vinod" reveal — the
-          wrapping div's own background already goes transparent exactly
-          during face/text1/text2 (see `blackedOut` above), so this layer
-          just needs to sit behind everything and fade in on that same
-          schedule; no extra phase logic needed. */}
-      <div
-        className="absolute inset-0 -z-10 bg-cover bg-center transition-opacity duration-[1400ms]"
-        style={{
-          backgroundImage: 'url(/images/karnjeet-reveal.png)',
-          opacity: blackedOut ? 0 : 0.75,
-        }}
-      />
-      <div
-        className="absolute inset-0 -z-10 transition-opacity duration-[1400ms]"
-        style={{
-          background: 'radial-gradient(circle at 50% 50%, transparent 20%, #000 78%)',
-          opacity: blackedOut ? 0 : 1,
-        }}
+      {/* Classy over busy: one faint, slow-rotating ring — no photo, no
+          particles competing with it. It's the only thing moving here
+          besides the text itself. */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[70vmin] w-[70vmin] -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{ border: '1px solid rgba(255,107,53,0.12)', opacity: blackedOut ? 0 : 1 }}
+        animate={{ rotate: 360 }}
+        transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
       />
 
       <AnimatePresence>
@@ -355,28 +346,41 @@ export default function VoidAndBreak({ onComplete }) {
       </AnimatePresence>
 
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center px-6">
-        <AnimatePresence>
-          {(phase === 'text1' || phase === 'text2') && (
+        <AnimatePresence mode="wait">
+          {phase === 'text1' && (
             <motion.div
-              key="lines"
+              key="intro"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.7 }}
-              className="translate-x-[10vw] text-center sm:text-left"
+              className="text-center"
             >
               <p className="font-display text-3xl font-extrabold text-offwhite sm:text-5xl">
                 I am Karnjeet Vinod.
               </p>
-              {phase === 'text2' && (
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.7 }}
-                  className="mt-3 font-display text-3xl font-extrabold text-ember text-glow-ember sm:text-5xl"
-                >
-                  And what&rsquo;s underneath won&rsquo;t hide anymore.
-                </motion.p>
-              )}
+              <motion.div
+                className="mx-auto mt-4 h-px bg-ember/40"
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ delay: 0.5, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                style={{ transformOrigin: 'center', width: '40%' }}
+              />
+            </motion.div>
+          )}
+
+          {phase === 'text2' && (
+            <motion.div
+              key="titlecard"
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              className="text-center"
+            >
+              <p className="font-display text-3xl font-extrabold uppercase tracking-wide text-offwhite sm:text-5xl">
+                Welcome to <span className="text-ember text-shadow-hard-ember">GR8NESS</span>
+              </p>
             </motion.div>
           )}
         </AnimatePresence>
