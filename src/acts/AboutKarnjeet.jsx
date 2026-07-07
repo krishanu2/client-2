@@ -3,8 +3,14 @@ import useSectionView from '@/lib/useSectionView'
 
 // Spoken in two breaths, not printed in one block — each clause holds
 // before the next arrives, so the line reads as something said to you
-// rather than a quote-card graphic.
-const THESIS_CLAUSES = ['“GR8NESS isn’t a brand I built.', 'It’s the person I had to become.”']
+// rather than a quote-card graphic. Roman (upright) weight throughout,
+// with italics reserved for the one word each clause turns on — the
+// contrast between what it isn't (a brand) and what it is (a person) —
+// instead of italicizing the whole quote, which read as less legible.
+const THESIS_CLAUSES = [
+  { pre: '“GR8NESS isn’t a ', emphasis: 'brand', post: ' I built.' },
+  { pre: 'It’s the ', emphasis: 'person', post: ' I had to become.”' },
+]
 
 /**
  * A dedicated introduction to Karnjeet as a person — inserted between
@@ -99,33 +105,41 @@ export default function AboutKarnjeet() {
       {/* The thesis line, alone — this is the trust hinge of the whole
           site, the moment "a guy on a website" becomes "someone I
           believe." No ornament competing with it, no ember-orange (that's
-          the site's CTA/energy color, wrong register for a confession) —
-          just the two clauses arriving one breath apart, and his name
-          under it so it reads as him speaking, not a quote-card. */}
-      <div className="isolate relative mt-32 flex min-h-[70vh] w-full flex-col items-center justify-center px-6">
-        <p className="max-w-3xl text-center font-accent-italic text-3xl leading-snug text-offwhite text-glow-soft sm:text-5xl">
-          {THESIS_CLAUSES.map((clause, i) => (
-            <motion.span
-              key={clause}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
+          the site's CTA/energy color, wrong register for a confession).
+          Left-aligned with the right half of the viewport left empty on
+          purpose — a centered block read as a default text box; pushing
+          it to one side and letting space do the rest reads as a
+          deliberate choice instead. */}
+      <div className="isolate relative mt-32 flex min-h-[70vh] w-full items-center px-6 lg:px-12">
+        <div className="mx-auto w-full max-w-6xl">
+          <div className="max-w-xl">
+            <p className="text-left font-accent text-3xl leading-snug text-offwhite text-glow-soft sm:text-5xl">
+              {THESIS_CLAUSES.map((clause, i) => (
+                <motion.span
+                  key={clause.emphasis}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.7 }}
+                  transition={{ duration: 1.1, delay: i * 1.2, ease: [0.16, 1, 0.3, 1] }}
+                  className="block"
+                >
+                  {clause.pre}
+                  <em className="font-accent-italic">{clause.emphasis}</em>
+                  {clause.post}
+                </motion.span>
+              ))}
+            </p>
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true, amount: 0.7 }}
-              transition={{ duration: 1.1, delay: i * 1.2, ease: [0.16, 1, 0.3, 1] }}
-              className="block"
+              transition={{ duration: 0.8, delay: THESIS_CLAUSES.length * 1.2 + 0.2 }}
+              className="font-editorial mt-8 text-left text-[11px] font-medium uppercase tracking-[0.4em] text-offwhite/40"
             >
-              {clause}
-            </motion.span>
-          ))}
-        </p>
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, amount: 0.7 }}
-          transition={{ duration: 0.8, delay: THESIS_CLAUSES.length * 1.2 + 0.2 }}
-          className="mt-6 font-heading text-xs uppercase tracking-[0.3em] text-offwhite/40"
-        >
-          — Karnjeet
-        </motion.p>
+              — Karnjeet
+            </motion.p>
+          </div>
+        </div>
       </div>
     </section>
   )

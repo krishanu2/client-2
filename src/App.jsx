@@ -166,7 +166,10 @@ function App() {
     <>
       <SEOContent />
       <CustomCursor />
-      <SoundToggle className="bottom-6 right-6 sm:bottom-8 sm:right-8" />
+      {/* Right edge matches Nav's own right margin (right-4/sm:right-10)
+          so the two fixed UI elements sit on one consistent grid line
+          instead of two slightly different insets. */}
+      <SoundToggle className="bottom-6 right-4 sm:bottom-8 sm:right-10" />
 
       {stage === 'intro' && (
         <Suspense fallback={<LoadingScreen />}>

@@ -66,9 +66,9 @@ export default function ActTransitionOverlay() {
               start: 'top 60%',
               end: 'bottom 40%',
               onEnter: () => gsap.to(marker, { opacity: 1, scale: 1.6, duration: 0.4, ease: 'power2.out' }),
-              onLeave: () => gsap.to(marker, { opacity: 0.4, scale: 1, duration: 0.5 }),
+              onLeave: () => gsap.to(marker, { opacity: 0.25, scale: 1, duration: 0.5 }),
               onEnterBack: () => gsap.to(marker, { opacity: 1, scale: 1.6, duration: 0.4, ease: 'power2.out' }),
-              onLeaveBack: () => gsap.to(marker, { opacity: 0.4, scale: 1, duration: 0.5 }),
+              onLeaveBack: () => gsap.to(marker, { opacity: 0.25, scale: 1, duration: 0.5 }),
             })
           })
         })
@@ -100,7 +100,12 @@ export default function ActTransitionOverlay() {
           // his own name already says "infinite becoming." A rotated font
           // glyph read as a blob at this size; a drawn lemniscate curve
           // stays clean no matter how small.
-          className="absolute -left-[10px] h-[10px] w-5 opacity-40"
+          // Quiet at rest (client feedback: these read as distracting
+          // competing icons) — brightens to a full "shine" via the
+          // ScrollTrigger onEnter/onEnterBack handlers above when the
+          // scroll position actually reaches that section, so it acts as
+          // a progress indicator rather than a decoration.
+          className="absolute -left-[10px] h-[10px] w-5 opacity-25"
           style={{ top: `${(i / (SECTION_IDS.length - 1)) * 96}%` }}
         >
           <path d={MARKER_PATH} fill="none" stroke="currentColor" strokeWidth="2" className="text-ember" />

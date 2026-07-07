@@ -59,7 +59,10 @@ export default function Nav({ lenisRef }) {
     const isPrimary = link.label === 'Start'
     const isActive = active === link.href.slice(1)
     if (isPrimary) {
-      return 'whitespace-nowrap rounded-full border border-ember/60 bg-ember/10 px-4 py-1.5 font-heading text-[11px] font-bold uppercase tracking-[0.2em] text-ember transition-colors hover:bg-ember/20'
+      // Ghost/outline, not a filled pill — a solid orange block read as
+      // too loud next to the plain-text links beside it. Fills solid on
+      // hover so the interaction still has a satisfying "commit" moment.
+      return 'whitespace-nowrap rounded-full border border-ember/50 bg-transparent px-4 py-1.5 font-heading text-[11px] font-bold uppercase tracking-[0.2em] text-ember transition-colors duration-300 hover:bg-ember hover:text-void'
     }
     return `whitespace-nowrap font-heading text-[11px] font-bold uppercase tracking-[0.25em] transition-colors hover:text-ember ${
       isActive ? 'text-ember text-glow-ember' : 'text-offwhite/70'

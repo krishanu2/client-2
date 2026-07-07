@@ -7,6 +7,7 @@
 @import "@fontsource/dm-sans/700.css";
 @import "@fontsource/dm-sans/800.css";
 
+@import "@fontsource/playfair-display/400.css";
 @import "@fontsource/playfair-display/400-italic.css";
 @import "@fontsource/playfair-display/700-italic.css";
 
@@ -103,6 +104,10 @@
 }
 
 @layer utilities {
+  .font-accent {
+    font-family: var(--font-accent);
+  }
+
   .font-accent-italic {
     font-family: var(--font-accent);
     font-style: italic;
@@ -122,9 +127,11 @@
 
   /* A quieter glow than the ember one above — reserved for the site's few
      confessional/vulnerable lines, so they read as sincere rather than
-     borrowing the same hot color used on every CTA and headline. */
+     borrowing the same hot color used on every CTA and headline. Paired
+     with a dark, desaturated depth shadow (not a color change) so the
+     text lifts slightly off the background instead of sitting flat on it. */
   .text-glow-soft {
-    text-shadow: 0 0 28px rgba(255, 247, 235, 0.35);
+    text-shadow: 0 0 28px rgba(255, 247, 235, 0.35), 0 8px 24px rgba(0, 0, 0, 0.5);
   }
 
   /* Hard-edged offset shadow (old-school stencil/poster look) for the
