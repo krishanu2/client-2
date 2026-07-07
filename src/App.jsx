@@ -10,7 +10,6 @@ import SectionFallback from '@/components/SectionFallback'
 import SoundToggle from '@/components/SoundToggle'
 import SEOContent from '@/components/SEOContent'
 import ActTransitionOverlay from '@/components/ActTransitionOverlay'
-import EmberAtmosphere from '@/components/EmberAtmosphere'
 import FilmGrain from '@/components/FilmGrain'
 import useLenis from '@/lib/useLenis'
 import { setDroneIntensity } from '@/lib/audioEngine'
@@ -182,7 +181,6 @@ function App() {
           <Nav lenisRef={lenisRef} />
           <ScrollCue />
           <ActTransitionOverlay />
-          <EmberAtmosphere />
           <FilmGrain />
           <main>
             <Suspense fallback={<SectionFallback />}>

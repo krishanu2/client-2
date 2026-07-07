@@ -11,6 +11,10 @@
 @import "@fontsource/playfair-display/400-italic.css";
 @import "@fontsource/playfair-display/700-italic.css";
 
+@import "@fontsource/cormorant-garamond/400.css";
+@import "@fontsource/cormorant-garamond/400-italic.css";
+@import "@fontsource/cormorant-garamond/600.css";
+
 /* ---------------------------------------------------------------------- */
 /* THE BECOMING — Design System                                           */
 /* ---------------------------------------------------------------------- */
@@ -22,6 +26,9 @@
   --color-offwhite: #e8e8e8;
   --color-violet: #8b5cf6;
   --color-ash: #3a3a4a;
+  /* Exact off-white the client asked for on the About thesis quote —
+     distinct from --color-offwhite (#e8e8e8) used everywhere else. */
+  --color-porcelain: #f7f6f4;
 
   /* Fonts — Anton/Staatliches/Special Elite for a heavier, more raw/
      stencilled impact than the original Clash Display/Syne/DM Sans.
@@ -36,6 +43,11 @@
      "Welcome to GR8NESS" title card, per client feedback that Anton felt
      too heavy there. */
   --font-editorial: "DM Sans", sans-serif;
+  /* One serif family, used two ways (Roman + its own italic) for the
+     About thesis quote — client feedback that mixing Playfair for the
+     quote with DM Sans for the attribution read as "random" typography.
+     Nothing else should use this variable; it isn't a site-wide swap. */
+  --font-quote: "Cormorant Garamond", serif;
 
   /* Easing used throughout the experience */
   --ease-becoming: cubic-bezier(0.16, 1, 0.3, 1);
@@ -117,6 +129,15 @@
     font-family: var(--font-editorial);
   }
 
+  .font-quote {
+    font-family: var(--font-quote);
+  }
+
+  .font-quote-italic {
+    font-family: var(--font-quote);
+    font-style: italic;
+  }
+
   .text-glow-ember {
     text-shadow: 0 0 24px rgba(255, 107, 53, 0.55);
   }
@@ -132,6 +153,13 @@
      text lifts slightly off the background instead of sitting flat on it. */
   .text-glow-soft {
     text-shadow: 0 0 28px rgba(255, 247, 235, 0.35), 0 8px 24px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Deliberately almost nothing — a visible glow around body text reads
+     as an AI-generated-page tell. This exists only so pure-white type
+     doesn't look flat pasted on the background, not to add drama. */
+  .text-glow-hairline {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.04);
   }
 
   /* Hard-edged offset shadow (old-school stencil/poster look) for the

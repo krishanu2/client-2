@@ -1,17 +1,6 @@
 import { motion } from 'framer-motion'
 import useSectionView from '@/lib/useSectionView'
 
-// Spoken in two breaths, not printed in one block — each clause holds
-// before the next arrives, so the line reads as something said to you
-// rather than a quote-card graphic. Roman (upright) weight throughout,
-// with italics reserved for the one word each clause turns on — the
-// contrast between what it isn't (a brand) and what it is (a person) —
-// instead of italicizing the whole quote, which read as less legible.
-const THESIS_CLAUSES = [
-  { pre: '“GR8NESS isn’t a ', emphasis: 'brand', post: ' I built.' },
-  { pre: 'It’s the ', emphasis: 'person', post: ' I had to become.”' },
-]
-
 /**
  * A dedicated introduction to Karnjeet as a person — inserted between
  * Method (the "how") and Proof (the results), because the persuasion arc
@@ -104,67 +93,79 @@ export default function AboutKarnjeet() {
 
       {/* The thesis line, alone — this is the trust hinge of the whole
           site, the moment "a guy on a website" becomes "someone I
-          believe." No ornament competing with it, no ember-orange (that's
-          the site's CTA/energy color, wrong register for a confession).
-          Left-aligned with the right half of the viewport left empty on
-          purpose — a centered block read as a default text box; pushing
-          it to one side and letting space do the rest reads as a
-          deliberate choice instead. */}
-      <div className="isolate relative mt-32 flex min-h-[70vh] w-full items-center overflow-hidden px-6 lg:px-12">
-        {/* A presence in the dark rather than a photo competing with the
-            text — desaturated and dimmed, faded into the background on
-            every edge instead of a hard rectangle, sitting behind the
-            quote (-z-10) so it never fights it for attention. Reuses the
-            lifestyle shot from the bio grid above but treated so
-            differently (grayscale, dark, cropped tight on his face) it
-            doesn't read as a repeat. */}
+          believe." One serif family throughout (Cormorant Garamond,
+          Roman + its own italic — no second typeface for emphasis), a
+          single unlooped fade-up, and a proper 45/55 editorial grid
+          instead of a hard center split. */}
+      <div className="isolate relative flex min-h-[85vh] w-full items-center overflow-hidden lg:flex-row">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className="relative w-full py-16 pl-6 pr-6 sm:pl-10 lg:w-[45%] lg:py-0 lg:pl-[120px] lg:pr-12"
+        >
+          <p
+            className="font-quote text-left font-normal text-porcelain text-glow-hairline"
+            style={{ fontSize: '60px', lineHeight: 1.2 }}
+          >
+            <span className="block">
+              <span className="font-semibold">GR8NESS</span> isn&rsquo;t a brand I built.
+            </span>
+            <span className="mt-6 block">
+              It&rsquo;s the{' '}
+              <motion.em
+                className="font-quote-italic"
+                initial={{ filter: 'blur(6px)', opacity: 0 }}
+                whileInView={{ filter: 'blur(0px)', opacity: 1 }}
+                viewport={{ once: true, amount: 0.6 }}
+                transition={{ duration: 0.9, delay: 0.3 }}
+                style={{ display: 'inline-block' }}
+              >
+                person
+              </motion.em>
+            </span>
+            <span className="mt-6 block">I had to become.</span>
+          </p>
+
+          <p className="font-quote mt-10 text-left text-[13px] uppercase leading-snug tracking-[0.3em] text-offwhite/60">
+            Karnjeet
+            <br />
+            Founder, GR8NESS
+          </p>
+        </motion.div>
+
+        {/* Subtle structural divider between text and image — barely
+            visible, just enough to read as a considered grid rather than
+            two things placed side by side. */}
+        <div
+          className="absolute top-[20%] hidden h-[60%] w-px lg:block"
+          style={{ left: '45%', background: 'rgba(255,255,255,0.08)' }}
+        />
+
         <motion.div
           aria-hidden
-          className="pointer-events-none absolute inset-y-0 right-0 -z-10 w-[60%] max-w-2xl sm:w-1/2"
+          className="pointer-events-none absolute inset-y-0 right-0 -z-10 hidden w-[55%] lg:block"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
         >
           <img
             src="/images/karnjeet-lifestyle.jpeg"
             alt=""
             className="h-full w-full object-cover"
-            style={{ objectPosition: '35% 25%', filter: 'grayscale(0.65) brightness(0.5) contrast(1.05)' }}
+            style={{ objectPosition: '15% 25%', filter: 'grayscale(0.65) brightness(0.68) contrast(1.05)' }}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-void via-void/10 to-void/70" />
-          <div className="absolute inset-0 bg-gradient-to-b from-void/80 via-transparent to-void/90" />
+          <div
+            className="absolute inset-0"
+            style={{ background: 'linear-gradient(to right, #0e1020 0%, rgba(14,16,32,0.55) 30%, rgba(14,16,32,0.15) 70%, transparent 100%)' }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{ background: 'linear-gradient(to bottom, rgba(14,16,32,0.55), transparent 25%, transparent 75%, rgba(14,16,32,0.6))' }}
+          />
         </motion.div>
-
-        <div className="relative mx-auto w-full max-w-6xl">
-          <div className="max-w-xl">
-            <p className="text-left font-accent text-3xl leading-snug text-offwhite text-glow-soft sm:text-5xl">
-              {THESIS_CLAUSES.map((clause, i) => (
-                <motion.span
-                  key={clause.emphasis}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.7 }}
-                  transition={{ duration: 1.1, delay: i * 1.2, ease: [0.16, 1, 0.3, 1] }}
-                  className="block"
-                >
-                  {clause.pre}
-                  <em className="font-accent-italic">{clause.emphasis}</em>
-                  {clause.post}
-                </motion.span>
-              ))}
-            </p>
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, amount: 0.7 }}
-              transition={{ duration: 0.8, delay: THESIS_CLAUSES.length * 1.2 + 0.2 }}
-              className="font-editorial mt-8 text-left text-[11px] font-medium uppercase tracking-[0.4em] text-offwhite/40"
-            >
-              — Karnjeet
-            </motion.p>
-          </div>
-        </div>
       </div>
     </section>
   )
