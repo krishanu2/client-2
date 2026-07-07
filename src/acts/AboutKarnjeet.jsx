@@ -110,8 +110,33 @@ export default function AboutKarnjeet() {
           purpose — a centered block read as a default text box; pushing
           it to one side and letting space do the rest reads as a
           deliberate choice instead. */}
-      <div className="isolate relative mt-32 flex min-h-[70vh] w-full items-center px-6 lg:px-12">
-        <div className="mx-auto w-full max-w-6xl">
+      <div className="isolate relative mt-32 flex min-h-[70vh] w-full items-center overflow-hidden px-6 lg:px-12">
+        {/* A presence in the dark rather than a photo competing with the
+            text — desaturated and dimmed, faded into the background on
+            every edge instead of a hard rectangle, sitting behind the
+            quote (-z-10) so it never fights it for attention. Reuses the
+            lifestyle shot from the bio grid above but treated so
+            differently (grayscale, dark, cropped tight on his face) it
+            doesn't read as a repeat. */}
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 right-0 -z-10 w-[60%] max-w-2xl sm:w-1/2"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <img
+            src="/images/karnjeet-lifestyle.jpeg"
+            alt=""
+            className="h-full w-full object-cover"
+            style={{ objectPosition: '35% 25%', filter: 'grayscale(0.65) brightness(0.5) contrast(1.05)' }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-void via-void/10 to-void/70" />
+          <div className="absolute inset-0 bg-gradient-to-b from-void/80 via-transparent to-void/90" />
+        </motion.div>
+
+        <div className="relative mx-auto w-full max-w-6xl">
           <div className="max-w-xl">
             <p className="text-left font-accent text-3xl leading-snug text-offwhite text-glow-soft sm:text-5xl">
               {THESIS_CLAUSES.map((clause, i) => (
