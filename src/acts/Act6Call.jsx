@@ -42,8 +42,9 @@ export default function Act6Call() {
         <motion.div
           className="h-full w-full"
           initial={{ scale: 1 }}
-          animate={{ scale: 1.08 }}
-          transition={{ duration: 20, ease: 'easeInOut', repeat: Infinity, repeatType: 'mirror' }}
+          whileInView={{ scale: 1.06 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 6, ease: [0.16, 1, 0.3, 1] }}
         >
           <PhotoPlaceholder
             src="/images/karnjeet-lifestyle.jpeg"

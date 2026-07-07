@@ -74,7 +74,10 @@ const WORDS = [
   { key: 'soul', label: 'SOUL.', glow: 'rgba(232,232,232,0.3)', scale: 1.2, spin: 7 },
 ]
 
-function WordGlow({ color, scale = 1, spin = 9 }) {
+// Classy over busy: this used to spin forever, unprompted. Now it only
+// turns while the visitor is actually hovering that word — motion as a
+// response, not ambient wallpaper — and eases to a stop otherwise.
+function WordGlow({ color, scale = 1, spin = 9, spinning = false }) {
   return (
     <motion.div
       aria-hidden
@@ -85,8 +88,12 @@ function WordGlow({ color, scale = 1, spin = 9 }) {
         borderRadius: '9999px',
         scale,
       }}
-      animate={{ rotate: 360 }}
-      transition={{ duration: spin, repeat: Infinity, ease: 'linear' }}
+      animate={spinning ? { rotate: 360 } : { rotate: 0 }}
+      transition={
+        spinning
+          ? { duration: spin, repeat: Infinity, ease: 'linear' }
+          : { duration: 1.2, ease: [0.16, 1, 0.3, 1] }
+      }
     />
   )
 }
@@ -101,6 +108,7 @@ function WordGlow({ color, scale = 1, spin = 9 }) {
  */
 export default function Act3Method() {
   const [activeWord, setActiveWord] = useState(null)
+  const [hoveredWord, setHoveredWord] = useState(null)
   // Permanent caption, not a 4-second tooltip — it only goes away once the
   // visitor has actually clicked a word (this session), since the problem
   // was visitors not realizing these were buttons at all, not needing a
@@ -131,8 +139,10 @@ export default function Act3Method() {
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-1/2 -z-20 h-[30vw] w-[30vw] -translate-x-1/2 -translate-y-1/2 rounded-full"
         style={{ background: 'radial-gradient(circle, rgba(255,107,53,0.07), transparent 70%)' }}
-        animate={{ opacity: [0.4, 0.7, 0.4] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+        initial={{ opacity: 0.3 }}
+        whileInView={{ opacity: 0.6 }}
+        viewport={{ once: true, amount: 0.5 }}
+        transition={{ duration: 2, ease: 'easeOut' }}
       />
 
       <motion.div
@@ -155,7 +165,9 @@ export default function Act3Method() {
           onHoverStart={() => {
             dismissHint()
             playUITick('hover')
+            setHoveredWord(w.key)
           }}
+          onHoverEnd={() => setHoveredWord(null)}
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.98 }}
           initial={{ opacity: 0, y: 16 }}
@@ -164,7 +176,7 @@ export default function Act3Method() {
           transition={{ delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="isolate relative font-display text-shadow-hard-ember text-6xl text-ember sm:text-7xl"
         >
-          <WordGlow color={w.glow} scale={w.scale} spin={w.spin} />
+          <WordGlow color={w.glow} scale={w.scale} spin={w.spin} spinning={hoveredWord === w.key} />
           {w.label}
         </motion.button>
       ))}

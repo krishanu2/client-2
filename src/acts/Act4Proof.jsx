@@ -90,9 +90,10 @@ export default function Act4Proof() {
       />
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
         <motion.p
-          initial={{ y: '10%' }}
-          animate={{ y: '-10%' }}
-          transition={{ duration: 40, repeat: Infinity, repeatType: 'mirror', ease: 'linear' }}
+          initial={{ y: '6%', opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
           className="max-w-4xl px-6 text-center font-accent-italic text-4xl leading-tight text-offwhite/10 sm:text-6xl"
         >
           &ldquo;From underconfident and restrictive eating&hellip; to feeling her best.&rdquo;
