@@ -59,7 +59,7 @@ export default function Act6Call() {
       <div className="relative z-10 flex w-full flex-1 flex-col justify-center gap-8 px-6 py-16 sm:w-1/2 sm:px-16">
         <div>
           <p className="font-heading text-[11px] font-bold uppercase tracking-[0.35em] text-ember/60">
-            Chapter Six
+            Chapter Five
           </p>
           <p className="mb-4 mt-1 max-w-sm font-body text-sm italic text-offwhite/40">
             You&rsquo;ve seen the method, the man, the proof, and the grind. One thing is left.

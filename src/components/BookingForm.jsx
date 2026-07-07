@@ -15,31 +15,47 @@ const FIELD_VARIANTS = {
 }
 
 /**
- * Front-end intake only for now — no real backend to send to yet. Submit
- * fires an analytics event (so the data isn't just dropped on the floor)
- * and shows the same confirmation moment Act6 already had. Swap the body
- * of handleSubmit for a real API call once the backend exists; the form
- * shape (name/email/phone/goal) is what that endpoint should expect.
+ * Front-end flow only — no Stripe wired up yet, by design (fee amount
+ * and Stripe account aren't settled). The whole flow is built so that
+ * `initiateSecurePayment` is the ONE place that needs to change: it
+ * currently just simulates the round-trip with a delay, but it's already
+ * shaped like a real handoff (intake -> "redirecting to payment" ->
+ * confirmation) so swapping in a real Stripe Checkout redirect later
+ * doesn't require touching the surrounding UI/state at all.
+ *
+ * No fee amount or payment mention appears anywhere in this form's
+ * copy — that was deliberate (don't prime the visitor with a number
+ * before they've committed to booking).
  */
 export default function BookingForm({ onClose }) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [goal, setGoal] = useState('both')
-  const [status, setStatus] = useState('form') // form -> submitting -> done
+  const [status, setStatus] = useState('form') // form -> redirecting -> done
 
-  const handleSubmit = (e) => {
+  const initiateSecurePayment = ({ name, email, phone, goal }) => {
+    // TODO: replace this whole function body with a real Stripe handoff —
+    // call a serverless endpoint to create a Checkout Session for the
+    // booking fee (amount TBD), then `window.location.href = session.url`.
+    // Stripe redirects back to a success URL; that page (or a returned
+    // query param) should drive `status` to 'done' the same way the
+    // setTimeout below does for now.
+    return new Promise((resolve) => {
+      trackEvent('discovery_call_submitted', { name, email, phone, goal })
+      setTimeout(resolve, 1400)
+    })
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (!name.trim() || !email.trim()) return
-    setStatus('submitting')
+    setStatus('redirecting')
     playUITick('confirm')
-    trackEvent('discovery_call_submitted', { name, email, phone, goal })
 
-    // TODO: replace with a real API call once the backend exists.
-    setTimeout(() => {
-      setStatus('done')
-      setTimeout(onClose, 2200)
-    }, 700)
+    await initiateSecurePayment({ name, email, phone, goal })
+    setStatus('done')
+    setTimeout(onClose, 2600)
   }
 
   return (
@@ -67,7 +83,7 @@ export default function BookingForm({ onClose }) {
         </button>
 
         <AnimatePresence mode="wait">
-          {status !== 'done' ? (
+          {status === 'form' && (
             <motion.div key="form" exit={{ opacity: 0 }} transition={{ duration: 0.25 }}>
               <p className="font-heading text-xs uppercase tracking-[0.3em] text-ember">Step one</p>
               <h3 className="mt-2 font-display text-3xl leading-[0.95] text-offwhite sm:text-4xl">
@@ -134,16 +150,35 @@ export default function BookingForm({ onClose }) {
                   {...FIELD_VARIANTS}
                   transition={{ delay: 0.33, duration: 0.4 }}
                   type="submit"
-                  disabled={status === 'submitting'}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="btn-heavy mt-2 bg-ember px-8 py-4 text-sm text-void disabled:opacity-60"
+                  className="btn-heavy mt-2 bg-ember px-8 py-4 text-sm text-void"
                 >
-                  {status === 'submitting' ? 'Sending…' : 'Confirm My Spot'}
+                  Confirm My Spot
                 </motion.button>
               </form>
             </motion.div>
-          ) : (
+          )}
+
+          {status === 'redirecting' && (
+            <motion.div
+              key="redirecting"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="py-10 text-center"
+            >
+              <motion.span
+                className="mx-auto block h-8 w-8 rounded-full border-2 border-ember/30 border-t-ember"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 0.9, repeat: Infinity, ease: 'linear' }}
+              />
+              <p className="mt-5 font-body text-sm text-offwhite/70">Securing your spot…</p>
+            </motion.div>
+          )}
+
+          {status === 'done' && (
             <motion.div
               key="done"
               initial={{ opacity: 0, scale: 0.9 }}
