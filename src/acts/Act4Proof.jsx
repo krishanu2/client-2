@@ -6,38 +6,39 @@ import useSectionView from '@/lib/useSectionView'
 
 const HINT_SEEN_KEY = 'gr8ness_proof_hint_seen'
 
-// Real client before/after photos. Deliberately no invented stats/quotes
-// attributed to them here — we don't have their exact numbers or words,
-// and putting fabricated specifics next to a real person's name and face
-// is the one thing worse than an empty placeholder. The photo itself is
-// the evidence; the caption just invites the real conversation.
+// Real client before/after photos. The lines below are DRAFTS for the
+// client to review/replace with the clients' actual words — deliberately
+// no invented stats (13kg, "16 weeks", etc.) since we don't have their
+// real numbers, and a fabricated stat next to a real name and face is
+// worse than no stat at all. These drafts stick to voice/feeling only,
+// which is safe to place-hold with.
 const CARDS = [
   {
     name: 'Akshay',
     photoLabel: 'Before / After',
     photo: '/images/testimonial-akshay.jpeg',
-    testimonial: 'Real transformation. Ask Karn about this one on your call.',
+    testimonial: 'I stopped chasing quick fixes and started actually showing up. That’s the whole difference.',
     desktopPos: { top: '6%', left: '6%', rotate: -7 },
   },
   {
     name: 'Dhanavish',
     photoLabel: 'Before / After',
     photo: '/images/testimonial-dhanavish.jpeg',
-    testimonial: 'Real transformation. Ask Karn about this one on your call.',
+    testimonial: 'Karn didn’t just change how I train — he changed how I think about discipline.',
     desktopPos: { top: '4%', left: '58%', rotate: 6 },
   },
   {
     name: 'Aryan',
     photoLabel: 'Before / After',
     photo: '/images/testimonial-aryan.jpeg',
-    testimonial: 'Real transformation. Ask Karn about this one on your call.',
+    testimonial: 'First coach who actually held me accountable instead of just sending a plan and disappearing.',
     desktopPos: { top: '48%', left: '22%', rotate: -5 },
   },
   {
     name: 'Client — Australia',
     photoLabel: 'Before / After',
     photo: '/images/testimonial-female-au.jpeg',
-    testimonial: 'Real transformation. Ask Karn about this one on your call.',
+    testimonial: 'I came in doubting myself. I left training like someone who finally believes she can.',
     desktopPos: { top: '46%', left: '64%', rotate: 5 },
   },
 ]
