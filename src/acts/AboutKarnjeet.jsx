@@ -12,7 +12,7 @@ export default function AboutKarnjeet() {
   useSectionView('about')
 
   return (
-    <section id="about" className="isolate relative w-full overflow-hidden py-32">
+    <section id="about" className="isolate relative w-full overflow-hidden py-24">
       <div
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
@@ -97,7 +97,7 @@ export default function AboutKarnjeet() {
           Roman + its own italic — no second typeface for emphasis), a
           single unlooped fade-up, and a proper 45/55 editorial grid
           instead of a hard center split. */}
-      <div className="isolate relative flex min-h-[85vh] w-full items-center overflow-hidden lg:flex-row">
+      <div className="isolate relative mt-16 flex min-h-[70vh] w-full items-center overflow-hidden lg:flex-row">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}

@@ -83,7 +83,7 @@ export default function Act4Proof() {
   }
 
   return (
-    <section id="proof" className="isolate relative min-h-screen w-full overflow-hidden pb-48 pt-32">
+    <section id="proof" className="isolate relative min-h-screen w-full overflow-hidden pb-32 pt-24">
       <EmberMark
         size="24vmin"
         opacity={0.4}
@@ -139,7 +139,7 @@ export default function Act4Proof() {
       ) : (
         <div
           ref={containerRef}
-          className="relative z-10 mx-auto h-[105vh] max-w-5xl"
+          className="relative z-10 mx-auto h-[95vh] max-w-5xl"
           onPointerDown={dismissHint}
         >
           {CARDS.map((card, i) => (

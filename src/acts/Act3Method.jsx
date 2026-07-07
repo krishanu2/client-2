@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import MethodPanel from '@/components/MethodPanel'
 import { playUITick } from '@/lib/audioEngine'
@@ -106,7 +106,7 @@ function WordGlow({ color, scale = 1, spin = 9, spinning = false }) {
  * section blank. Reliability over the parallax flourish for now; revisit
  * once the underlying WebGL constraint is understood.
  */
-export default function Act3Method() {
+export default function Act3Method({ lenisRef }) {
   const [activeWord, setActiveWord] = useState(null)
   const [hoveredWord, setHoveredWord] = useState(null)
   // Permanent caption, not a 4-second tooltip — it only goes away once the
@@ -118,6 +118,24 @@ export default function Act3Method() {
   )
 
   useSectionView('method')
+
+  // The expanded panel is a fixed full-screen overlay, but Lenis (which
+  // manages scroll at the window level, independent of the panel's own
+  // overflow) doesn't know that — without this, a wheel/trackpad gesture
+  // while the panel is open silently scrolls the page underneath it, so
+  // closing the panel dropped visitors somewhere they never chose to
+  // scroll to. Confirmed via window.scrollY changing while the panel was
+  // open and mouse was over it.
+  useEffect(() => {
+    const lenis = lenisRef?.current
+    if (!lenis) return undefined
+    if (activeWord) {
+      lenis.stop()
+    } else {
+      lenis.start()
+    }
+    return () => lenis.start()
+  }, [activeWord, lenisRef])
 
   const dismissHint = () => {
     setHasInteracted(true)

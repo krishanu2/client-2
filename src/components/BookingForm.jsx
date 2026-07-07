@@ -152,7 +152,7 @@ export default function BookingForm({ onClose }) {
                   type="submit"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="btn-heavy mt-2 bg-ember px-8 py-4 text-sm text-void"
+                  className="btn-heavy rounded-full! mt-2 bg-ember px-8 py-4 text-sm text-void"
                 >
                   Confirm My Spot
                 </motion.button>

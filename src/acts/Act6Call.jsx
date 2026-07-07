@@ -96,7 +96,7 @@ export default function Act6Call() {
             href="#call"
             onMouseEnter={() => playUITick('hover')}
             onClick={handlePrimaryClick}
-            className="btn-heavy heartbeat-cta relative z-10 block w-fit bg-ember px-10 py-5 text-sm text-void"
+            className="btn-heavy heartbeat-cta rounded-full! relative z-10 block w-fit bg-ember px-10 py-5 text-sm text-void"
           >
             Book A Discovery Call
           </a>

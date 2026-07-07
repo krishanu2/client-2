@@ -184,7 +184,7 @@ function App() {
           <FilmGrain />
           <main>
             <Suspense fallback={<SectionFallback />}>
-              <Act3Method />
+              <Act3Method lenisRef={lenisRef} />
             </Suspense>
             <Suspense fallback={<SectionFallback />}>
               <AboutKarnjeet />
