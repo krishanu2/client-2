@@ -41,7 +41,7 @@ export default function SoundToggle({ className = '' }) {
       transition={{ delay: 1, duration: 0.6 }}
       aria-pressed={on}
       aria-label={on ? 'Mute sound' : 'Unmute sound'}
-      className={`fixed z-50 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/30 text-offwhite/70 backdrop-blur-sm transition-colors hover:text-ember ${className}`}
+      className={`fixed z-50 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/30 text-offwhite/70 opacity-40 backdrop-blur-sm transition-opacity duration-300 hover:text-ember hover:opacity-100 ${className}`}
     >
       {on ? (
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">

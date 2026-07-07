@@ -7,8 +7,10 @@ import { getSilhouettePoints } from '@/lib/silhouetteParticles'
  * Particle system that converges from scattered positions into a
  * head-and-shoulders silhouette (Act 2's "face materialisation").
  */
-export default function ParticleFace({ count = 800, progress = 0 }) {
+export default function ParticleFace({ count = 800, progress = 0, opacity = 0.9 }) {
   const pointsRef = useRef()
+  const materialRef = useRef()
+  const opacityRef = useRef(opacity)
 
   const { scattered, target } = useMemo(() => {
     const scatteredArr = new Float32Array(count * 3)
@@ -59,6 +61,13 @@ export default function ParticleFace({ count = 800, progress = 0 }) {
       array[i * 3 + 2] = THREE.MathUtils.lerp(scattered[i * 3 + 2], target[i * 3 + 2], ease)
     }
     pointsRef.current.geometry.attributes.position.needsUpdate = true
+
+    // Eased toward the target opacity rather than snapping — lets a
+    // caller fade the cloud from "materialising" brightness down to a
+    // quiet background texture once it's settled, gracefully rather than
+    // as a jump cut.
+    opacityRef.current += (opacity - opacityRef.current) * (1 - Math.exp(-3 * delta))
+    if (materialRef.current) materialRef.current.opacity = opacityRef.current
   })
 
   return (
@@ -68,10 +77,11 @@ export default function ParticleFace({ count = 800, progress = 0 }) {
         <bufferAttribute attach="attributes-color" args={[colors, 3]} />
       </bufferGeometry>
       <pointsMaterial
+        ref={materialRef}
         size={0.028}
         vertexColors
         transparent
-        opacity={0.9}
+        opacity={opacity}
         sizeAttenuation
         depthWrite={false}
         blending={THREE.AdditiveBlending}

@@ -3,6 +3,9 @@
 @import "@fontsource/anton/400.css";
 @import "@fontsource/staatliches/400.css";
 @import "@fontsource/special-elite/400.css";
+@import "@fontsource/dm-sans/500.css";
+@import "@fontsource/dm-sans/700.css";
+@import "@fontsource/dm-sans/800.css";
 
 @import "@fontsource/playfair-display/400-italic.css";
 @import "@fontsource/playfair-display/700-italic.css";
@@ -27,6 +30,11 @@
   --font-heading: "Staatliches", sans-serif;
   --font-body: "Special Elite", "DM Sans", system-ui;
   --font-accent: "Playfair Display", serif;
+  /* Reserved for the handful of moments that should read as premium/
+     editorial rather than raw/stencilled — currently just the Gate's
+     "Welcome to GR8NESS" title card, per client feedback that Anton felt
+     too heavy there. */
+  --font-editorial: "DM Sans", sans-serif;
 
   /* Easing used throughout the experience */
   --ease-becoming: cubic-bezier(0.16, 1, 0.3, 1);
@@ -98,6 +106,10 @@
   .font-accent-italic {
     font-family: var(--font-accent);
     font-style: italic;
+  }
+
+  .font-editorial {
+    font-family: var(--font-editorial);
   }
 
   .text-glow-ember {

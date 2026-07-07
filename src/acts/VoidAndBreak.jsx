@@ -211,19 +211,8 @@ export default function VoidAndBreak({ onComplete }) {
   return (
     <div
       className="fixed inset-0 z-10 transition-colors duration-[1400ms]"
-      style={{ backgroundColor: blackedOut ? '#000' : 'transparent' }}
+      style={{ backgroundColor: blackedOut ? '#000' : '#0a0a0a' }}
     >
-      {/* Classy over busy: one faint, slow-rotating ring — no photo, no
-          particles competing with it. It's the only thing moving here
-          besides the text itself. */}
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[70vmin] w-[70vmin] -translate-x-1/2 -translate-y-1/2 rounded-full"
-        style={{ border: '1px solid rgba(255,107,53,0.12)', opacity: blackedOut ? 0 : 1 }}
-        animate={{ rotate: 360 }}
-        transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
-      />
-
       <AnimatePresence>
         {showText && (
           <motion.div
@@ -253,7 +242,7 @@ export default function VoidAndBreak({ onComplete }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute right-6 top-6 z-20 font-heading text-[11px] font-bold uppercase tracking-[0.3em] text-offwhite/50 hover:text-offwhite sm:right-10 sm:top-8"
+            className="absolute right-10 top-8 z-20 font-heading text-[10px] font-normal uppercase tracking-[0.4em] text-offwhite/35 hover:text-offwhite/80 sm:right-14 sm:top-10"
           >
             Skip
           </motion.button>
@@ -269,13 +258,11 @@ export default function VoidAndBreak({ onComplete }) {
         >
           <Canvas camera={{ position: [0, 0, 4.2], fov: 40 }} dpr={[1, 1.5]}>
             <ContextLossHandler />
-            {/* Nebula's opacity is dialed way down here (was 1) now that a
-                real photo sits behind the canvas for this phase — nebula
-                painting near-opaque was covering it completely, since a
-                WebGL canvas with alpha compositing lets DOM behind it show
-                through in proportion to what's actually left transparent
-                in the frame. A little nebula tint stays for mood. */}
-            <NebulaPlane opacity={PHASES_SHOWING_FACE.includes(phase) ? 0.25 : 0} />
+            {/* Kept faint on purpose — the nebula's violet/ember mix at
+                higher opacity was reading as "dark purple," not the rich
+                near-black the reveal calls for. Just enough left for a
+                little atmospheric depth behind the particles. */}
+            <NebulaPlane opacity={PHASES_SHOWING_FACE.includes(phase) ? 0.1 : 0} />
             <ambientLight intensity={0.4} />
             <CameraDolly active={phase === 'shatter'} />
 
@@ -294,8 +281,16 @@ export default function VoidAndBreak({ onComplete }) {
                 onFinished={handleShatterFinished}
               />
             )}
+            {/* Bright while the face is actively materialising, then eased
+                down to a quiet texture once the text beats begin — the
+                cloud shouldn't keep competing with the headline for
+                attention once it's made its point. */}
             {PHASES_SHOWING_FACE.includes(phase) && (
-              <ParticleFace count={particleCount} progress={faceProgress} />
+              <ParticleFace
+                count={particleCount}
+                progress={faceProgress}
+                opacity={phase === 'face' ? 0.9 : 0.35}
+              />
             )}
           </Canvas>
         </motion.div>
@@ -372,14 +367,17 @@ export default function VoidAndBreak({ onComplete }) {
           {phase === 'text2' && (
             <motion.div
               key="titlecard"
-              initial={{ opacity: 0, scale: 0.97 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
               className="text-center"
             >
-              <p className="font-display text-3xl font-extrabold uppercase tracking-wide text-offwhite sm:text-5xl">
-                Welcome to <span className="text-ember text-shadow-hard-ember">GR8NESS</span>
+              <p className="font-editorial text-lg font-medium uppercase tracking-[0.45em] text-offwhite/75 sm:text-2xl">
+                Welcome to
+              </p>
+              <p className="font-editorial mt-3 text-4xl font-extrabold uppercase tracking-wider text-ember text-glow-ember sm:text-6xl">
+                GR8NESS
               </p>
             </motion.div>
           )}
