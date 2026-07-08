@@ -75,7 +75,8 @@ export default function Nav({ lenisRef }) {
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed right-4 top-4 z-50 hidden gap-6 sm:right-10 sm:top-8 sm:flex"
+        className="fixed right-4 top-4 z-50 hidden items-center gap-6 rounded-full border border-white/10 bg-white/[0.03] px-6 py-2.5 backdrop-blur-xl sm:right-10 sm:top-8 sm:flex"
+        style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.06), 0 8px 24px rgba(0,0,0,0.25)' }}
       >
         {LINKS.map((link) => (
           <a key={link.href} href={link.href} onClick={(e) => handleClick(e, link.href)} onMouseEnter={() => playUITick('hover')} className={linkClass(link)}>

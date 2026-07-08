@@ -9,11 +9,12 @@
 export default function SEOContent() {
   return (
     <div className="sr-only">
-      <h1>Karnjeet Vinod — Online Fitness &amp; Mindset Coach (@thegr8nessguy)</h1>
+      <h1>Karnjeet Vinod — Lifestyle Transformation Coach (@thegr8nessguy)</h1>
       <p>
-        Melbourne-based online coach helping clients rebuild their body, mind, and
-        sense of self through personalised training, mindset coaching, and the
-        GR8NESS philosophy.
+        Melbourne-based lifestyle transformation coach helping high-performing people
+        rebuild their body, mind, and sense of self — not a fitness plan, a full
+        rebuild of how you live, through personalised training, mindset coaching, and
+        the GR8NESS philosophy.
       </p>
 
       <h2>About Karnjeet</h2>
@@ -48,7 +49,7 @@ export default function SEOContent() {
         <li>24-week client transformation: 49kg to 54kg of lean muscle on a full-time job.</li>
       </ul>
 
-      <h2>Get Coached</h2>
+      <h2>Begin Your Transformation</h2>
       <p>
         Book a discovery call to start a conversation, or DM the word GR8NESS on
         Instagram. @thegr8nessguy — Melbourne, Australia.

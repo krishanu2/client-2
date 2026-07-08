@@ -34,7 +34,7 @@ function WireframeBody() {
       ctx.clearRect(0, 0, w, h)
 
       // Head — latitude/longitude wireframe globe illusion
-      ctx.strokeStyle = 'rgba(255,107,53,0.55)'
+      ctx.strokeStyle = 'rgba(255,107,53,0.28)'
       ctx.lineWidth = 1
       for (let i = -2; i <= 2; i++) {
         const ry = headR * (1 - Math.abs(i) * 0.18)
@@ -52,7 +52,7 @@ function WireframeBody() {
       }
 
       // Torso — capsule-like wireframe outline
-      ctx.strokeStyle = 'rgba(139,92,246,0.5)'
+      ctx.strokeStyle = 'rgba(139,92,246,0.25)'
       const torsoTop = headCy + headR * 1.3
       const torsoBottom = h * 0.78
       const torsoW = headR * 1.5
@@ -85,7 +85,7 @@ function WireframeBody() {
       <motion.div
         className="absolute inset-0"
         style={{
-          background: 'radial-gradient(circle at 50% 35%, rgba(255,107,53,0.4), rgba(12,12,29,0.9) 55%, #000 100%)',
+          background: 'radial-gradient(circle at 50% 20%, rgba(255,107,53,0.22), rgba(12,12,29,0.92) 55%, #000 100%)',
         }}
         animate={{ scale: [1, 1.25, 1] }}
         transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
@@ -160,7 +160,7 @@ function NeuralNetwork() {
       <motion.div
         className="absolute inset-0"
         style={{
-          background: 'radial-gradient(circle at 50% 45%, rgba(139,92,246,0.46), rgba(12,12,29,0.9) 55%, #000 100%)',
+          background: 'radial-gradient(circle at 50% 20%, rgba(139,92,246,0.25), rgba(12,12,29,0.92) 55%, #000 100%)',
         }}
         animate={{ scale: [1, 1.28, 1] }}
         transition={{ duration: 13, repeat: Infinity, ease: 'easeInOut' }}
@@ -177,7 +177,7 @@ function NebulaZoom() {
         className="absolute inset-0"
         style={{
           background:
-            'radial-gradient(circle at 50% 45%, rgba(139,92,246,0.55), rgba(12,12,29,0.9) 55%, #000 100%)',
+            'radial-gradient(circle at 50% 20%, rgba(139,92,246,0.28), rgba(12,12,29,0.92) 55%, #000 100%)',
         }}
         animate={{ scale: [1, 1.35, 1] }}
         transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
@@ -259,8 +259,8 @@ export default function MethodPanel({ config, onBack }) {
       transition={{ duration: 0.5 }}
       className="fixed inset-0 z-30 overflow-y-auto bg-void"
     >
-      <div className="absolute inset-0 opacity-60">{BACKGROUNDS[config.background]}</div>
-      <div className="absolute inset-0 bg-gradient-to-b from-void/40 via-void/70 to-void" />
+      <div className="absolute inset-0 opacity-40">{BACKGROUNDS[config.background]}</div>
+      <div className="absolute inset-0 bg-gradient-to-b from-void/70 via-void/85 to-void" />
 
       <button
         type="button"

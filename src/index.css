@@ -185,21 +185,49 @@
     border-radius: 0;
   }
 
+  /* Client direction pivot: minimalist/futuristic/premium over raw-
+     brutalist. Refined frosted glass — soft blur, a hairline gradient
+     border (not a flat color) so the edge catches light rather than
+     reading as a solid outline, and a faint inner top highlight for
+     depth. Used for anything that reads as a "surface" (cards, modals,
+     stat tiles) site-wide now. */
   .glass-card {
-    background: rgba(58, 58, 74, 0.35);
-    border: 1px solid rgba(255, 107, 53, 0.25);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+    border: 1px solid transparent;
+    border-radius: 1.25rem;
+    background-clip: padding-box;
+    position: relative;
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 8px 32px rgba(0, 0, 0, 0.35);
   }
 
-  /* Flat, hard-edged stat card — the soft blurred glass-card look is the
-     same "dark SaaS feature card" pattern every coaching site uses.
-     Sharp corners + a thin solid rule reads more like a stamped
-     credential than a UI widget. */
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(255, 107, 53, 0.4), rgba(255, 255, 255, 0.06) 40%, rgba(139, 92, 246, 0.3));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* Same glass system as .glass-card, tuned for the small stat numbers —
+     was previously hard-edged/sharp-cornered on purpose to avoid a
+     "dark SaaS card" look; the client's new direction explicitly asks
+     for that premium/glass register, so this now matches. */
   .stat-tile {
-    background: rgba(12, 12, 29, 0.6);
-    border: 1px solid rgba(255, 107, 53, 0.4);
-    border-radius: 0;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.9rem;
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
   }
 
   /* ~70bpm = 857ms per beat (Act 6 CTA hover) */
