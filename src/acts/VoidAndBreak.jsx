@@ -132,22 +132,30 @@ export default function VoidAndBreak({ onComplete }) {
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="pointer-events-auto flex flex-col items-center"
             >
-              <p className="mb-6 max-w-md font-body text-sm text-offwhite/50 sm:text-base">
+              <p className="mb-7 max-w-md font-body text-sm text-offwhite/50 sm:text-base">
                 One press. Your entire lifestyle changes.
               </p>
               <motion.button
                 type="button"
                 onClick={handleEnter}
-                onMouseEnter={() => {}}
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.97 }}
-                animate={reduced ? {} : { boxShadow: [
-                  '0 0 30px 4px rgba(255,107,53,0.35)',
-                  '0 0 55px 10px rgba(255,107,53,0.55)',
-                  '0 0 30px 4px rgba(255,107,53,0.35)',
-                ] }}
-                transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
-                className="rounded-full bg-ember px-14 py-6 font-heading text-lg font-bold uppercase tracking-[0.2em] text-void sm:px-20 sm:py-7 sm:text-2xl"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                animate={
+                  reduced
+                    ? {}
+                    : {
+                        boxShadow: [
+                          '0 0 0 1px rgba(255,107,53,0.3), 0 0 24px 0px rgba(255,107,53,0.12)',
+                          '0 0 0 1px rgba(255,107,53,0.5), 0 0 36px 2px rgba(255,107,53,0.22)',
+                          '0 0 0 1px rgba(255,107,53,0.3), 0 0 24px 0px rgba(255,107,53,0.12)',
+                        ],
+                      }
+                }
+                transition={{ duration: 3.4, repeat: Infinity, ease: 'easeInOut' }}
+                className="rounded-full px-14 py-5 font-heading text-base font-bold uppercase tracking-[0.25em] text-ember backdrop-blur-xl sm:px-20 sm:py-6 sm:text-lg"
+                style={{
+                  background: 'linear-gradient(180deg, rgba(255,107,53,0.1), rgba(255,255,255,0.02))',
+                }}
               >
                 Change My Life →
               </motion.button>
