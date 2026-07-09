@@ -34,7 +34,7 @@ function WireframeBody() {
       ctx.clearRect(0, 0, w, h)
 
       // Head — latitude/longitude wireframe globe illusion
-      ctx.strokeStyle = 'rgba(255,107,53,0.28)'
+      ctx.strokeStyle = 'rgba(212, 180, 131,0.28)'
       ctx.lineWidth = 1
       for (let i = -2; i <= 2; i++) {
         const ry = headR * (1 - Math.abs(i) * 0.18)
@@ -85,7 +85,7 @@ function WireframeBody() {
       <motion.div
         className="absolute inset-0"
         style={{
-          background: 'radial-gradient(circle at 50% 20%, rgba(255,107,53,0.22), rgba(12,12,29,0.92) 55%, #000 100%)',
+          background: 'radial-gradient(circle at 50% 20%, rgba(212, 180, 131,0.22), rgba(12,12,29,0.92) 55%, #000 100%)',
         }}
         animate={{ scale: [1, 1.25, 1] }}
         transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
@@ -127,7 +127,7 @@ function NeuralNetwork() {
           const d = Math.hypot(n.x - m.x, n.y - m.y)
           if (d < 160) {
             const pulse = (Math.sin(time * 0.001 + n.phase) + 1) / 2
-            ctx.strokeStyle = `rgba(255,107,53,${0.08 + pulse * 0.18})`
+            ctx.strokeStyle = `rgba(212, 180, 131,${0.08 + pulse * 0.18})`
             ctx.lineWidth = 1
             ctx.beginPath()
             ctx.moveTo(n.x, n.y)
@@ -186,7 +186,7 @@ function NebulaZoom() {
         className="absolute inset-0"
         style={{
           background:
-            'radial-gradient(circle at 55% 55%, rgba(255,107,53,0.3), transparent 50%)',
+            'radial-gradient(circle at 55% 55%, rgba(212, 180, 131,0.3), transparent 50%)',
         }}
         animate={{ scale: [1.2, 1, 1.2] }}
         transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}

@@ -53,7 +53,7 @@ export default function AboutKarnjeet() {
           </div>
 
           <p className="mt-8 font-heading text-sm uppercase tracking-[0.2em] text-offwhite/50">
-            @thegr8nessguy — Melbourne, Australia 🇦🇺
+            @thegr8nessguy — Melbourne, Australia
           </p>
         </motion.div>
 

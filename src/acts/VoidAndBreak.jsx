@@ -145,16 +145,16 @@ export default function VoidAndBreak({ onComplete }) {
                     ? {}
                     : {
                         boxShadow: [
-                          '0 0 0 1px rgba(255,107,53,0.3), 0 0 24px 0px rgba(255,107,53,0.12)',
-                          '0 0 0 1px rgba(255,107,53,0.5), 0 0 36px 2px rgba(255,107,53,0.22)',
-                          '0 0 0 1px rgba(255,107,53,0.3), 0 0 24px 0px rgba(255,107,53,0.12)',
+                          '0 0 0 1px rgba(212, 180, 131,0.3), 0 0 24px 0px rgba(212, 180, 131,0.12)',
+                          '0 0 0 1px rgba(212, 180, 131,0.5), 0 0 36px 2px rgba(212, 180, 131,0.22)',
+                          '0 0 0 1px rgba(212, 180, 131,0.3), 0 0 24px 0px rgba(212, 180, 131,0.12)',
                         ],
                       }
                 }
                 transition={{ duration: 3.4, repeat: Infinity, ease: 'easeInOut' }}
                 className="rounded-full px-14 py-5 font-heading text-base font-bold uppercase tracking-[0.25em] text-ember backdrop-blur-xl sm:px-20 sm:py-6 sm:text-lg"
                 style={{
-                  background: 'linear-gradient(180deg, rgba(255,107,53,0.1), rgba(255,255,255,0.02))',
+                  background: 'linear-gradient(180deg, rgba(212, 180, 131,0.1), rgba(255,255,255,0.02))',
                 }}
               >
                 Change My Life →

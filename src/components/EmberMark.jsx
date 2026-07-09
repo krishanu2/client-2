@@ -33,7 +33,7 @@ export default function EmberMark({ size = '42vmin', opacity = 1, className = ''
     >
       <motion.div
         className="absolute inset-0 rounded-full"
-        style={{ background: 'radial-gradient(circle, rgba(255,107,53,0.35), rgba(255,107,53,0.06) 55%, transparent 75%)' }}
+        style={{ background: 'radial-gradient(circle, rgba(212, 180, 131,0.35), rgba(212, 180, 131,0.06) 55%, transparent 75%)' }}
         initial={{ scale: 0.94, opacity: 0.6 }}
         whileInView={{ scale: 1, opacity: 0.85 }}
         viewport={{ once: true, amount: 0.5 }}

@@ -69,7 +69,7 @@ const PANELS = {
 // small, deliberate steps rather than a jump, after the background-emblem
 // overshoot taught us to calibrate one step at a time.
 const WORDS = [
-  { key: 'body', label: 'BODY.', glow: 'rgba(255,107,53,0.28)', scale: 1, spin: 10 },
+  { key: 'body', label: 'BODY.', glow: 'rgba(212, 180, 131,0.28)', scale: 1, spin: 10 },
   { key: 'mind', label: 'MIND.', glow: 'rgba(139,92,246,0.32)', scale: 1.1, spin: 8.5 },
   { key: 'soul', label: 'SOUL.', glow: 'rgba(232,232,232,0.3)', scale: 1.2, spin: 7 },
 ]
@@ -156,7 +156,7 @@ export default function Act3Method({ lenisRef }) {
       <motion.div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-1/2 -z-20 h-[30vw] w-[30vw] -translate-x-1/2 -translate-y-1/2 rounded-full"
-        style={{ background: 'radial-gradient(circle, rgba(255,107,53,0.07), transparent 70%)' }}
+        style={{ background: 'radial-gradient(circle, rgba(212, 180, 131,0.07), transparent 70%)' }}
         initial={{ opacity: 0.3 }}
         whileInView={{ opacity: 0.6 }}
         viewport={{ once: true, amount: 0.5 }}

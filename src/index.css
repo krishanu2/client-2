@@ -1,6 +1,12 @@
 @import "tailwindcss";
 
 @import "@fontsource/anton/400.css";
+@import "@fontsource/bodoni-moda/500.css";
+@import "@fontsource/bodoni-moda/700.css";
+@import "@fontsource/bodoni-moda/900.css";
+@import "@fontsource/instrument-sans/400.css";
+@import "@fontsource/instrument-sans/500.css";
+@import "@fontsource/instrument-sans/600.css";
 @import "@fontsource/staatliches/400.css";
 @import "@fontsource/special-elite/400.css";
 @import "@fontsource/dm-sans/500.css";
@@ -21,9 +27,9 @@
 
 @theme {
   /* Color palette */
-  --color-void: #0c0c1d;
-  --color-ember: #ff6b35;
-  --color-offwhite: #e8e8e8;
+  --color-void: #0b0b0b;
+  --color-ember: #d4b483;
+  --color-offwhite: #f5f3ee;
   --color-violet: #8b5cf6;
   --color-ash: #3a3a4a;
   /* Exact off-white the client asked for on the About thesis quote —
@@ -34,9 +40,9 @@
      stencilled impact than the original Clash Display/Syne/DM Sans.
      Playfair Display Italic stays for accent pull-quotes; nothing here
      needed replacing. */
-  --font-display: "Anton", sans-serif;
-  --font-heading: "Staatliches", sans-serif;
-  --font-body: "Special Elite", "DM Sans", system-ui;
+  --font-display: "Bodoni Moda", serif;
+  --font-heading: "Instrument Sans", sans-serif;
+  --font-body: "Instrument Sans", system-ui;
   --font-accent: "Playfair Display", serif;
   /* Reserved for the handful of moments that should read as premium/
      editorial rather than raw/stencilled — currently just the Gate's
@@ -139,7 +145,7 @@
   }
 
   .text-glow-ember {
-    text-shadow: 0 0 24px rgba(255, 107, 53, 0.55);
+    text-shadow: 0 0 24px rgba(212, 180, 131, 0.55);
   }
 
   .text-glow-violet {
@@ -170,7 +176,7 @@
   }
 
   .text-shadow-hard-ember {
-    text-shadow: 3px 3px 0px rgba(255, 107, 53, 0.6);
+    text-shadow: 3px 3px 0px rgba(212, 180, 131, 0.6);
   }
 
   /* Heavy, uncompromising action button — thick border, no radius,
@@ -210,7 +216,7 @@
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(135deg, rgba(255, 107, 53, 0.4), rgba(255, 255, 255, 0.06) 40%, rgba(139, 92, 246, 0.3));
+    background: linear-gradient(135deg, rgba(212, 180, 131, 0.4), rgba(255, 255, 255, 0.06) 40%, rgba(139, 92, 246, 0.3));
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;

@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "@fontsource/anton": "^5.2.7",
+    "@fontsource/bodoni-moda": "^5.2.7",
     "@fontsource/cormorant-garamond": "^5.2.11",
     "@fontsource/dm-sans": "^5.2.8",
+    "@fontsource/instrument-sans": "^5.2.8",
     "@fontsource/playfair-display": "^5.2.8",
     "@fontsource/special-elite": "^5.2.8",
     "@fontsource/staatliches": "^5.2.8",

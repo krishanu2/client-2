@@ -30,7 +30,7 @@ export default function Act6Call() {
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            'radial-gradient(circle at 30% 40%, rgba(255,107,53,0.25), transparent 60%)',
+            'radial-gradient(circle at 30% 40%, rgba(212, 180, 131,0.25), transparent 60%)',
         }}
       />
       <EmberMark
@@ -117,7 +117,7 @@ export default function Act6Call() {
         </a>
 
         <p className="font-body text-xs text-offwhite/40">
-          @thegr8nessguy — Melbourne, Australia 🇦🇺
+          @thegr8nessguy — Melbourne, Australia
         </p>
       </div>
     </section>
