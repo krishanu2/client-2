@@ -157,8 +157,8 @@ export default function VoidAndBreak({ onComplete }) {
               <motion.button
                 type="button"
                 onClick={handleEnter}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{ scale: 1.02, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
+                whileTap={{ scale: 0.98, transition: { type: 'spring', stiffness: 500, damping: 30 } }}
                 animate={
                   reduced
                     ? {}

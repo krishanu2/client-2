@@ -294,8 +294,8 @@ export default function MethodPanel({ config, onBack }) {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.6 }}
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.98 }}
+          whileHover={{ scale: 1.03, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
+          whileTap={{ scale: 0.98, transition: { type: 'spring', stiffness: 500, damping: 30 } }}
           className="mt-10 inline-block w-fit rounded-full border border-ember/50 bg-ember/10 px-7 py-3 font-heading text-sm font-bold uppercase tracking-[0.2em] text-ember backdrop-blur-sm transition-colors hover:bg-ember/20"
         >
           {config.cta}

@@ -150,8 +150,8 @@ export default function BookingForm({ onClose }) {
                   {...FIELD_VARIANTS}
                   transition={{ delay: 0.33, duration: 0.4 }}
                   type="submit"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={{ scale: 1.02, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
+                  whileTap={{ scale: 0.98, transition: { type: 'spring', stiffness: 500, damping: 30 } }}
                   className="btn-heavy rounded-full! mt-2 bg-ember px-8 py-4 text-sm text-void"
                 >
                   Confirm My Spot

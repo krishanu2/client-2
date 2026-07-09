@@ -186,8 +186,8 @@ export default function Act3Method({ lenisRef }) {
             setHoveredWord(w.key)
           }}
           onHoverEnd={() => setHoveredWord(null)}
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.98 }}
+          whileHover={{ scale: 1.03, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
+          whileTap={{ scale: 0.98, transition: { type: 'spring', stiffness: 500, damping: 30 } }}
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.6 }}
