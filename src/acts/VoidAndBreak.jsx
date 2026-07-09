@@ -54,6 +54,20 @@ export default function VoidAndBreak({ onComplete }) {
     setPhase('text1')
   }
 
+  // The custom cursor's glow has no job during this passive reveal —
+  // nothing to click — and was landing directly on top of "GR8NESS" at
+  // the exact moment it's revealed, since the cursor was still sitting
+  // near the CTA button that triggered it. Hide it for this beat only.
+  useEffect(() => {
+    // toggle (not add-then-remove-in-cleanup) — this effect re-runs on
+    // every phase change, and its own cleanup fires first each time, so
+    // an unconditional remove-on-cleanup was wiping the class the
+    // instant text1 handed off to text2, before this body could re-add
+    // it for text2's own render.
+    document.body.classList.toggle('cursor-glow-hidden', phase === 'text1' || phase === 'text2')
+    return () => document.body.classList.remove('cursor-glow-hidden')
+  }, [phase])
+
   const handleSkip = () => setPhase('done')
 
   useEffect(() => {
@@ -204,6 +218,14 @@ export default function VoidAndBreak({ onComplete }) {
             </motion.div>
           )}
 
+          {/* "Welcome to GR8NESS" was a branded greeting — generic, and
+              it broke the second-person address the rest of the site
+              uses. This closes the loop on the CTA they just clicked
+              instead, still landing on the brand name, but as a
+              consequence, not a doormat. Also dropped the leftover
+              font-editorial (DM Sans) override so this matches the
+              Bodoni Moda everywhere else now instead of switching
+              typefaces mid-sequence. */}
           {phase === 'text2' && (
             <motion.div
               key="titlecard"
@@ -212,11 +234,11 @@ export default function VoidAndBreak({ onComplete }) {
               exit={{ opacity: 0 }}
               transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             >
-              <p className="font-editorial text-lg font-medium uppercase tracking-[0.45em] text-offwhite/75 sm:text-2xl">
-                Welcome to
+              <p className="text-lg uppercase tracking-[0.45em] text-offwhite/70 sm:text-xl">
+                You just chose
               </p>
-              <p className="font-editorial mt-3 text-4xl font-extrabold uppercase tracking-wider text-ember text-glow-ember sm:text-6xl">
-                GR8NESS
+              <p className="mt-3 font-display text-5xl font-semibold text-ember sm:text-7xl">
+                GR8NESS.
               </p>
             </motion.div>
           )}

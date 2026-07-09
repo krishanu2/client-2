@@ -152,10 +152,10 @@ export default function AboutKarnjeet() {
           transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
         >
           <img
-            src="/images/karnjeet-lifestyle.jpeg"
+            src="/images/karnjeet-reveal.png"
             alt=""
             className="h-full w-full object-cover"
-            style={{ objectPosition: '15% 25%', filter: 'grayscale(0.65) brightness(0.68) contrast(1.05)' }}
+            style={{ objectPosition: '65% 30%', filter: 'grayscale(0.4) brightness(0.75) contrast(1.05)' }}
           />
           <div
             className="absolute inset-0"

@@ -39,6 +39,19 @@ export default function CustomCursor() {
     const canvas = canvasRef.current
     const ctx = canvas.getContext('2d')
 
+    // Belt-and-suspenders on top of the in-canvas alpha fade below: a
+    // CSS opacity transition on the canvas element itself, driven by the
+    // compositor rather than this component's own rAF loop, so hiding
+    // the cursor during the Gate's reveal doesn't depend on the draw
+    // loop reliably ticking down in every environment.
+    canvas.style.transition = 'opacity 0.4s ease'
+    const syncVisibility = () => {
+      canvas.style.opacity = document.body.classList.contains('cursor-glow-hidden') ? '0' : '1'
+    }
+    syncVisibility()
+    const bodyObserver = new MutationObserver(syncVisibility)
+    bodyObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] })
+
     let dpr = Math.min(window.devicePixelRatio || 1, 2)
     let width = window.innerWidth
     let height = window.innerHeight
@@ -63,6 +76,7 @@ export default function CustomCursor() {
     let interactive = false
     let scale = 1
     let accent = COLORS.ember
+    let alpha = 1
 
     const handleMove = (e) => {
       pointer.x = e.clientX
@@ -97,7 +111,10 @@ export default function CustomCursor() {
 
       ctx.clearRect(0, 0, width, height)
 
-      if (visible) {
+      const hidden = document.body.classList.contains('cursor-glow-hidden')
+      alpha += ((hidden ? 0 : 1) - alpha) * 0.15
+
+      if (visible && alpha > 0.01) {
         const [r, g, b] = hexToRgb(accent)
         trail.forEach((point, i) => {
           const t = i / trail.length
@@ -105,13 +122,13 @@ export default function CustomCursor() {
           if (radius <= 0) return
           ctx.beginPath()
           ctx.arc(point.x, point.y, radius, 0, Math.PI * 2)
-          ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${t * 0.25})`
+          ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${t * 0.25 * alpha})`
           ctx.fill()
         })
 
         const glowRadius = ORB_RADIUS * 4 * scale
         const glow = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, glowRadius)
-        glow.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${interactive ? 0.7 : 0.55})`)
+        glow.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${(interactive ? 0.7 : 0.55) * alpha})`)
         glow.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`)
         ctx.beginPath()
         ctx.arc(orb.x, orb.y, glowRadius, 0, Math.PI * 2)
@@ -123,8 +140,10 @@ export default function CustomCursor() {
         ctx.fillStyle = interactive ? COLORS.offwhite : accent
         ctx.shadowColor = accent
         ctx.shadowBlur = interactive ? 18 : 12
+        ctx.globalAlpha = alpha
         ctx.fill()
         ctx.shadowBlur = 0
+        ctx.globalAlpha = 1
       }
 
       rafRef.current = requestAnimationFrame(draw)
@@ -133,6 +152,7 @@ export default function CustomCursor() {
 
     return () => {
       cancelAnimationFrame(rafRef.current)
+      bodyObserver.disconnect()
       window.removeEventListener('resize', resize)
       window.removeEventListener('mousemove', handleMove)
       window.removeEventListener('mouseleave', handleLeave)
