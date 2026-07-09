@@ -82,6 +82,25 @@ export default function VoidAndBreak({ onComplete }) {
       className="fixed inset-0 z-10 transition-colors duration-[1400ms]"
       style={{ backgroundColor: blackedOut ? '#000' : '#0a0a0a' }}
     >
+      {/* Two static, non-looping visual layers so the Gate isn't just
+          flat black behind the text now that the WebGL sequence is gone
+          — a fine blueprint-style grid (futuristic, precise) and a soft
+          centered glow (depth). Neither moves once faded in. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-[0.05]"
+        style={{
+          backgroundImage:
+            'linear-gradient(rgba(212,180,131,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(212,180,131,0.5) 1px, transparent 1px)',
+          backgroundSize: '64px 64px',
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[60vmin] w-[60vmin] -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{ background: 'radial-gradient(circle, rgba(212,180,131,0.1), transparent 70%)' }}
+      />
+
       <AnimatePresence>
         {showSkip && (
           <motion.button

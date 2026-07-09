@@ -39,8 +39,8 @@ export default function PhotoPlaceholder({
         style={{
           background:
             variant === 'wide'
-              ? 'radial-gradient(ellipse at 60% 40%, rgba(139,92,246,0.35), transparent 60%), radial-gradient(ellipse at 30% 80%, rgba(212, 180, 131,0.25), transparent 55%)'
-              : 'radial-gradient(circle at 50% 32%, rgba(212, 180, 131,0.28), transparent 55%), radial-gradient(circle at 50% 78%, rgba(139,92,246,0.3), transparent 60%)',
+              ? 'radial-gradient(ellipse at 60% 40%, rgba(107, 91, 125,0.35), transparent 60%), radial-gradient(ellipse at 30% 80%, rgba(212, 180, 131,0.25), transparent 55%)'
+              : 'radial-gradient(circle at 50% 32%, rgba(212, 180, 131,0.28), transparent 55%), radial-gradient(circle at 50% 78%, rgba(107, 91, 125,0.3), transparent 60%)',
           filter: 'blur(18px)',
         }}
       />

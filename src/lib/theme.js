@@ -10,7 +10,7 @@ export const COLORS = {
   void: '#0C0C1D',
   ember: '#D4B483',
   offwhite: '#E8E8E8',
-  violet: '#8B5CF6',
+  violet: '#6B5B7D',
   ash: '#3A3A4A',
 }
 

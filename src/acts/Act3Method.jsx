@@ -70,7 +70,7 @@ const PANELS = {
 // overshoot taught us to calibrate one step at a time.
 const WORDS = [
   { key: 'body', label: 'BODY.', glow: 'rgba(212, 180, 131,0.28)', scale: 1, spin: 10 },
-  { key: 'mind', label: 'MIND.', glow: 'rgba(139,92,246,0.32)', scale: 1.1, spin: 8.5 },
+  { key: 'mind', label: 'MIND.', glow: 'rgba(107, 91, 125,0.32)', scale: 1.1, spin: 8.5 },
   { key: 'soul', label: 'SOUL.', glow: 'rgba(232,232,232,0.3)', scale: 1.2, spin: 7 },
 ]
 
@@ -208,7 +208,7 @@ export default function Act3Method({ lenisRef }) {
             transition={{ duration: 0.8 }}
             className="pointer-events-none mt-4 font-heading text-xs uppercase tracking-[0.3em] text-offwhite/40"
           >
-            tap a word to go deeper →
+            choose your door
           </motion.p>
         )}
       </AnimatePresence>

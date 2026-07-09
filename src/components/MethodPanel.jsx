@@ -52,7 +52,7 @@ function WireframeBody() {
       }
 
       // Torso — capsule-like wireframe outline
-      ctx.strokeStyle = 'rgba(139,92,246,0.25)'
+      ctx.strokeStyle = 'rgba(107, 91, 125,0.25)'
       const torsoTop = headCy + headR * 1.3
       const torsoBottom = h * 0.78
       const torsoW = headR * 1.5
@@ -141,7 +141,7 @@ function NeuralNetwork() {
         const pulse = (Math.sin(time * 0.0012 + n.phase) + 1) / 2
         ctx.beginPath()
         ctx.arc(n.x, n.y, 2 + pulse * 2, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(139,92,246,${0.4 + pulse * 0.5})`
+        ctx.fillStyle = `rgba(107, 91, 125,${0.4 + pulse * 0.5})`
         ctx.fill()
       })
 
@@ -160,7 +160,7 @@ function NeuralNetwork() {
       <motion.div
         className="absolute inset-0"
         style={{
-          background: 'radial-gradient(circle at 50% 20%, rgba(139,92,246,0.25), rgba(12,12,29,0.92) 55%, #000 100%)',
+          background: 'radial-gradient(circle at 50% 20%, rgba(107, 91, 125,0.25), rgba(12,12,29,0.92) 55%, #000 100%)',
         }}
         animate={{ scale: [1, 1.28, 1] }}
         transition={{ duration: 13, repeat: Infinity, ease: 'easeInOut' }}
@@ -177,7 +177,7 @@ function NebulaZoom() {
         className="absolute inset-0"
         style={{
           background:
-            'radial-gradient(circle at 50% 20%, rgba(139,92,246,0.28), rgba(12,12,29,0.92) 55%, #000 100%)',
+            'radial-gradient(circle at 50% 20%, rgba(107, 91, 125,0.28), rgba(12,12,29,0.92) 55%, #000 100%)',
         }}
         animate={{ scale: [1, 1.35, 1] }}
         transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}

@@ -120,7 +120,7 @@ export default function Act4Proof() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="pointer-events-none relative z-10 mb-12 text-center font-heading text-xs uppercase tracking-[0.3em] text-ember/80"
           >
-            {isMobile ? 'tap a photo to flip it →' : 'drag a photo, or tap to flip it →'}
+            {isMobile ? 'tap for the story' : 'the story is on the back'}
           </motion.p>
         )}
       </AnimatePresence>

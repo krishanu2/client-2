@@ -25,7 +25,7 @@ const PANEL_TINTS = [
   'radial-gradient(circle at 50% 45%, rgba(237,234,227,0.18), #0a0a14 85%)',
   'radial-gradient(circle at 50% 45%, rgba(255,122,69,0.22), #0a0a14 85%)',
   'radial-gradient(circle at 50% 45%, rgba(184,92,46,0.28), #08060d 85%)',
-  'radial-gradient(circle at 50% 45%, rgba(139,92,246,0.22), #050410 85%)',
+  'radial-gradient(circle at 50% 45%, rgba(107, 91, 125,0.22), #050410 85%)',
   'radial-gradient(circle at 50% 45%, rgba(5,4,15,0.9), #000000 85%)',
 ]
 
@@ -164,7 +164,7 @@ export default function Act5Grind() {
           <span className="font-heading text-[10px] uppercase tracking-[0.25em] text-offwhite/30">11pm</span>
         </div>
         <p className="mt-3 font-body text-[11px] uppercase tracking-[0.2em] text-offwhite/25">
-          keep scrolling →
+          3am to 11pm
         </p>
       </div>
     </section>

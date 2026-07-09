@@ -30,7 +30,7 @@
   --color-void: #0b0b0b;
   --color-ember: #d4b483;
   --color-offwhite: #f5f3ee;
-  --color-violet: #8b5cf6;
+  --color-violet: #6b5b7d;
   --color-ash: #3a3a4a;
   /* Exact off-white the client asked for on the About thesis quote —
      distinct from --color-offwhite (#e8e8e8) used everywhere else. */
@@ -149,7 +149,7 @@
   }
 
   .text-glow-violet {
-    text-shadow: 0 0 32px rgba(139, 92, 246, 0.45);
+    text-shadow: 0 0 32px rgba(107, 91, 125, 0.45);
   }
 
   /* A quieter glow than the ember one above — reserved for the site's few
@@ -216,7 +216,7 @@
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(135deg, rgba(212, 180, 131, 0.4), rgba(255, 255, 255, 0.06) 40%, rgba(139, 92, 246, 0.3));
+    background: linear-gradient(135deg, rgba(212, 180, 131, 0.4), rgba(255, 255, 255, 0.06) 40%, rgba(107, 91, 125, 0.3));
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;

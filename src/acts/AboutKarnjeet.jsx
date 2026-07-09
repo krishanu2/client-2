@@ -16,7 +16,7 @@ export default function AboutKarnjeet() {
       <div
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
-          background: 'radial-gradient(circle at 70% 20%, rgba(139,92,246,0.18), transparent 55%)',
+          background: 'radial-gradient(circle at 70% 20%, rgba(107, 91, 125,0.18), transparent 55%)',
         }}
       />
 
