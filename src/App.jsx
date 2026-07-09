@@ -2,7 +2,6 @@ import { lazy, Suspense, useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import CustomCursor from '@/components/CustomCursor'
 import FrameCorners from '@/components/FrameCorners'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
@@ -165,7 +164,6 @@ function App() {
   return (
     <>
       <SEOContent />
-      <CustomCursor />
       <FrameCorners />
       {/* Right edge matches Nav's own right margin (right-4/sm:right-10)
           so the two fixed UI elements sit on one consistent grid line

@@ -86,14 +86,6 @@
     font-family: var(--font-body);
     min-height: 100vh;
     margin: 0;
-    /* Custom cursor replaces the system cursor everywhere except touch */
-    cursor: none;
-  }
-
-  @media (hover: none), (pointer: coarse) {
-    body {
-      cursor: auto;
-    }
   }
 
   ::selection {

@@ -54,20 +54,6 @@ export default function VoidAndBreak({ onComplete }) {
     setPhase('text1')
   }
 
-  // The custom cursor's glow has no job during this passive reveal —
-  // nothing to click — and was landing directly on top of "GR8NESS" at
-  // the exact moment it's revealed, since the cursor was still sitting
-  // near the CTA button that triggered it. Hide it for this beat only.
-  useEffect(() => {
-    // toggle (not add-then-remove-in-cleanup) — this effect re-runs on
-    // every phase change, and its own cleanup fires first each time, so
-    // an unconditional remove-on-cleanup was wiping the class the
-    // instant text1 handed off to text2, before this body could re-add
-    // it for text2's own render.
-    document.body.classList.toggle('cursor-glow-hidden', phase === 'text1' || phase === 'text2')
-    return () => document.body.classList.remove('cursor-glow-hidden')
-  }, [phase])
-
   const handleSkip = () => setPhase('done')
 
   useEffect(() => {
