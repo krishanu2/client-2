@@ -63,7 +63,7 @@ export default function Act6Call() {
             Chapter Five
           </p>
           <p className="mb-4 mt-1 max-w-sm font-body text-sm italic text-offwhite/40">
-            You&rsquo;ve seen the method, the man, the proof, and the grind. One thing is left.
+            You&rsquo;ve seen the method, the man, the proof, and the results. One thing is left.
           </p>
         </div>
         <div>

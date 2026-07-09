@@ -62,7 +62,7 @@ export default function VoidAndBreak({ onComplete }) {
       return () => clearTimeout(t)
     }
     if (phase === 'text2') {
-      const t = setTimeout(() => setPhase('done'), reduced ? 1000 : 2400)
+      const t = setTimeout(() => setPhase('done'), reduced ? 1000 : 3200)
       return () => clearTimeout(t)
     }
     if (phase === 'done') {
@@ -204,28 +204,44 @@ export default function VoidAndBreak({ onComplete }) {
             </motion.div>
           )}
 
-          {/* "Welcome to GR8NESS" was a branded greeting — generic, and
-              it broke the second-person address the rest of the site
-              uses. This closes the loop on the CTA they just clicked
-              instead, still landing on the brand name, but as a
-              consequence, not a doormat. Also dropped the leftover
-              font-editorial (DM Sans) override so this matches the
-              Bodoni Moda everywhere else now instead of switching
-              typefaces mid-sequence. */}
+          {/* The client's own emblem, not typed text — a physical object
+              materialising out of the dark rather than a headline. The
+              square photo's own stone texture is vignette-masked so its
+              edges dissolve into the page instead of reading as "a jpg,"
+              and it gets exactly one deliberate move (a slow settle from
+              1.06x, no secondary effects competing with it). */}
           {phase === 'text2' && (
             <motion.div
               key="titlecard"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col items-center"
             >
-              <p className="text-lg uppercase tracking-[0.45em] text-offwhite/70 sm:text-xl">
-                You just chose
+              <p className="text-lg uppercase tracking-[0.5em] text-offwhite/60 sm:text-xl">
+                Welcome to
               </p>
-              <p className="mt-3 font-display text-5xl font-semibold text-ember sm:text-7xl">
-                GR8NESS.
-              </p>
+
+              <div className="relative mt-8 h-[38vmin] w-[38vmin] min-h-[220px] min-w-[220px]">
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute -inset-8 rounded-full"
+                  style={{ background: 'radial-gradient(circle, rgba(212,180,131,0.16), transparent 70%)' }}
+                />
+                <motion.img
+                  src="/images/gr8ness-emblem.jpeg"
+                  alt="GR8NESS"
+                  className="relative h-full w-full object-cover"
+                  initial={{ scale: 1.06, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
+                  style={{
+                    maskImage: 'radial-gradient(circle, black 58%, transparent 88%)',
+                    WebkitMaskImage: 'radial-gradient(circle, black 58%, transparent 88%)',
+                  }}
+                />
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

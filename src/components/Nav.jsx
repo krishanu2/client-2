@@ -6,11 +6,11 @@ const LINKS = [
   { label: 'Method', href: '#method' },
   { label: 'About', href: '#about' },
   { label: 'Proof', href: '#proof' },
-  { label: 'Grind', href: '#grind' },
+  { label: 'Results', href: '#results' },
   { label: 'Start', href: '#call' },
 ]
 
-const SECTION_IDS = ['method', 'about', 'proof', 'grind', 'pricing', 'call']
+const SECTION_IDS = ['method', 'about', 'proof', 'results', 'call']
 
 /**
  * Top-right nav. Appears for the first time once the intro completes.

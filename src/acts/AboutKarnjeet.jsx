@@ -109,11 +109,9 @@ export default function AboutKarnjeet() {
             className="font-quote text-left font-normal text-porcelain text-glow-hairline"
             style={{ fontSize: '60px', lineHeight: 1.2 }}
           >
-            <span className="block">
-              <span className="font-semibold">GR8NESS</span> isn&rsquo;t a brand I built.
-            </span>
+            <span className="block">Greatness is something</span>
+            <span className="mt-6 block">that already exists</span>
             <span className="mt-6 block">
-              It&rsquo;s the{' '}
               <motion.em
                 className="font-quote-italic"
                 initial={{ filter: 'blur(6px)', opacity: 0 }}
@@ -122,10 +120,9 @@ export default function AboutKarnjeet() {
                 transition={{ duration: 0.9, delay: 0.3 }}
                 style={{ display: 'inline-block' }}
               >
-                person
+                inside all of us.
               </motion.em>
             </span>
-            <span className="mt-6 block">I had to become.</span>
           </p>
 
           <p className="font-quote mt-10 text-left text-[13px] uppercase leading-snug tracking-[0.3em] text-offwhite/60">

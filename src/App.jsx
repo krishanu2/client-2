@@ -26,14 +26,14 @@ const importVoidAndBreak = () => import('@/acts/VoidAndBreak')
 const importAct3 = () => import('@/acts/Act3Method')
 const importAbout = () => import('@/acts/AboutKarnjeet')
 const importAct4 = () => import('@/acts/Act4Proof')
-const importAct5 = () => import('@/acts/Act5Grind')
+const importAct5 = () => import('@/acts/Act5Results')
 const importAct6 = () => import('@/acts/Act6Call')
 
 const VoidAndBreak = lazy(importVoidAndBreak)
 const Act3Method = lazy(importAct3)
 const AboutKarnjeet = lazy(importAbout)
 const Act4Proof = lazy(importAct4)
-const Act5Grind = lazy(importAct5)
+const Act5Results = lazy(importAct5)
 const Act6Call = lazy(importAct6)
 
 gsap.registerPlugin(ScrollTrigger)
@@ -193,7 +193,7 @@ function App() {
               <Act4Proof />
             </Suspense>
             <Suspense fallback={<SectionFallback />}>
-              <Act5Grind />
+              <Act5Results />
             </Suspense>
             <Suspense fallback={<SectionFallback />}>
               <Act6Call />
