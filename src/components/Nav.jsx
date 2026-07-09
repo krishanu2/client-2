@@ -71,6 +71,22 @@ export default function Nav({ lenisRef }) {
 
   return (
     <>
+      <motion.a
+        href="#"
+        onClick={(e) => {
+          e.preventDefault()
+          if (lenisRef?.current) lenisRef.current.scrollTo(0)
+          else window.scrollTo({ top: 0, behavior: 'smooth' })
+        }}
+        aria-label="Back to top"
+        initial={{ opacity: 0, y: -12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="fixed left-4 top-4 z-50 hidden h-10 w-10 overflow-hidden rounded-full border border-ember/30 sm:left-10 sm:top-8 sm:block"
+      >
+        <img src="/images/gr8ness-emblem.jpeg" alt="GR8NESS" className="h-full w-full object-cover" />
+      </motion.a>
+
       <motion.nav
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}

@@ -4,7 +4,14 @@ export default function Footer() {
   return (
     <footer className="relative z-10 border-t border-white/10 bg-black">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-6 py-8 sm:flex-row sm:justify-between sm:py-6">
-        <p className="font-display text-lg font-extrabold text-offwhite">GR8NESS</p>
+        <div className="flex items-center gap-3">
+          <img
+            src="/images/gr8ness-emblem.jpeg"
+            alt="GR8NESS"
+            className="h-7 w-7 rounded-full border border-ember/30 object-cover"
+          />
+          <p className="font-display text-lg font-extrabold text-offwhite">GR8NESS</p>
+        </div>
 
         <p className="font-body text-sm text-offwhite/60">@thegr8nessguy</p>
 

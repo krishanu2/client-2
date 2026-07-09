@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { motion } from 'framer-motion'
 
 /**
@@ -251,21 +252,33 @@ const ENTRANCE_VARIANTS = {
 export default function MethodPanel({ config, onBack }) {
   const variant = ENTRANCE_VARIANTS[config.entrance] ?? ENTRANCE_VARIANTS.dissolve
 
-  return (
+  // Portal straight to <body> — this section has `isolate` (needed
+  // elsewhere to contain its own negative-z-index decoration), which
+  // creates a CSS stacking context that was trapping this fixed-position
+  // overlay inside it. No z-index, however high, can escape an ancestor
+  // stacking context; confirmed via getComputedStyle walking the ancestor
+  // chain that Nav (z-50, outside this section) was permanently painting
+  // over this panel's own "Back" button regardless of its z-index. A
+  // portal sidesteps the whole class of bug instead of fighting it.
+  return createPortal(
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="fixed inset-0 z-30 overflow-y-auto bg-void"
+      className="fixed inset-0 z-[70] overflow-y-auto bg-void"
     >
       <div className="absolute inset-0 opacity-40">{BACKGROUNDS[config.background]}</div>
       <div className="absolute inset-0 bg-gradient-to-b from-void/70 via-void/85 to-void" />
 
+      {/* Full-screen takeovers must render above persistent chrome (Nav
+          sits at z-50) so their own controls can't be occluded/blocked by
+          it — confirmed via Playwright that Nav's z-50 was intercepting
+          clicks on this exact button before this was raised to z-[70]. */}
       <button
         type="button"
         onClick={onBack}
-        className="fixed left-6 top-6 z-40 font-heading text-[11px] font-bold uppercase tracking-[0.3em] text-offwhite/60 hover:text-ember sm:left-10 sm:top-8"
+        className="fixed left-6 top-6 z-[71] font-heading text-[11px] font-bold uppercase tracking-[0.3em] text-offwhite/60 hover:text-ember sm:left-10 sm:top-8"
       >
         ← Back
       </button>
@@ -301,6 +314,7 @@ export default function MethodPanel({ config, onBack }) {
           {config.cta}
         </motion.a>
       </div>
-    </motion.div>
+    </motion.div>,
+    document.body
   )
 }

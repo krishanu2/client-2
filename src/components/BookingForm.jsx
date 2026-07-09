@@ -64,7 +64,7 @@ export default function BookingForm({ onClose }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.35 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-void/90 px-6 backdrop-blur-md"
+      className="fixed inset-0 z-[70] flex items-center justify-center bg-void/90 px-6 backdrop-blur-md"
     >
       <motion.div
         initial={{ opacity: 0, y: 24, scale: 0.96 }}
