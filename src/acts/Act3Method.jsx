@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import MethodPanel from '@/components/MethodPanel'
-import EmberMark from '@/components/EmberMark'
 import { playUITick } from '@/lib/audioEngine'
 import { trackEvent } from '@/lib/analytics'
 import useSectionView from '@/lib/useSectionView'
@@ -195,46 +194,37 @@ export default function Act3Method({ lenisRef }) {
         transition={{ duration: 2, ease: 'easeOut' }}
       />
 
-      {/* This is effectively the hero — client feedback that the wide
-          side margins read as empty, big, and "nothing happening" next
-          to three centered words. A large watermark emblem bleeding off
-          one edge and vertical editorial margin text on both sides give
-          the full width something to look at instead of just the
-          center column. */}
+      {/* Client called the text/watermark pass a downgrade, not an
+          upgrade — abstract graphic filler wasn't reading as a real
+          visual element. Real photography is the one thing on this site
+          that's already proven to fill space with genuine presence
+          (About, Call), so this hero gets the same treatment: a real
+          photo bleeding off the right edge, heavily desaturated and
+          darkened so it reads as mood/atmosphere behind the words
+          rather than competing with them. */}
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute -right-[18vw] top-1/2 -z-20 hidden -translate-y-1/2 lg:block"
+        className="pointer-events-none absolute inset-y-0 right-0 -z-20 hidden w-[42vw] lg:block"
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 0.1 }}
+        whileInView={{ opacity: 1 }}
         viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 2, ease: 'easeOut' }}
+        transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        <EmberMark size="52vmin" opacity={1} />
+        <img
+          src="/images/karnjeet-candid.jpeg"
+          alt=""
+          className="h-full w-full object-cover"
+          style={{ objectPosition: '75% 30%', filter: 'grayscale(0.7) brightness(0.5) contrast(1.05)' }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(to right, #0b0b0b 0%, rgba(11,11,11,0.7) 25%, rgba(11,11,11,0.15) 65%, transparent 100%)' }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(to bottom, rgba(11,11,11,0.7), transparent 30%, transparent 70%, rgba(11,11,11,0.8))' }}
+        />
       </motion.div>
-
-      <motion.p
-        aria-hidden
-        className="pointer-events-none absolute left-6 top-1/2 hidden -translate-y-1/2 whitespace-nowrap font-heading text-[11px] uppercase tracking-[0.5em] text-offwhite/25 lg:block"
-        style={{ writingMode: 'vertical-rl', transform: 'translateY(-50%) rotate(180deg)' }}
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, amount: 0.5 }}
-        transition={{ duration: 1.2 }}
-      >
-        The Becoming — Chapter One
-      </motion.p>
-
-      <motion.p
-        aria-hidden
-        className="pointer-events-none absolute right-6 top-1/2 hidden -translate-y-1/2 whitespace-nowrap font-heading text-[11px] uppercase tracking-[0.5em] text-offwhite/25 lg:block"
-        style={{ writingMode: 'vertical-rl' }}
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, amount: 0.5 }}
-        transition={{ duration: 1.2, delay: 0.1 }}
-      >
-        Body — Mind — Soul
-      </motion.p>
 
       <motion.div
         initial={{ opacity: 0, y: -10 }}
