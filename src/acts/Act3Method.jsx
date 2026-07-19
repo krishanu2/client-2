@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import MethodPanel from '@/components/MethodPanel'
+import EmberMark from '@/components/EmberMark'
 import { playUITick } from '@/lib/audioEngine'
 import { trackEvent } from '@/lib/analytics'
 import useSectionView from '@/lib/useSectionView'
@@ -193,6 +194,47 @@ export default function Act3Method({ lenisRef }) {
         viewport={{ once: true, amount: 0.5 }}
         transition={{ duration: 2, ease: 'easeOut' }}
       />
+
+      {/* This is effectively the hero — client feedback that the wide
+          side margins read as empty, big, and "nothing happening" next
+          to three centered words. A large watermark emblem bleeding off
+          one edge and vertical editorial margin text on both sides give
+          the full width something to look at instead of just the
+          center column. */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute -right-[18vw] top-1/2 -z-20 hidden -translate-y-1/2 lg:block"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 0.1 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 2, ease: 'easeOut' }}
+      >
+        <EmberMark size="52vmin" opacity={1} />
+      </motion.div>
+
+      <motion.p
+        aria-hidden
+        className="pointer-events-none absolute left-6 top-1/2 hidden -translate-y-1/2 whitespace-nowrap font-heading text-[11px] uppercase tracking-[0.5em] text-offwhite/25 lg:block"
+        style={{ writingMode: 'vertical-rl', transform: 'translateY(-50%) rotate(180deg)' }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, amount: 0.5 }}
+        transition={{ duration: 1.2 }}
+      >
+        The Becoming — Chapter One
+      </motion.p>
+
+      <motion.p
+        aria-hidden
+        className="pointer-events-none absolute right-6 top-1/2 hidden -translate-y-1/2 whitespace-nowrap font-heading text-[11px] uppercase tracking-[0.5em] text-offwhite/25 lg:block"
+        style={{ writingMode: 'vertical-rl' }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, amount: 0.5 }}
+        transition={{ duration: 1.2, delay: 0.1 }}
+      >
+        Body — Mind — Soul
+      </motion.p>
 
       <motion.div
         initial={{ opacity: 0, y: -10 }}
