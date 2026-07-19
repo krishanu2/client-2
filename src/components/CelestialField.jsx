@@ -1,118 +1,166 @@
-import { motion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
+import { prefersReducedMotion } from '@/lib/theme'
 
-// Soul-stone / chakra-point orbs scattered around the planet — each one
-// a genuine glossy 3D sphere via CSS alone (radial-gradient highlight +
-// inset shadow for depth), not a flat circle. Two-tone: gold (Body/
-// grounding) and plum (Mind/Soul) — the site's own established accent
-// pair, not literal chakra rainbow colors, so it stays inside the
-// existing palette instead of clashing with it.
+// Positions are normalized (0-1) across the whole section, not just one
+// side — x/y plus a depth (0 = distant/still, 1 = near/reactive) that
+// drives both parallax distance and visual weight. Sparser through the
+// center column (x 0.34-0.62) on purpose so it never competes with
+// BODY/MIND/SOUL; real density everywhere else, including the left
+// side, which is what the flat-planet version was missing.
 const STONES = [
-  { size: 34, top: '12%', left: '18%', tone: 'gold', blur: 0, depth: 1 },
-  { size: 18, top: '68%', left: '8%', tone: 'plum', blur: 1, depth: 0.6 },
-  { size: 22, top: '78%', left: '32%', tone: 'gold', blur: 0.5, depth: 0.75 },
-  { size: 14, top: '8%', left: '58%', tone: 'plum', blur: 1.5, depth: 0.5 },
-  { size: 26, top: '38%', left: '4%', tone: 'plum', blur: 0.5, depth: 0.8 },
-  { size: 16, top: '92%', left: '62%', tone: 'gold', blur: 1, depth: 0.55 },
+  { x: 0.08, y: 0.16, depth: 0.35, r: 5, tone: 'gold' },
+  { x: 0.14, y: 0.34, depth: 0.7, r: 9, tone: 'plum' },
+  { x: 0.06, y: 0.55, depth: 0.5, r: 6, tone: 'gold' },
+  { x: 0.18, y: 0.72, depth: 0.85, r: 11, tone: 'gold' },
+  { x: 0.1, y: 0.88, depth: 0.4, r: 5, tone: 'plum' },
+  { x: 0.27, y: 0.12, depth: 0.6, r: 7, tone: 'plum' },
+  { x: 0.29, y: 0.85, depth: 0.55, r: 6, tone: 'gold' },
+  { x: 0.24, y: 0.5, depth: 0.3, r: 4, tone: 'gold' },
+  { x: 0.68, y: 0.14, depth: 0.65, r: 8, tone: 'gold' },
+  { x: 0.78, y: 0.22, depth: 0.4, r: 5, tone: 'plum' },
+  { x: 0.88, y: 0.1, depth: 0.75, r: 10, tone: 'plum' },
+  { x: 0.92, y: 0.32, depth: 0.5, r: 6, tone: 'gold' },
+  { x: 0.7, y: 0.68, depth: 0.55, r: 7, tone: 'plum' },
+  { x: 0.82, y: 0.8, depth: 0.8, r: 12, tone: 'gold' },
+  { x: 0.93, y: 0.62, depth: 0.35, r: 5, tone: 'gold' },
+  { x: 0.9, y: 0.86, depth: 0.6, r: 8, tone: 'plum' },
+  { x: 0.62, y: 0.9, depth: 0.45, r: 6, tone: 'gold' },
+  { x: 0.65, y: 0.06, depth: 0.3, r: 4, tone: 'plum' },
 ]
 
+const PLANET = { x: 0.78, y: 0.46, depth: 0.9, r: 62 }
+
 const TONES = {
-  gold: { hi: '#f3e2c2', mid: '#d4b483', dark: '#7a5f3a', glow: 'rgba(212,180,131,0.55)' },
-  plum: { hi: '#c9bcd6', mid: '#6b5b7d', dark: '#372e42', glow: 'rgba(107,91,125,0.55)' },
+  gold: { hi: '#f3e2c2', mid: '#d4b483', dark: '#5a4526' },
+  plum: { hi: '#c9bcd6', mid: '#6b5b7d', dark: '#2c2534' },
 }
 
-function Stone({ size, top, left, tone, blur, depth }) {
+function drawSphere(ctx, cx, cy, r, tone) {
   const c = TONES[tone]
-  return (
-    <motion.div
-      aria-hidden
-      className="absolute rounded-full"
-      style={{
-        top,
-        left,
-        width: size,
-        height: size,
-        filter: `blur(${blur}px)`,
-        opacity: 0.4 + depth * 0.5,
-        background: `radial-gradient(circle at 32% 28%, ${c.hi}, ${c.mid} 45%, ${c.dark} 100%)`,
-        boxShadow: `inset -${size * 0.18}px -${size * 0.18}px ${size * 0.4}px rgba(0,0,0,0.55), 0 0 ${size * 0.9}px ${c.glow}`,
-      }}
-      initial={{ opacity: 0, scale: 0.6 }}
-      whileInView={{ opacity: 0.4 + depth * 0.5, scale: 1 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 1.4, delay: depth * 0.3, ease: [0.16, 1, 0.3, 1] }}
-    />
-  )
+  const grad = ctx.createRadialGradient(cx - r * 0.32, cy - r * 0.34, r * 0.05, cx, cy, r)
+  grad.addColorStop(0, c.hi)
+  grad.addColorStop(0.45, c.mid)
+  grad.addColorStop(1, c.dark)
+  ctx.beginPath()
+  ctx.arc(cx, cy, r, 0, Math.PI * 2)
+  ctx.fillStyle = grad
+  ctx.fill()
 }
 
 /**
- * A real dimensional composition instead of flat graphic filler — the
- * client's own brand mark (gr8ness-emblem.jpeg) is literally a planet
- * with rings, so this extends that identity into the page itself rather
- * than inventing a new motif. Pure CSS/SVG (gradients + shadows for the
- * glossy-sphere illusion, an ellipse for the ring's perspective tilt) —
- * deliberately not WebGL, since the site's whole reliability story this
- * pass was removing the last WebGL context for cross-device crash
- * safety; a decorative background isn't worth reopening that risk.
- * Static once settled — no ambient looping motion.
+ * A star-chart, not a decoration — soul-stones scattered across the
+ * *whole* section (not just one side), read as a personal constellation
+ * with the planet (the real brand mark's own planet-with-rings motif) as
+ * its anchor. Genuinely interactive: every point parallaxes off the
+ * cursor at its own depth, the near ones moving more than the far ones,
+ * so it responds to the visitor rather than looping on its own forever
+ * — the same "motion should answer interaction, not run ambiently"
+ * rule this site has followed since the animation-cleanup pass.
+ * Constellation lines connect nearby stones so it also visually rhymes
+ * with the section's own blueprint-grid background instead of sitting
+ * on top of it as an unrelated graphic. Canvas2D, not WebGL — this
+ * pass's reliability story was removing the site's last WebGL context.
  */
 export default function CelestialField({ className = '' }) {
+  const canvasRef = useRef(null)
+  const rafRef = useRef(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    const ctx = canvas.getContext('2d')
+    const reduced = prefersReducedMotion()
+    const isCoarsePointer = window.matchMedia('(hover: none), (pointer: coarse)').matches
+    const interactive = !reduced && !isCoarsePointer
+
+    let dpr = Math.min(window.devicePixelRatio || 1, 2)
+    let width = 0
+    let height = 0
+    const pointer = { x: 0, y: 0 } // -1..1
+    const eased = { x: 0, y: 0 }
+
+    const resize = () => {
+      const rect = canvas.parentElement.getBoundingClientRect()
+      width = rect.width
+      height = rect.height
+      dpr = Math.min(window.devicePixelRatio || 1, 2)
+      canvas.width = width * dpr
+      canvas.height = height * dpr
+      canvas.style.width = `${width}px`
+      canvas.style.height = `${height}px`
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    }
+    resize()
+    window.addEventListener('resize', resize)
+
+    const handleMove = (e) => {
+      const rect = canvas.parentElement.getBoundingClientRect()
+      pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1
+      pointer.y = ((e.clientY - rect.top) / rect.height) * 2 - 1
+    }
+    if (interactive) window.addEventListener('mousemove', handleMove)
+
+    const MAX_SHIFT = 26 // px, at depth 1, before dpr scaling
+
+    const draw = () => {
+      eased.x += (pointer.x - eased.x) * 0.06
+      eased.y += (pointer.y - eased.y) * 0.06
+      ctx.clearRect(0, 0, width, height)
+
+      const pts = STONES.map((s) => ({
+        ...s,
+        cx: s.x * width + eased.x * MAX_SHIFT * s.depth,
+        cy: s.y * height + eased.y * MAX_SHIFT * s.depth,
+      }))
+
+      // Constellation lines — only between genuinely close neighbours,
+      // faint, so it reads as a map rather than a web.
+      ctx.strokeStyle = 'rgba(212,180,131,0.14)'
+      ctx.lineWidth = 1
+      for (let i = 0; i < pts.length; i++) {
+        for (let j = i + 1; j < pts.length; j++) {
+          const dx = pts[i].cx - pts[j].cx
+          const dy = pts[i].cy - pts[j].cy
+          const dist = Math.hypot(dx, dy)
+          if (dist < width * 0.16) {
+            ctx.beginPath()
+            ctx.moveTo(pts[i].cx, pts[i].cy)
+            ctx.lineTo(pts[j].cx, pts[j].cy)
+            ctx.stroke()
+          }
+        }
+      }
+
+      pts.forEach((s) => drawSphere(ctx, s.cx, s.cy, s.r, s.tone))
+
+      // The planet + its tilted ring, anchoring the field.
+      const px = PLANET.x * width + eased.x * MAX_SHIFT * PLANET.depth
+      const py = PLANET.y * height + eased.y * MAX_SHIFT * PLANET.depth
+      ctx.save()
+      ctx.translate(px, py)
+      ctx.rotate((-18 * Math.PI) / 180)
+      ctx.scale(1, 0.3)
+      ctx.beginPath()
+      ctx.arc(0, 0, PLANET.r * 1.65, 0, Math.PI * 2)
+      ctx.strokeStyle = 'rgba(212,180,131,0.4)'
+      ctx.lineWidth = 1.5
+      ctx.stroke()
+      ctx.restore()
+      drawSphere(ctx, px, py, PLANET.r, 'gold')
+
+      rafRef.current = requestAnimationFrame(draw)
+    }
+    rafRef.current = requestAnimationFrame(draw)
+
+    return () => {
+      cancelAnimationFrame(rafRef.current)
+      window.removeEventListener('resize', resize)
+      if (interactive) window.removeEventListener('mousemove', handleMove)
+    }
+  }, [])
+
   return (
     <div aria-hidden className={`pointer-events-none ${className}`}>
-      <motion.div
-        className="relative h-full w-full"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
-      >
-        {/* The planet — glossy sphere via radial gradient + inset shadow */}
-        <motion.div
-          className="absolute left-1/2 top-1/2 rounded-full"
-          style={{
-            width: '38vmin',
-            height: '38vmin',
-            minWidth: 220,
-            minHeight: 220,
-            background: 'radial-gradient(circle at 34% 28%, #f3e2c2, #d4b483 38%, #5a4526 78%, #1a1409 100%)',
-            boxShadow: 'inset -30px -30px 70px rgba(0,0,0,0.65), inset 10px 8px 30px rgba(255,240,210,0.15), 0 0 90px rgba(212,180,131,0.25)',
-          }}
-          initial={{ scale: 0.9, x: '-50%', y: '-50%' }}
-          whileInView={{ scale: 1, x: '-50%', y: '-50%' }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
-        />
-
-        {/* The ring — an ellipse tilted for perspective, matching the
-            emblem's own ring geometry. Two strokes (front arc bright,
-            back arc dimmer) so it reads as passing behind the planet. */}
-        <div
-          className="absolute left-1/2 top-1/2 rounded-full"
-          style={{
-            width: '62vmin',
-            height: '17vmin',
-            minWidth: 360,
-            minHeight: 100,
-            transform: 'translate(-50%, -50%) rotate(-18deg)',
-            border: '1.5px solid rgba(212,180,131,0.55)',
-            boxShadow: '0 0 24px rgba(212,180,131,0.2)',
-          }}
-        />
-        <div
-          className="absolute left-1/2 top-1/2 rounded-full"
-          style={{
-            width: '62vmin',
-            height: '17vmin',
-            minWidth: 360,
-            minHeight: 100,
-            transform: 'translate(-50%, -50%) rotate(-18deg) scale(0.94)',
-            border: '1px solid rgba(212,180,131,0.18)',
-          }}
-        />
-
-        {STONES.map((s, i) => (
-          <Stone key={i} {...s} />
-        ))}
-      </motion.div>
+      <canvas ref={canvasRef} className="h-full w-full" />
     </div>
   )
 }

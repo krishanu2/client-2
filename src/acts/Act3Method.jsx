@@ -185,24 +185,28 @@ export default function Act3Method({ lenisRef }) {
           backgroundSize: '64px 64px',
         }}
       />
+      {/* Client rejected both the photo and the right-side-only planet —
+          wanted the whole frame covered (left side and middle were still
+          blank) and genuinely interactive, not another static graphic.
+          This now spans the entire section: a star-chart of soul-stones
+          scattered across the full width, parallaxing off the cursor at
+          individual depths, with the planet (the real brand mark's own
+          planet-with-rings motif) as its anchor. Canvas2D, not WebGL —
+          this pass's reliability story was removing the site's last
+          WebGL context for cross-device crash safety. */}
+      <CelestialField className="absolute inset-0 -z-25 hidden lg:block" />
+
+      {/* Sits above the star field on purpose — keeps the text column
+          readable against a busier background than before. */}
       <motion.div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-1/2 -z-20 h-[34vw] w-[34vw] -translate-x-1/2 -translate-y-1/2 rounded-full"
-        style={{ background: 'radial-gradient(circle, rgba(212, 180, 131,0.1), transparent 70%)' }}
+        style={{ background: 'radial-gradient(circle, rgba(11,11,11,0.55), transparent 72%)' }}
         initial={{ opacity: 0.3 }}
-        whileInView={{ opacity: 0.7 }}
+        whileInView={{ opacity: 0.85 }}
         viewport={{ once: true, amount: 0.5 }}
         transition={{ duration: 2, ease: 'easeOut' }}
       />
-
-      {/* Client rejected the photo too — asked for something unique,
-          "3D," and tied to soul/stones/chakras/planets. The real brand
-          mark (gr8ness-emblem.jpeg) is already a planet with rings, so
-          this extends that identity into the page: a glossy 3D planet,
-          its ring, and a scatter of chakra-like glowing stones, all
-          rendered in CSS gradients/shadows rather than photography or a
-          second WebGL context. */}
-      <CelestialField className="absolute -right-[8vw] top-1/2 -z-20 hidden h-[70vmin] w-[70vmin] -translate-y-1/2 lg:block" />
 
       <motion.div
         initial={{ opacity: 0, y: -10 }}
