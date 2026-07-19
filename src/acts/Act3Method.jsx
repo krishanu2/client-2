@@ -74,6 +74,26 @@ const WORDS = [
   { key: 'soul', label: 'SOUL.', glow: 'rgba(232,232,232,0.3)', scale: 1.2, spin: 7 },
 ]
 
+// "Three doors. Pick one to go deeper." was a tagline with nothing
+// behind it — an actual doorway silhouette (arched top, open at the
+// bottom) makes that literal instead of decorative. Quiet at rest,
+// brightens with the same hover the word/glow already respond to.
+function DoorFrame({ active }) {
+  return (
+    <motion.div
+      aria-hidden
+      className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[150px] w-[92px] -translate-x-1/2 -translate-y-[56%] sm:h-[190px] sm:w-[118px]"
+      style={{
+        border: '1px solid rgba(212,180,131,0.22)',
+        borderBottom: 'none',
+        borderRadius: '999px 999px 0 0',
+      }}
+      animate={{ opacity: active ? 0.9 : 0.4, scale: active ? 1.04 : 1 }}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+    />
+  )
+}
+
 // Classy over busy: this used to spin forever, unprompted. Now it only
 // turns while the visitor is actually hovering that word — motion as a
 // response, not ambient wallpaper — and eases to a stop otherwise.
@@ -153,12 +173,23 @@ export default function Act3Method({ lenisRef }) {
 
   return (
     <section id="method" className="isolate relative flex min-h-screen w-full flex-col items-center justify-center gap-6 overflow-hidden px-6 py-32">
+      {/* Same fine blueprint grid as the Gate — client feedback this
+          section read as "too plain, very dull" against a flat void. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-30 opacity-[0.05]"
+        style={{
+          backgroundImage:
+            'linear-gradient(rgba(212,180,131,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(212,180,131,0.5) 1px, transparent 1px)',
+          backgroundSize: '64px 64px',
+        }}
+      />
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 -z-20 h-[30vw] w-[30vw] -translate-x-1/2 -translate-y-1/2 rounded-full"
-        style={{ background: 'radial-gradient(circle, rgba(212, 180, 131,0.07), transparent 70%)' }}
+        className="pointer-events-none absolute left-1/2 top-1/2 -z-20 h-[34vw] w-[34vw] -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{ background: 'radial-gradient(circle, rgba(212, 180, 131,0.1), transparent 70%)' }}
         initial={{ opacity: 0.3 }}
-        whileInView={{ opacity: 0.6 }}
+        whileInView={{ opacity: 0.7 }}
         viewport={{ once: true, amount: 0.5 }}
         transition={{ duration: 2, ease: 'easeOut' }}
       />
@@ -194,6 +225,7 @@ export default function Act3Method({ lenisRef }) {
           transition={{ delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="isolate relative font-display text-shadow-hard-ember text-6xl text-ember sm:text-7xl"
         >
+          <DoorFrame active={hoveredWord === w.key} />
           <WordGlow color={w.glow} scale={w.scale} spin={w.spin} spinning={hoveredWord === w.key} />
           {w.label}
         </motion.button>
