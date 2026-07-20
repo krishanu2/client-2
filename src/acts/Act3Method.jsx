@@ -1,10 +1,23 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import MethodPanel from '@/components/MethodPanel'
 import CelestialField from '@/components/CelestialField'
 import { playUITick } from '@/lib/audioEngine'
 import { trackEvent } from '@/lib/analytics'
 import useSectionView from '@/lib/useSectionView'
+import { prefersReducedMotion } from '@/lib/theme'
+
+// Same noise texture technique as the site-wide FilmGrain layer — a
+// static SVG data-URI, not regenerated per frame, so it costs nothing
+// at render time. Scoped to this section, fainter than FilmGrain's own.
+const NOISE_SVG = `<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'>
+  <filter id='n'>
+    <feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch' />
+    <feColorMatrix type='saturate' values='0' />
+  </filter>
+  <rect width='100%' height='100%' filter='url(#n)' />
+</svg>`
+const NOISE_URL = `url("data:image/svg+xml,${encodeURIComponent(NOISE_SVG)}")`
 
 const HINT_SEEN_KEY = 'gr8ness_method_hint_seen'
 
@@ -130,6 +143,16 @@ function WordGlow({ color, scale = 1, spin = 9, spinning = false }) {
 export default function Act3Method({ lenisRef }) {
   const [activeWord, setActiveWord] = useState(null)
   const [hoveredWord, setHoveredWord] = useState(null)
+  const reduced = useRef(prefersReducedMotion()).current
+  const bodyRef = useRef(null)
+  const mindRef = useRef(null)
+  const soulRef = useRef(null)
+  const wordRefs = { body: bodyRef, mind: mindRef, soul: soulRef }
+  const wordTargets = [
+    { key: 'body', ref: bodyRef },
+    { key: 'mind', ref: mindRef },
+    { key: 'soul', ref: soulRef },
+  ]
   // Permanent caption, not a 4-second tooltip — it only goes away once the
   // visitor has actually clicked a word (this session), since the problem
   // was visitors not realizing these were buttons at all, not needing a
@@ -174,77 +197,179 @@ export default function Act3Method({ lenisRef }) {
 
   return (
     <section id="method" className="isolate relative flex min-h-screen w-full flex-col items-center justify-center gap-6 overflow-hidden px-6 py-32">
-      {/* Same fine blueprint grid as the Gate — client feedback this
-          section read as "too plain, very dull" against a flat void. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-30 opacity-[0.05]"
-        style={{
-          backgroundImage:
-            'linear-gradient(rgba(212,180,131,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(212,180,131,0.5) 1px, transparent 1px)',
-          backgroundSize: '64px 64px',
-        }}
-      />
-      {/* Client rejected the mouse-parallax version outright — "very
-          childish and very fake," wanted an actual orrery: a sun in the
-          middle, planets going round and round on their own, no pointer
-          involvement at all. This is that: a slow, continuous,
-          time-driven solar system spanning the full section, with the
-          sun's own glow now doing the job the separate radial-gradient
-          div used to do (there's no other legibility overlay here on
-          purpose — the sun's light *is* the light behind the words). */}
-      <CelestialField className="absolute inset-0 -z-20 hidden lg:block" />
-
+      {/* Layered depth, back to front, per the client's own spec: grid ->
+          noise -> fog -> orbits/planets -> text -> glow/highlights ->
+          vignette. Everything except the vignette lives inside one
+          "camera" that drifts a few pixels every 20-30s — slow enough
+          to feel alive without ever reading as movement. */}
       <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.6 }}
-        transition={{ duration: 0.6 }}
-        className="mb-2 text-center"
+        aria-hidden={false}
+        className="absolute inset-0 flex flex-col items-center justify-center gap-6"
+        animate={
+          reduced
+            ? {}
+            : {
+                x: [0, 8, 3, -6, 0],
+                y: [0, -5, 4, 3, 0],
+                rotate: [0, 0.15, -0.08, 0.1, 0],
+              }
+        }
+        transition={{ duration: 26, repeat: Infinity, ease: 'easeInOut', times: [0, 0.28, 0.55, 0.8, 1] }}
       >
-        <p className="font-heading text-[11px] font-bold uppercase tracking-[0.35em] text-ember/60">Chapter One</p>
-        <p className="mt-1 font-heading text-xs font-bold uppercase tracking-[0.35em] text-ember">The Method</p>
-        <p className="mt-2 font-body text-sm text-offwhite/50">Three doors. Pick one to go deeper.</p>
+        {/* Layer 1 — fine blueprint grid, fading toward the edges so it
+            reads as a instrument readout rather than a tiled pattern. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-40 opacity-[0.045]"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(212,180,131,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(212,180,131,0.5) 1px, transparent 1px)',
+            backgroundSize: '64px 64px',
+            maskImage: 'radial-gradient(ellipse 70% 70% at 50% 45%, black 40%, transparent 90%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 70% 70% at 50% 45%, black 40%, transparent 90%)',
+          }}
+        />
+        {/* Every 4th line, brighter — the coarse overlay grid at 4x the
+            spacing, same mask, so intersections read subtly brighter. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-40 opacity-[0.06]"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(212,180,131,0.7) 1px, transparent 1px), linear-gradient(90deg, rgba(212,180,131,0.7) 1px, transparent 1px)',
+            backgroundSize: '256px 256px',
+            maskImage: 'radial-gradient(ellipse 70% 70% at 50% 45%, black 40%, transparent 90%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 70% 70% at 50% 45%, black 40%, transparent 90%)',
+          }}
+        />
+
+        {/* Layer 2 — extremely soft procedural noise, static (not
+            regenerated per frame — same technique as the site-wide film
+            grain), so texture costs nothing at render time. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-39"
+          style={{ backgroundImage: NOISE_URL, backgroundSize: '180px 180px', opacity: 0.025, mixBlendMode: 'overlay' }}
+        />
+
+        {/* Layer 3 — large, low-opacity atmospheric fog. Two soft blobs,
+            asymmetric, so the space doesn't feel perfectly symmetric. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -left-[10vw] top-[8%] -z-38 h-[55vmin] w-[55vmin] rounded-full"
+          style={{ background: 'radial-gradient(circle, rgba(212,180,131,0.05), transparent 72%)' }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-[8vw] bottom-[4%] -z-38 h-[60vmin] w-[60vmin] rounded-full"
+          style={{ background: 'radial-gradient(circle, rgba(107,91,125,0.06), transparent 72%)' }}
+        />
+
+        {/* Layers 4+5 — orbit lines and planets together (one canvas;
+            orbits are drawn first each frame so planets naturally sit in
+            front of them). Client rejected the mouse-parallax version
+            outright ("very childish and very fake") and asked for an
+            actual orrery instead: sun in the middle, planets going
+            round and round on their own, nothing pointer-driven. */}
+        <CelestialField className="absolute inset-0 -z-30 hidden lg:block" wordTargets={wordTargets} />
+
+        {/* Layer 7 (glow/highlights, staged here so it still sits under
+            the text per the layer order, with a second pass above the
+            text for the parts that should glaze over it) — one large
+            blurred light source plus one soft diagonal volumetric beam,
+            both extremely faint. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute right-[6%] top-[6%] -z-25 h-[42vmin] w-[42vmin] rounded-full blur-3xl"
+          style={{ background: 'radial-gradient(circle, rgba(243,226,194,0.05), transparent 70%)' }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-1/2 -z-25 h-[140vmin] w-[10vmin] -translate-x-1/2 -translate-y-1/2 blur-2xl"
+          style={{
+            background: 'linear-gradient(180deg, transparent, rgba(240,207,142,0.05) 45%, rgba(240,207,142,0.07) 55%, transparent)',
+            transform: 'translate(-50%, -50%) rotate(18deg)',
+          }}
+        />
       </motion.div>
 
-      {WORDS.map((w, i) => (
-        <motion.button
-          key={w.key}
-          type="button"
-          onClick={() => handleSelect(w.key)}
-          onHoverStart={() => {
-            dismissHint()
-            playUITick('hover')
-            setHoveredWord(w.key)
-          }}
-          onHoverEnd={() => setHoveredWord(null)}
-          whileHover={{ scale: 1.03, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
-          whileTap={{ scale: 0.98, transition: { type: 'spring', stiffness: 500, damping: 30 } }}
-          initial={{ opacity: 0, y: 16 }}
+      {/* Layer 6 — hero text, deliberately its OWN layer, NOT part of the
+          drifting camera above. BODY/MIND/SOUL are clickable, and even a
+          few pixels of continuous ambient motion makes them a harder
+          target to hit precisely — confirmed directly: Playwright's own
+          hover action timed out with "element is not stable" while the
+          drift was still applied here. The background can move; what
+          people have to click never should. */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-6">
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.6 }}
-          transition={{ delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="isolate relative font-display text-shadow-hard-ember text-6xl text-ember sm:text-7xl"
+          transition={{ duration: 0.6 }}
+          className="relative z-10 mb-2 text-center"
         >
-          <DoorFrame active={hoveredWord === w.key} />
-          <WordGlow color={w.glow} scale={w.scale} spin={w.spin} spinning={hoveredWord === w.key} />
-          {w.label}
-        </motion.button>
-      ))}
+          <p className="font-heading text-[11px] font-bold uppercase tracking-[0.35em] text-ember/60">Chapter One</p>
+          <p className="mt-1 font-heading text-xs font-bold uppercase tracking-[0.35em] text-ember">The Method</p>
+          <p className="mt-2 font-body text-sm text-offwhite/50">Three doors. Pick one to go deeper.</p>
+        </motion.div>
 
-      <AnimatePresence>
-        {!hasInteracted && (
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.8 }}
-            className="pointer-events-none mt-4 font-heading text-xs uppercase tracking-[0.3em] text-offwhite/40"
+        {WORDS.map((w, i) => (
+          <motion.button
+            key={w.key}
+            ref={wordRefs[w.key]}
+            type="button"
+            onClick={() => handleSelect(w.key)}
+            onHoverStart={() => {
+              dismissHint()
+              playUITick('hover')
+              setHoveredWord(w.key)
+            }}
+            onHoverEnd={() => setHoveredWord(null)}
+            whileHover={{ scale: 1.03, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
+            whileTap={{ scale: 0.98, transition: { type: 'spring', stiffness: 500, damping: 30 } }}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.6 }}
+            transition={{ delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="isolate relative z-10 mx-auto block font-display text-shadow-hard-ember-reactive text-6xl text-ember sm:text-7xl"
           >
-            choose your door
-          </motion.p>
-        )}
-      </AnimatePresence>
+            <DoorFrame active={hoveredWord === w.key} />
+            <WordGlow color={w.glow} scale={w.scale} spin={w.spin} spinning={hoveredWord === w.key} />
+            {w.label}
+            {/* Layer 7, text pass — an almost-invisible highlight sweep,
+                like light moving across polished brass. Sits on a
+                transparent overlay, never on the real (solid) letters,
+                so legibility never depends on the animation. */}
+            {!reduced && (
+              <span aria-hidden className="gold-sheen pointer-events-none absolute inset-0">
+                {w.label}
+              </span>
+            )}
+          </motion.button>
+        ))}
+
+        <AnimatePresence>
+          {!hasInteracted && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.8 }}
+              className="pointer-events-none relative z-10 font-heading text-xs uppercase tracking-[0.3em] text-offwhite/40"
+            >
+              choose your door
+            </motion.p>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Vignette — outside the camera-drift wrapper on purpose, since
+          it frames the viewport itself rather than the scene. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-20"
+        style={{ boxShadow: 'inset 0 0 18vw 4vw rgba(0,0,0,0.35)' }}
+      />
 
       <AnimatePresence>
         {activeWord && (
